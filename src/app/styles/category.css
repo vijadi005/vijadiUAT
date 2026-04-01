@@ -1,0 +1,105 @@
+.aero_category_section_wrapper {
+  background-color: var(--black-color);
+  /* padding: 3em 0.75em; */
+  color: var(--white-color);
+}
+
+.aero_category_main_heading {
+  font-size: 1.5rem;
+  color: var(--white-color);
+  background-image: url(/assets/images/home/bg_img_category.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 150px;
+  width: 100%;
+  margin-bottom: 2em;
+}
+
+.aero_category_section_card_wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  padding-bottom: 2.5em;
+}
+
+.aero_category_section_card_wrap {
+  position: relative;
+  border: 2px solid var(--white-color);
+  border-radius: 20px;
+  overflow: clip;
+  aspect-ratio: 3/2;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeSlideUp 0.6s ease forwards;
+}
+
+.aero_category_section_card_wrap:nth-child(1) { animation-delay: 0.1s; }
+.aero_category_section_card_wrap:nth-child(2) { animation-delay: 0.2s; }
+.aero_category_section_card_wrap:nth-child(3) { animation-delay: 0.3s; }
+/* Add more as needed, or use JS to assign delays dynamically */
+
+@keyframes fadeSlideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.aero_category_section_card_wrap:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(255, 255, 255, 0.2);
+  z-index: 2;
+}
+
+.aero_category_section_card_img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.aero_category_section_card_wrap:hover .aero_category_section_card_img {
+  transform: scale(1.05);
+}
+
+.aero_category_section_card_desc {
+  background-color: var(--primary-color);
+  opacity: 0.9;
+  border-radius: 15px;
+  border: 2px solid var(--white-color);
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0.5em;
+  width: 100%;
+  margin: auto;
+  text-align: center;
+  color: var(--white-color);
+  flex-direction: column;
+  gap: 0.6rem;
+  transition: background-color 0.3s ease;
+}
+
+.aero_category_section_card_wrap:hover .aero_category_section_card_desc {
+  background-color: var(--secondary-color);
+}
+
+.aero_category_section_card_desc h2 {
+  font-size: 1.1rem;
+  text-transform: uppercase;
+}
+
+.aero_category_section_card_desc p {
+  font-size: 0.9rem;
+  height: 60px;
+  padding: 0.5em 0;
+}
+
+.aero_category_section_card_desc span {
+  font-size: 0.7rem;
+  font-weight: 600;
+}

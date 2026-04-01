@@ -1,0 +1,70 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  min-width: 300px;
+  max-width: 60vw;    
+  max-height: 90vh;
+  overflow-y: auto;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  font-size: .8rem;
+  cursor: pointer;
+  color: #333;
+  padding: 0;
+  line-height: 1;
+  transition: color 0.3s ease;
+}
+
+.modal-close:hover,
+.modal-close:focus {
+  color: red;
+  outline: none;
+}
+.modal-body button {
+  background-color: #e91e63; /* Pink */
+  color: white;
+  border: none;
+  padding: 0.6em 1.5em;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(233, 30, 99, 0.3);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  user-select: none;
+  display: inline-block;
+}
+
+.modal-body button:hover,
+.modal-body button:focus {
+  background-color: #d81b60; /* Slightly darker pink */
+  box-shadow: 0 6px 12px rgba(216, 27, 96, 0.5);
+  outline: none;
+}
+
+.modal-body button:active {
+  background-color: #c2185b; /* Even darker pink */
+  box-shadow: 0 2px 4px rgba(194, 24, 91, 0.6);
+}
