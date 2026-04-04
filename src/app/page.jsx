@@ -6,7 +6,6 @@ import Link from "next/link";
 import { getDataByParentId } from "@/utils/customFunctions";
 import Countup from "@/components/Countup";
 import MotionImage from "@/components/MotionImage";
-import PromotionModal from "@/components/model/PromotionModal";
 import BlogCard from "@/components/smallComponents/BlogCard";
 import {
   fetchsheetdata,
@@ -162,37 +161,6 @@ const REVIEWS = [
   },
 ];
 
-const HOMEPAGE_PROMOTION_FALLBACKS = [
-  {
-    badge: "Popular",
-    title: "Weekday Party Special",
-    description: "Monday to Thursday $50 off",
-    validity: "Monday - Thursday only",
-    code: "BDAY50",
-    link: "/kids-birthday-parties",
-    linktext: "Claim Offer",
-  },
-  {
-    badge: "New",
-    title: "University Students Special",
-    description: "Show your student ID and save 25%",
-    validity: "Valid until March 31st",
-    code: "STUDENT25",
-    link: "/pricing-promos",
-    linktext: "Claim Offer",
-  },
-];
-
-const UNIVERSITY_STUDENTS_SPECIAL = {
-  badge: "New",
-  title: "University Students Special",
-  description: "Show your student ID and save 25%",
-  validity: "Valid until March 31st",
-  code: "STUDENT25",
-  link: "/pricing-promos",
-  linktext: "Claim Offer",
-};
-
 const Home = async () => {
   const location_slug = LOCATION_NAME;
 
@@ -237,23 +205,8 @@ const Home = async () => {
     ? getDataByParentId(data, "blogs") || []
     : [];
 
-  const homepagePromotions = Array.isArray(promotions)
-    ? promotions.some(
-        (promo) =>
-          promo?.title?.trim().toLowerCase() ===
-          UNIVERSITY_STUDENTS_SPECIAL.title.toLowerCase(),
-      )
-      ? promotions
-      : [...HOMEPAGE_PROMOTION_FALLBACKS, ...promotions]
-    : HOMEPAGE_PROMOTION_FALLBACKS;
-
   return (
     <main className="ppp-home">
-      {/* ── Promotion popup ── */}
-      {(promotionPopup.length > 0 || homepagePromotions.length > 0) && (
-        <PromotionModal promotionPopup={promotionPopup} promotions={homepagePromotions} />
-      )}
-
       {/* ── Hero ── */}
       <MotionImage pageData={safeHeaderImage} waiverLink={waiverLink} />
 
@@ -352,7 +305,7 @@ const Home = async () => {
       )}
 
       {/* ── Promotions ── */}
-      {homepagePromotions?.length > 0 && (
+      {promotions?.length > 0 && (
         <section className="ppp-section ppp-promos">
           <div className="aero-max-container">
             <SectionHeading className="section-heading-white">
@@ -363,7 +316,7 @@ const Home = async () => {
             </p>
 
             <div className="promotions__grid">
-              {homepagePromotions.map((promo, index) => (
+              {promotions.map((promo, index) => (
                 <article key={index} className="promotion-card">
                   <span className="promotion-card__badge">{promo.badge}</span>
                   <h3 className="promotion-card__title">{promo.title}</h3>

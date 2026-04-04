@@ -61,12 +61,6 @@
   gap: 1rem;
 }
 
-.aero_promotion_popup_grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-}
-
 .aero_promotion_popup h1,
 .aero_promotion_popup h2,
 .aero_promotion_popup h3 {
@@ -141,10 +135,6 @@
     width: min(94vw, 620px);
     padding: 1.5rem;
     border-radius: 20px;
-  }
-
-  .aero_promotion_popup_grid {
-    grid-template-columns: 1fr;
   }
 
   .aero_promotion_popup__cta,
