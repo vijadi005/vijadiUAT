@@ -8,26 +8,26 @@ export default function CelebrateEventsSection() {
             title: "CORPORATE EVENTS",
             img: "https://storage.googleapis.com/aerosports/team-building-aerosports-trampoline-park.png",
             desc:
-                "Elevate your corporate events at Pixel Pulse, where immersive challenges inspire teamwork, strategic thinking, and shared wins in a high-energy environment.",
+                "Bring your team for active game rooms, simple booking, and a visit that gives everyone something to do right away.",
             link: "/group-events/corporate-parties-events-groups",
-            linkText: "More Info →",
+            linkText: "More Info",
             isNextLink: true
         },
         {
             title: "BIRTHDAY PARTIES",
             img: "https://storage.googleapis.com/aerosports/celeberate-your-birthday-parties-at-aerosports.png",
             desc:
-                "The best kids birthday parties in Vaughan. All-inclusive Pixel & tile games, immersive fun, private room, party host, pizza, and excitement.",
+                "Plan a kids birthday party with game time, a private room, a party host, pizza, and clear timing for the day.",
             link: "/kids-birthday-parties",
-            linkText: "COMPARE PACKAGES →"
+            linkText: "Compare Packages"
         },
         {
             title: "FIELD TRIPS",
             img: "https://storage.googleapis.com/aerosports/schools-field-trips-at-aerosports.png",
             desc:
-                "We offer special field trip and team event rates for groups of 20-40 players. For groups of 20+ or to book space and food, please call us.",
+                "Ask about field trip and group rates for 20 to 40 players. For food, timing, and room needs, call before booking.",
             link: "/group-events/school-groups",
-            linkText: "More Info →"
+            linkText: "More Info"
         }
     ];
 
@@ -35,11 +35,11 @@ export default function CelebrateEventsSection() {
         <section className="aero_home_article_section">
             <section className="aero-max-container">
                 <SectionHeading className="section-heading-white">
-                    <span>Celebrate</span> your event
+                    <span>Parties</span> and groups
                 </SectionHeading>
 
 
-                <p>Elevate your event to next level at pixelpulseplay!</p>
+                <p>Birthday parties, school trips, and work events can be planned around your group size and schedule.</p>
 
                 <div className="offer-section__inner container">
                     {eventCards.map((card, index) => (

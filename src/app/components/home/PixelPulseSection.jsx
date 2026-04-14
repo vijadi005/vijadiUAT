@@ -10,13 +10,13 @@ const pixelPulseContent = {
       titleTwo: "Pixel Pulse Vaughan"
     },
     description:
-      "Pixel Pulse Vaughan is a next-generation indoor entertainment destination serving families across Vaughan, Woodbridge, Maple, and Concord. Our immersive play arena features interactive Pixel & tile games, physical and cognitive challenge rooms, arcade games, and private party spaces—designed for active, screen-powered fun with no trampolines. From birthday parties and school field trips to team events and group celebrations, Pixel Pulse delivers high-energy experiences that bring kids, families, and groups together from across the GTA."
+      "Pixel Pulse Vaughan has indoor game rooms, arcade games, and private party spaces for families across Vaughan, Woodbridge, Maple, and Concord. Guests can book play sessions, birthday parties, field trips, team events, and group visits without needing trampolines or a traditional playground."
   },
 
   whyChoose: {
     title: "Why Choose Pixel Pulse Vaughan?",
     description:
-      "Pixel Pulse offers safe, supervised, and age-appropriate indoor fun for kids ages 5–12 across Vaughan, Woodbridge, Maple, and Concord. Our interactive Pixel & tile games and immersive challenge rooms encourage active play, teamwork, and confidence in a clean, staff-monitored environment. Trusted by parents, schools, and camps, Pixel Pulse is ideal for birthday parties, field trips, and group events kids love and adults trust."
+      "Pixel Pulse offers supervised indoor activities for kids ages 5 to 12 across Vaughan, Woodbridge, Maple, and Concord. Game rooms encourage movement, teamwork, timing, and confidence in a clean, staff-monitored space."
   },
 
   attractions: {
@@ -25,12 +25,12 @@ const pixelPulseContent = {
       {
         name: "Interactive Pixel & Tile Games",
         description:
-          "High-energy, sensor-based games that combine movement, speed, and strategy—perfect for kids, teams, and friendly competition."
+          "Sensor-based games that combine movement, speed, and simple strategy for kids, teams, and friendly competition."
       },
       {
         name: "Immersive Challenge Rooms",
         description:
-          "Step into themed rooms that test agility, coordination, problem-solving, and focus through interactive light, sound, and motion gameplay."
+          "Themed rooms that test agility, coordination, problem-solving, and focus through light, sound, and movement."
       },
       {
         name: "Laser Challenge Room",
@@ -40,7 +40,7 @@ const pixelPulseContent = {
       {
         name: "Immersive and Skill Challenges",
         description:
-          "Engaging immersive and interactive play elements designed for kids ages 5–12, with varying difficulty levels."
+          "Interactive play elements designed for kids ages 5 to 12, with different challenge levels."
       },
       {
         name: "Sports Skill Games",
@@ -50,7 +50,7 @@ const pixelPulseContent = {
       {
         name: "Cognitive & Reaction Games",
         description:
-          "Fun, brain-boosting games like memory, timing, and pattern challenges that build focus and confidence while playing."
+          "Memory, timing, and pattern challenges that help kids practise focus while they play."
       },
       {
         name: "Arcade Zone",
@@ -65,19 +65,19 @@ const pixelPulseContent = {
     ]
   },
 
-  cta: "Book your Pixel Pulse experience today and enjoy immersive games, parties, and nonstop fun in Vaughan.",
+  cta: "Book a Pixel Pulse visit for game rooms, birthday parties, or group play in Vaughan.",
 
   tagLines: [
     ["PLAY. THINK. COMPETE. REPEAT.", "Indoor Interactive Gaming for Kids in Vaughan"],
-    ["WHERE KIDS MOVE, THINK & WIN", "Next-Gen Active Gaming in the GTA"],
-    ["SMARTER FUN STARTS HERE", "Safe, Active & Immersive Play for Kids"]
+    ["WHERE KIDS MOVE, THINK & WIN", "Active gaming in Vaughan"],
+    ["SMARTER FUN STARTS HERE", "Safe, active play for kids"]
   ],
 
   highlights: [
-    "A next-generation indoor gaming park for kids and families",
-    "Interactive challenge rooms, arcades & party experiences",
+    "Indoor game rooms for kids and families",
+    "Challenge rooms, arcades & party bookings",
     "Active play meets digital gaming — only at Pixel Pulse",
-    "Vaughan’s newest destination for smart, active fun"
+    "A Vaughan spot for active indoor play"
   ]
 };
 
@@ -138,4 +138,3 @@ export default function PixelPulseVaughan() {
     </section>
   );
 }
-

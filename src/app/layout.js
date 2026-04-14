@@ -43,7 +43,7 @@ export async function generateMetadata() {
         title:
           "Pixel Pulse Play Vaughan – Arcade Games & Interactive Challenge Rooms",
         description:
-          "Experience Pixel Pulse Play in Vaughan, Ontario. Enjoy exciting challenge rooms, arcade games, and immersive activities perfect for birthdays, families, and group events.",
+          "Plan a visit to Pixel Pulse Play in Vaughan, Ontario. Book game rooms, arcade time, birthday parties, and group events for kids, families, and teams.",
         images: [
           {
             url: "https://storage.googleapis.com/pixel-pulse-play/web/h-Logo.png",

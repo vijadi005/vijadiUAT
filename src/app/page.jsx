@@ -41,9 +41,9 @@ export async function generateMetadata() {
 const pixelPulseSchema = {
   "@context": "https://schema.org",
   "@type": "AmusementPark",
-  name: "Pixel Pulse Play — Next-Gen Indoor Gaming",
+  name: "Pixel Pulse Play Vaughan",
   description:
-    "Vaughan's next-generation indoor gaming arena with laser mazes, interactive tile challenges, climbing walls, and more.",
+    "Indoor game rooms in Vaughan with laser mazes, tile challenges, climbing, sports games, birthday parties, and group bookings.",
   address: {
     "@type": "PostalAddress",
     addressLocality: "Vaughan",
@@ -64,10 +64,10 @@ const pixelPulseSchema = {
 
 /* ─── Stat bar data ─── */
 const STATS = [
-  { num: 8,    label: "Unique Attractions" },
-  { num: 5000, label: "Happy Players" },
+  { num: 8,    label: "Game Rooms" },
+  { num: 5000, label: "Visits Booked" },
   { num: 4,    label: "Party Rooms" },
-  { num: 1,    label: "GTA Interactive Arena" },
+  { num: 1,    label: "Vaughan Location" },
 ];
 
 /* ─── Pricing tiers ─── */
@@ -119,23 +119,23 @@ const PRICING = [
 const WHY_REASONS = [
   {
     icon: "🧠",
-    title: "Physical + Cognitive Play",
-    body: "Every game builds real skills — reaction time, teamwork, strategy, and physical coordination.",
+    title: "Active games, not screen time",
+    body: "Players move between rooms that use timing, teamwork, aiming, climbing, and quick decisions.",
   },
   {
     icon: "🛡️",
-    title: "Safe & Supervised",
-    body: "Trained staff on the floor at all times. Clean, maintained equipment and full safety protocols.",
+    title: "Staff nearby",
+    body: "Our team helps guests get started, explains the rules, and keeps the flow moving during busy sessions.",
   },
   {
     icon: "⚡",
-    title: "Next-Gen Technology",
-    body: "Interactive digital floors, laser sensors, reactive walls — built from scratch for the experience.",
+    title: "Easy session choices",
+    body: "Choose 30, 60, or 90 minutes. Add arcade time or book a party package when you need more room.",
   },
   {
     icon: "🎪",
-    title: "Something for Everyone",
-    body: "Distinct zones mean there's always a new challenge. Kids, teens, and adults all find their game.",
+    title: "Good for mixed groups",
+    body: "Kids, teens, parents, friends, school groups, and work teams can all find games that fit their pace.",
   },
 ];
 
@@ -143,19 +143,19 @@ const WHY_REASONS = [
 const REVIEWS = [
   {
     stars: 5,
-    body: "We've been to every indoor playground in the GTA. Pixel Pulse is on a completely different level. My kids begged to come back the next weekend.",
+    body: "The kids tried several rooms and still had energy to keep going. Booking was simple and the staff explained everything clearly.",
     name: "Sarah M.",
     role: "Mom of 3 · Vaughan",
   },
   {
     stars: 5,
-    body: "Booked a birthday party here — honestly one of the easiest and best party experiences I've ever had. The staff handled everything.",
+    body: "We booked a birthday party and it was easy to manage. The room was ready, the games kept everyone busy, and the timing worked well.",
     name: "James T.",
     role: "Dad · Woodbridge",
   },
   {
     stars: 5,
-    body: "We brought our team of 22 for a corporate event. The energy was incredible — even our most reserved colleagues were fully engaged.",
+    body: "Our team came after work and it gave everyone something to do right away. It was active without being awkward.",
     name: "Aisha K.",
     role: "HR Manager · Maple",
   },
@@ -184,6 +184,9 @@ const Home = async () => {
     Array.isArray(dataconfig)
       ? dataconfig.find((item) => item.key === "homepageSection1")?.value ?? ""
       : "";
+  const homepageIntro =
+    homepageSection1 ||
+    "Book a 30, 60, or 90 minute play session in Vaughan. Kids, teens, adults, parties, and groups can rotate through interactive game rooms with staff nearby to help.";
 
   const safePromotions = Array.isArray(promotions)
     ? JSON.parse(JSON.stringify(promotions))
@@ -215,7 +218,7 @@ const Home = async () => {
         <section className="ppp-ctabar">
           <div className="aero-max-container ppp-ctabar__inner">
             <SectionHeading>
-              JUMP STRAIGHT <span>TO</span>
+              PLAN YOUR <span>VISIT</span>
             </SectionHeading>
 
             <div className="ppp-ctabar__buttons">
@@ -232,15 +235,15 @@ const Home = async () => {
         </section>
       )}
 
-      {/* ── Level Up intro section ── */}
+      {/* ── Intro section ── */}
       <section className="ppp-intro">
         <div className="aero-max-container ppp-intro__inner">
           <SectionHeading>
-            <span>LEVEL UP YOUR PLAY</span>
+            <span>PLAY SESSIONS</span>
             <br />
-            AT PIXEL PULSE VAUGHAN
+            IN VAUGHAN
           </SectionHeading>
-          <p className="ppp-intro__body">{homepageSection1}</p>
+          <p className="ppp-intro__body">{homepageIntro}</p>
         </div>
       </section>
 
@@ -263,10 +266,10 @@ const Home = async () => {
         <section className="ppp-section ppp-attractions">
           <div className="aero-max-container">
             <SectionHeading className="section-heading-white">
-              EPIC <span>GAME ROOMS</span>
+              GAME <span>ROOMS</span>
             </SectionHeading>
             <p className="ppp-section__sub">
-              Every zone is designed to challenge your body and mind. Run, climb, aim, and think your way through next-level physical gaming.
+              Try laser mazes, tile challenges, climbing, aiming games, sports rooms, and other active challenges during your session.
             </p>
 
             <ul className="ppp-attractions__grid">
@@ -312,7 +315,7 @@ const Home = async () => {
               Current <span>Promotions</span>
             </SectionHeading>
             <p className="ppp-section__sub">
-              Don't miss out on these amazing deals! Save big on your next visit.
+              Check current offers before you book. Availability and details may change by date.
             </p>
 
             <div className="promotions__grid">
@@ -342,7 +345,7 @@ const Home = async () => {
       <section className="ppp-section ppp-why">
         <div className="aero-max-container">
           <SectionHeading>
-            NOT JUST ANOTHER <span>PLAYGROUND</span>
+            WHAT TO <span>EXPECT</span>
           </SectionHeading>
 
           <ul className="ppp-why__grid">
@@ -363,10 +366,10 @@ const Home = async () => {
       <section className="ppp-section ppp-pricing" id="pricing">
         <div className="aero-max-container">
           <SectionHeading className="section-heading-white">
-            SIMPLE, TRANSPARENT <span>PRICING</span>
+            SESSION <span>PRICING</span>
           </SectionHeading>
           <p className="ppp-section__sub">
-            No hidden fees. Pick your pass and jump straight in.
+            Pick the amount of play time you want. Party bookings and group visits can be planned separately.
           </p>
 
           <div className="ppp-pricing__grid">
@@ -407,7 +410,7 @@ const Home = async () => {
       <section className="ppp-section ppp-reviews">
         <div className="aero-max-container">
           <SectionHeading>
-            PARENTS &amp; KIDS <span>LOVE IT</span>
+            RECENT <span>VISITS</span>
           </SectionHeading>
 
           <div className="ppp-reviews__grid">
@@ -439,10 +442,10 @@ const Home = async () => {
         <section className="ppp-section ppp-blog">
           <div className="aero-max-container">
             <SectionHeading className="section-heading-white">
-              FROM THE <span>PIXEL PULSE BLOG</span>
+              TIPS BEFORE <span>YOU VISIT</span>
             </SectionHeading>
             <p className="ppp-section__sub">
-              Tips, guides, and updates from Vaughan's favourite gaming arena.
+              Helpful notes for birthdays, group bookings, game rooms, and planning your next visit.
             </p>
 
             <BlogCard blogsData={blogsData[0]} location_slug={location_slug} />
@@ -460,11 +463,11 @@ const Home = async () => {
       <section className="ppp-cta-band">
         <div className="aero-max-container ppp-cta-band__inner">
           <SectionHeading>
-            YOUR NEXT ADVENTURE <span>AWAITS</span>
+            READY TO <span>BOOK?</span>
           </SectionHeading>
           <p className="ppp-cta-band__sub">
-            Book online in seconds. Walk-ins welcome based on availability.
-            Located in Vaughan — serving all of the GTA.
+            Reserve your play time online. Walk-ins are welcome when space is available.
+            Pixel Pulse Play is located in Vaughan and serves families and groups across the GTA.
           </p>
           <div className="ppp-cta-band__actions">
             <BookingButton title="Book Now" className="ppp-btn ppp-btn--primary" bookingType="ticket" />
@@ -475,7 +478,7 @@ const Home = async () => {
               rel="noopener noreferrer"
               prefetch={false}
             >
-              📍 Get Directions
+              Get Directions
             </Link>
           </div>
         </div>
