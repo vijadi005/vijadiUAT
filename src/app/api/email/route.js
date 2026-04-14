@@ -26,6 +26,11 @@ function cleanHeaderValue(value, fallback) {
   return cleaned || fallback;
 }
 
+function cleanEmailAddress(value, fallback) {
+  const cleaned = cleanHeaderValue(value, "");
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleaned) ? cleaned : fallback;
+}
+
 export async function POST(request) {
   try {
     const body = await request.json();
@@ -62,9 +67,8 @@ export async function POST(request) {
     });
 
     const visitorName = cleanHeaderValue(fullName, "Website Inquiry");
-    const visitorEmail = cleanHeaderValue(email, gmailUser);
-    const inquiryType = cleanHeaderValue(selectedEvent, "Not provided");
-    const safeSubject = `${visitorName} - ${BUSINESS_NAME} - Inquiry Type: ${inquiryType}`;
+    const visitorEmail = cleanEmailAddress(email, gmailUser);
+    const safeSubject = `${visitorName} - ${BUSINESS_NAME}`;
 
     const text = [
       `From Location: ${from || "Pixel Pulse Play"}`,
@@ -117,12 +121,20 @@ export async function POST(request) {
     await transporter.sendMail({
       from: {
         name: visitorName,
+        address: visitorEmail,
+      },
+      sender: {
+        name: BUSINESS_NAME,
         address: authenticatedSender,
       },
       to: CONTACT_EMAIL,
       replyTo: {
         name: visitorName,
         address: visitorEmail,
+      },
+      envelope: {
+        from: authenticatedSender,
+        to: CONTACT_EMAIL,
       },
       subject: safeSubject,
       text,
