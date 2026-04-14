@@ -68,7 +68,15 @@ export async function POST(request) {
 
     const visitorName = cleanHeaderValue(fullName, "Website Inquiry");
     const visitorDisplayName = visitorName.toLowerCase();
-    const visitorEmail = cleanEmailAddress(email, gmailUser);
+    const visitorEmail = cleanEmailAddress(email, "");
+
+    if (!visitorEmail) {
+      return NextResponse.json(
+        { error: "Please enter a valid email address." },
+        { status: 400 },
+      );
+    }
+
     const safeSubject = `${visitorDisplayName} - ${BUSINESS_NAME} (Inquiry)`;
 
     const text = [
@@ -123,10 +131,6 @@ export async function POST(request) {
       from: {
         name: visitorDisplayName,
         address: visitorEmail,
-      },
-      sender: {
-        name: BUSINESS_NAME,
-        address: authenticatedSender,
       },
       to: CONTACT_EMAIL,
       replyTo: {
