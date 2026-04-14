@@ -67,8 +67,9 @@ export async function POST(request) {
     });
 
     const visitorName = cleanHeaderValue(fullName, "Website Inquiry");
+    const visitorDisplayName = visitorName.toLowerCase();
     const visitorEmail = cleanEmailAddress(email, gmailUser);
-    const safeSubject = `${visitorName} - ${BUSINESS_NAME}`;
+    const safeSubject = `${visitorDisplayName} - ${BUSINESS_NAME} (Inquiry)`;
 
     const text = [
       `From Location: ${from || "Pixel Pulse Play"}`,
@@ -120,7 +121,7 @@ export async function POST(request) {
 
     await transporter.sendMail({
       from: {
-        name: visitorName,
+        name: visitorDisplayName,
         address: visitorEmail,
       },
       sender: {
@@ -129,7 +130,7 @@ export async function POST(request) {
       },
       to: CONTACT_EMAIL,
       replyTo: {
-        name: visitorName,
+        name: visitorDisplayName,
         address: visitorEmail,
       },
       envelope: {
