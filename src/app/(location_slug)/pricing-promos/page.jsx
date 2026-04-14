@@ -48,6 +48,82 @@ function stripHtml(html = "") {
     .trim();
 }
 
+function normalizeListHtml(html = "") {
+  const trimmed = typeof html === "string" ? html.trim() : "";
+  if (!trimmed) {
+    return "";
+  }
+
+  const hasListItems = /<li[\s>]/i.test(trimmed);
+  const hasListWrapper = /<(ul|ol)[\s>]/i.test(trimmed);
+  if (hasListItems && !hasListWrapper) {
+    return `<ul>${trimmed}</ul>`;
+  }
+
+  return trimmed;
+}
+
+function decodeHtmlEntities(text = "") {
+  return text
+    .replace(/&nbsp;/gi, " ")
+    .replace(/&amp;/gi, "&")
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;|&apos;/gi, "'")
+    .replace(/&lt;/gi, "<")
+    .replace(/&gt;/gi, ">");
+}
+
+function extractListItems(html = "") {
+  return [...html.matchAll(/<li[^>]*>(.*?)<\/li>/gis)]
+    .map((match) => decodeHtmlEntities(stripHtml(match[1])))
+    .filter(Boolean);
+}
+
+function extractHeroHeading(html = "") {
+  const headingMatch = html.match(/<h[1-6][^>]*>(.*?)<\/h[1-6]>/is);
+  if (headingMatch?.[1]) {
+    return decodeHtmlEntities(stripHtml(headingMatch[1]));
+  }
+
+  const paragraphMatch = html.match(/<p[^>]*>(.*?)<\/p>/is);
+  if (paragraphMatch?.[1]) {
+    return decodeHtmlEntities(stripHtml(paragraphMatch[1]));
+  }
+
+  const [firstLine = ""] = decodeHtmlEntities(
+    html.replace(/<br\s*\/?>/gi, "\n").replace(/<\/p>/gi, "\n")
+  )
+    .split("\n")
+    .map((line) => stripHtml(line))
+    .filter(Boolean);
+
+  return firstLine;
+}
+
+function parseHeroTextBlock(content = "") {
+  const normalizedContent = typeof content === "string" ? content.trim() : "";
+  if (!normalizedContent) {
+    return { heading: "", bullets: [] };
+  }
+
+  const htmlBullets = extractListItems(normalizedContent);
+  const htmlHeading = extractHeroHeading(normalizedContent);
+  if (htmlHeading || htmlBullets.length > 0) {
+    return { heading: htmlHeading, bullets: htmlBullets };
+  }
+
+  const lines = decodeHtmlEntities(normalizedContent)
+    .replace(/\r/g, "")
+    .split("\n")
+    .map((line) => line.replace(/^[\-\*\u2022]\s*/, "").trim())
+    .filter(Boolean);
+
+  return {
+    heading: lines[0] || "",
+    bullets: lines.slice(1),
+  };
+}
+
 function buildPricingCards(pricingRows, detailKeys, pricingHeaders) {
   const baseCards = pricingRows.map((row) => ({
     duration: row.value1,
@@ -123,7 +199,14 @@ const PricingPromosPage = async ({ params }) => {
     pageData?.metadescription ||
     "Choose your session, lock in your booking, and take advantage of the latest in-store offers.";
 
-  const extraText = stripHtml(pageData?.section2 || "");
+  const pricingHeroContent = parseHeroTextBlock(pageData?.section2 || "");
+  const pricingHeroLabelHtml = pageData?.section3 || "";
+  const pricingHeroHeading = pricingHeroContent.heading;
+  const pricingHeroBullets = pricingHeroContent.bullets;
+  const helpfulDetailsHeadingHtml =
+    pageData?.section5 || '<h2 class="section-heading section-heading-white">Helpful <span>Details</span></h2>';
+  const helpfulDetailsHtml = normalizeListHtml(pageData?.section4 || "");
+  const extraText = stripHtml(helpfulDetailsHtml);
   const hasPricingCards = pricingCards.length > 0;
   const hasPromotions = promotions.length > 0;
 
@@ -133,15 +216,17 @@ const PricingPromosPage = async ({ params }) => {
         <div className="aero-max-container ppp-pricing-hero__inner">
           <div className="ppp-pricing-hero__panel">
             <div className="ppp-about-hero-card">
-             <SectionHeading className="section-heading-white">
-                  Session <span>Pricing</span>
-                </SectionHeading>
-              <h2>Pick your session, reserve online, then stack the best available promotion.</h2>
-              <ul>
-                <li>Quick-glance pricing cards for every play duration</li>
-                <li>Promotions collected in one place for easy comparison</li>
-                <li>Fast booking and waiver links when you are ready</li>
-              </ul>
+              {pricingHeroLabelHtml && (
+                <div dangerouslySetInnerHTML={{ __html: pricingHeroLabelHtml }} />
+              )}
+              {pricingHeroHeading && <h2>{pricingHeroHeading}</h2>}
+              {pricingHeroBullets.length > 0 && (
+                <ul>
+                  {pricingHeroBullets.map((item, index) => (
+                    <li key={`${item}-${index}`}>{item}</li>
+                  ))}
+                </ul>
+              )}
             </div>
           </div>
         </div>
@@ -264,15 +349,13 @@ const PricingPromosPage = async ({ params }) => {
               </article>
             )}
 
-            {(pageData?.section2 || extraText) && (
+            {(helpfulDetailsHtml || extraText) && (
               <article className="ppp-content-card pricing_promo_main_section">
-                <SectionHeading className="section-heading-white">
-                  Helpful <span>Details</span>
-                </SectionHeading>
+                <div dangerouslySetInnerHTML={{ __html: helpfulDetailsHeadingHtml }} />
                 <div
                   className="ppp-richtext"
                   dangerouslySetInnerHTML={{
-                    __html: pageData?.section2 || "",
+                    __html: helpfulDetailsHtml,
                   }}
                 />
               </article>

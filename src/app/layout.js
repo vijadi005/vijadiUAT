@@ -1,4 +1,3 @@
-import { Poppins, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import dynamic from "next/dynamic";
 const GoogleAnalytics = dynamic(() => import('./components/GoogleAnalytics'));
@@ -6,7 +5,6 @@ import { Suspense } from "react";
 import Loading from "./loading";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import FloatingWaiverButton from "./components/FloatingWaiverButton";
 import { fetchMenuData, fetchsheetdata, getWaiverLink } from "./lib/sheets";
 import { cookies } from "next/headers";
 import { Toaster } from "sonner";
@@ -15,17 +13,6 @@ import Breadcrumbs from "./components/Breadcrumb";
 
 
 const BASE_URL = process.env.SITE_URL;
-
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["100","200","300","400","500","600","700","800","900"],
-});
-
-const jakarta = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  weight: ["300","400","500","600"],
-});
-
 export async function generateMetadata() {
   const location_slug = LOCATION_NAME;
   try {
@@ -80,14 +67,11 @@ export default async function RootLayout({ children }) {
   let menudata = [];
   let configdata = [];
   let sheetdata = [];
-  let waiverLink = "";
-
   try {
-    [menudata, configdata, sheetdata, waiverLink] = await Promise.all([
+    [menudata, configdata, sheetdata] = await Promise.all([
       fetchMenuData(location_slug),
       fetchsheetdata('config', location_slug),
       fetchsheetdata('locations', location_slug),
-      getWaiverLink(location_slug),
     ]);
   } catch (error) {
     console.error("layout data failed:", error);
@@ -97,10 +81,7 @@ export default async function RootLayout({ children }) {
   // const reviewdata = await getReviewsData(locationid)
   return (
     <html lang="en">
-      <body
-        className={`${poppins.className} ${jakarta.className}`}
-        suppressHydrationWarning
-      >
+      <body suppressHydrationWarning>
         <Toaster position="top-right" />
         <GoogleAnalytics />{" "}
         {/* Render the client-side Google Analytics component */}
@@ -113,7 +94,6 @@ export default async function RootLayout({ children }) {
           menudata={menudata}
           // reviewdata={reviewdata}
         />
-        <FloatingWaiverButton waiverLink={waiverLink} />
         <div id="modal-root"></div>
       </body>
     </html>
