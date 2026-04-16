@@ -2,7 +2,7 @@
 const axios = require('axios');
 const XLSX = require('xlsx');
 
-const SHEET_URL = `https://docs.google.com/spreadsheets/d/1PRq9W16-0HAVHb2zsexYCm8rD4XNb3cg/export?format=xlsx`;
+const SHEET_URL = `https://docs.google.com/spreadsheets/d/1NEovNJVBVY4LyXWg3nHFh5-LekMt8GfL4y4eaNz7X1I/export?format=xlsx`;
 const sheetCache = new Map();
 const CACHE_TTL = 1000 * 60 * 15; // 15 min
 const waiverLinkCache = new Map();
@@ -90,19 +90,27 @@ async function fetchsheetdata(sheetName, location) {
   try {
     return await ensureSheetCache(cacheKey);
   } catch (error) {
-    console.error(`❌ Error in fetchsheetdata("${sheetName}"):`, error.message);
-    throw error;
+    console.warn(`Sheet data unavailable for "${sheetName}": ${error.message}`);
+    return sheetCache.get(cacheKey)?.data || [];
   }
 }
 
 async function fetchsheetdataNoCache(sheetName) {
-   
+  try {
     const response = await axios.get(SHEET_URL, { responseType: 'arraybuffer' });
     const workbook = XLSX.read(response.data, { type: 'buffer' });
 
     const worksheetLocationsData = workbook.Sheets[sheetName];
+    if (!worksheetLocationsData) {
+      return [];
+    }
+
     const jsonLocationsData = XLSX.utils.sheet_to_json(worksheetLocationsData, { defval: '' });
     return jsonLocationsData;
+  } catch (error) {
+    console.warn(`Sheet data unavailable for "${sheetName}": ${error.message}`);
+    return [];
+  }
 }
 
 /**

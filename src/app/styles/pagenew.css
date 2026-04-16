@@ -19,8 +19,12 @@
   --ppp-white:      #f0f6ff;
   --ppp-muted:      #8a9bb5;
   --ppp-radius-sm:  6px;
-  --ppp-radius-md:  12px;
-  --ppp-radius-lg:  18px;
+  --ppp-radius-md:  8px;
+  --ppp-radius-lg:  8px;
+  --ppp-section-y:  72px;
+  --ppp-section-y-mobile: 52px;
+  --ppp-cta-y: 18px;
+  --ppp-cta-y-mobile: 16px;
 
   /* Neon glow helpers */
   --glow-cyan:      0 0 18px rgba(251, 174, 123, 0.35);
@@ -87,7 +91,7 @@
 
 /* ── Section wrapper ── */
 .ppp-section {
-  padding: 80px 0;
+  padding: var(--ppp-section-y) 0;
   position: relative;
 }
 
@@ -106,6 +110,52 @@
   display: flex;
   justify-content: center;
   margin-top: 40px;
+}
+
+.ppp-mini-cta {
+  background: linear-gradient(90deg, var(--ppp-cyan), #a4cf5f);
+  color: var(--ppp-black);
+  border-block: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.ppp-mini-cta__inner {
+  min-height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: var(--ppp-cta-y) 0;
+}
+
+.ppp-mini-cta p {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 3vw, 2.2rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.ppp-mini-cta__actions {
+  display: flex;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.ppp-mini-cta .ppp-btn {
+  flex: 0 0 auto;
+  background: var(--ppp-black);
+  border-color: var(--ppp-black);
+  color: var(--ppp-white);
+  box-shadow: none;
+}
+
+.ppp-mini-cta .ppp-btn:hover {
+  background: #111827;
+  box-shadow: 0 0 22px rgba(5, 8, 16, 0.32);
 }
 
 /* ================================================================
@@ -138,7 +188,7 @@
    INTRO  (Level Up section)
    ================================================================ */
 .ppp-intro {
-  padding: 80px 0;
+  padding: var(--ppp-section-y) 0;
   background: linear-gradient(180deg, var(--ppp-dark) 0%, var(--ppp-black) 100%);
 }
 
@@ -151,11 +201,185 @@
 }
 
 .ppp-intro__body {
-  color: var(--ppp-muted);
-  font-size: 1.05rem;
-  line-height: 1.8;
-  max-width: 680px;
+  position: relative;
+  width: min(100%, 1080px);
+  max-width: 1080px;
   margin: 0 auto;
+  padding: 28px 30px 30px;
+  color: rgba(240, 246, 255, 0.9);
+  font-size: clamp(1.05rem, 1.8vw, 1.24rem);
+  font-weight: 500;
+  line-height: 1.85;
+  text-align: left;
+  border: 1px solid rgba(251, 174, 123, 0.26);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(255, 45, 120, 0.13), transparent 38%),
+    linear-gradient(160deg, rgba(251, 174, 123, 0.15), rgba(17, 24, 39, 0.92) 55%),
+    var(--ppp-card);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.ppp-intro__body::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 6px;
+  border-radius: 8px 8px 0 0;
+  background: linear-gradient(90deg, var(--ppp-magenta), #ff6b00, var(--ppp-cyan));
+}
+
+.ppp-intro__body::after {
+  content: "";
+  position: absolute;
+  right: 24px;
+  bottom: 20px;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(251, 174, 123, 0.18), transparent 70%);
+  pointer-events: none;
+}
+
+/* ================================================================
+   HOW IT WORKS
+   ================================================================ */
+.ppp-how {
+  background: var(--ppp-black);
+}
+
+.ppp-how__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.ppp-how__card {
+  position: relative;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 0.7rem;
+  overflow: hidden;
+  padding: 42px 28px 34px;
+  text-align: left;
+  border: 1px solid rgba(251, 174, 123, 0.5);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(255, 45, 120, 0.34), rgba(255, 107, 0, 0.16) 36%, transparent 62%),
+    linear-gradient(160deg, rgba(251, 174, 123, 0.24), rgba(5, 8, 16, 0.98) 54%),
+    #090d16;
+  box-shadow: 0 24px 78px rgba(0, 0, 0, 0.46), 0 0 34px rgba(251, 174, 123, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.ppp-how__card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 7px;
+  background: linear-gradient(90deg, var(--ppp-magenta), #ff6b00, var(--ppp-cyan));
+}
+
+.ppp-how__card::after {
+  content: "";
+  position: absolute;
+  right: -48px;
+  bottom: -54px;
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(36, 255, 209, 0.22), transparent 68%);
+  pointer-events: none;
+}
+
+.ppp-how__card:hover {
+  border-color: rgba(251, 174, 123, 0.86);
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.52), 0 0 42px rgba(251, 174, 123, 0.22), 0 16px 52px rgba(255, 45, 120, 0.16);
+}
+
+.ppp-how__card--arena {
+  background:
+    linear-gradient(180deg, rgba(5, 8, 16, 0.18) 0%, rgba(5, 8, 16, 0.88) 100%),
+    linear-gradient(135deg, rgba(255, 45, 120, 0.24), rgba(255, 107, 0, 0.12) 36%, transparent 62%),
+    url("https://storage.googleapis.com/pixel-pulse-play/web/arena.png") center / cover no-repeat,
+    #090d16;
+}
+
+.ppp-how__card--play-compete {
+  background:
+    linear-gradient(180deg, rgba(5, 8, 16, 0.16) 0%, rgba(5, 8, 16, 0.88) 100%),
+    linear-gradient(135deg, rgba(36, 255, 209, 0.22), rgba(164, 207, 95, 0.14) 40%, transparent 64%),
+    url("https://storage.googleapis.com/pixel-pulse-play/web/playcompete.png") center / cover no-repeat,
+    #090d16;
+}
+
+.ppp-how__card--beat-game {
+  background:
+    linear-gradient(180deg, rgba(5, 8, 16, 0.16) 0%, rgba(5, 8, 16, 0.88) 100%),
+    linear-gradient(135deg, rgba(251, 174, 123, 0.2), rgba(255, 45, 120, 0.14) 40%, transparent 64%),
+    url("https://storage.googleapis.com/pixel-pulse-play/web/beatgame.png") center / cover no-repeat,
+    #090d16;
+}
+
+.ppp-how__watermark {
+  position: absolute;
+  right: 18px;
+  top: 18px;
+  font-family: var(--font-display);
+  font-size: 6.5rem;
+  font-weight: 800;
+  line-height: 0.8;
+  color: rgba(255, 255, 255, 0.07);
+  pointer-events: none;
+}
+
+.ppp-how__number {
+  position: relative;
+  z-index: 1;
+  width: 58px;
+  height: 58px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--ppp-magenta), #ff6b00);
+  color: var(--ppp-white);
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  box-shadow: 0 14px 34px rgba(255, 45, 120, 0.34), 0 0 0 1px rgba(255, 255, 255, 0.16) inset;
+}
+
+.ppp-how__title,
+.ppp-how__card h3 {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  color: var(--ppp-white);
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.44);
+}
+
+.ppp-how__desc,
+.ppp-how__card p {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.65;
 }
 
 /* ================================================================
@@ -208,7 +432,10 @@
    ATTRACTIONS GRID
    ================================================================ */
 .ppp-attractions {
-  background: var(--ppp-black);
+  background:
+    radial-gradient(circle at 14% 16%, rgba(251, 174, 123, 0.12), transparent 28%),
+    radial-gradient(circle at 86% 42%, rgba(255, 45, 120, 0.1), transparent 30%),
+    linear-gradient(180deg, var(--ppp-black) 0%, #090d16 52%, var(--ppp-black) 100%);
 }
 
 .ppp-attractions__grid {
@@ -221,23 +448,38 @@
 }
 
 .ppp-attraction-card {
+  position: relative;
   border-radius: var(--ppp-radius-md);
   overflow: hidden;
-  border: 1px solid var(--ppp-card-border);
+  border: 1px solid rgba(251, 174, 123, 0.42);
   transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
   background: var(--ppp-card);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.34), 0 0 22px rgba(251, 174, 123, 0.08);
+}
+
+.ppp-attraction-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 2;
+  height: 5px;
+  background: linear-gradient(90deg, var(--ppp-magenta), #ff6b00, var(--ppp-cyan));
+  opacity: 0.92;
 }
 
 .ppp-attraction-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-6px);
   border-color: var(--ppp-cyan);
-  box-shadow: var(--glow-cyan);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.42), 0 0 34px rgba(251, 174, 123, 0.28);
 }
 
 .ppp-attraction-card__fig {
   position: relative;
   margin: 0;
   overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(251, 174, 123, 0.22), rgba(255, 45, 120, 0.1) 42%, rgba(17, 24, 39, 0.96)),
+    var(--ppp-card);
 }
 
 .ppp-attraction-card__img {
@@ -257,17 +499,41 @@
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 40px 16px 16px;
-  background: linear-gradient(transparent, rgba(5, 8, 16, 0.92));
+  padding: 82px 18px 18px;
+  background:
+    linear-gradient(transparent, rgba(5, 8, 16, 0.96)),
+    radial-gradient(circle at 20% 100%, rgba(251, 174, 123, 0.22), transparent 42%);
 }
 
 .ppp-attraction-card__title {
   font-family: var(--font-display);
-  font-size: 1.1rem;
+  font-size: 1.24rem;
   font-weight: 800;
   letter-spacing: 0.04em;
   color: var(--ppp-white);
   margin: 0;
+  text-transform: uppercase;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.68);
+}
+
+.ppp-attraction-card__body {
+  margin: 0.45rem 0 0;
+  color: rgba(240, 246, 255, 0.86);
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+.ppp-attraction-card__meta {
+  display: inline-flex;
+  padding: 0.35rem 0.55rem;
+  border: 1px solid rgba(251, 174, 123, 0.4);
+  border-radius: var(--ppp-radius-sm);
+  background: rgba(5, 8, 16, 0.72);
+  margin-top: 0.65rem;
+  color: var(--ppp-cyan);
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.35;
   text-transform: uppercase;
 }
 
@@ -282,7 +548,10 @@
    WHY PIXEL PULSE
    ================================================================ */
 .ppp-why {
-  background: var(--ppp-black);
+  background:
+    radial-gradient(circle at 16% 20%, rgba(164, 207, 95, 0.12), transparent 30%),
+    radial-gradient(circle at 88% 48%, rgba(251, 174, 123, 0.1), transparent 32%),
+    var(--ppp-black);
 }
 
 .ppp-why__grid {
@@ -295,40 +564,250 @@
 }
 
 .ppp-why__card {
-  background: var(--ppp-card);
-  border: 1px solid var(--ppp-card-border);
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(145deg, rgba(164, 207, 95, 0.24), rgba(251, 174, 123, 0.12) 44%, rgba(17, 24, 39, 0.98)),
+    var(--ppp-card);
+  border: 2px solid rgba(164, 207, 95, 0.54);
   border-radius: var(--ppp-radius-lg);
   padding: 32px 24px;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 18px 52px rgba(0, 0, 0, 0.34), 0 0 24px rgba(164, 207, 95, 0.12);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ppp-why__card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 5px;
+  background: linear-gradient(90deg, rgb(164, 207, 95), var(--ppp-cyan), var(--ppp-magenta));
+}
+
+.ppp-why__card::after {
+  content: "";
+  position: absolute;
+  right: -42px;
+  bottom: -50px;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(164, 207, 95, 0.2), transparent 70%);
+  pointer-events: none;
 }
 .ppp-why__card:hover {
-  border-color: var(--ppp-cyan-dim);
-  box-shadow: var(--glow-cyan);
+  transform: translateY(-5px);
+  border-color: rgb(164, 207, 95);
+  box-shadow: 0 24px 72px rgba(0, 0, 0, 0.42), 0 0 38px rgba(164, 207, 95, 0.24);
 }
 
 .ppp-why__icon {
-  font-size: 2rem;
+  position: relative;
+  z-index: 1;
+  align-self: flex-start;
+  padding: 0.35rem 0.65rem;
+  border: 1px solid rgba(164, 207, 95, 0.52);
+  border-radius: var(--ppp-radius-sm);
+  background: rgba(5, 8, 16, 0.58);
+  color: rgb(164, 207, 95);
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 800;
   line-height: 1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .ppp-why__title {
+  position: relative;
+  z-index: 1;
   font-family: var(--font-display);
-  font-size: 1rem;
+  font-size: 1.08rem;
   font-weight: 800;
   letter-spacing: 0.04em;
-  color: var(--ppp-cyan);
+  color: var(--ppp-white);
   text-transform: uppercase;
   margin: 0;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.58);
 }
 
 .ppp-why__body {
-  color: var(--ppp-muted);
+  position: relative;
+  z-index: 1;
+  color: rgba(240, 246, 255, 0.88);
   font-size: 0.9rem;
   line-height: 1.6;
   margin: 0;
+}
+
+/* ================================================================
+   USE CASES
+   ================================================================ */
+.ppp-use-cases {
+  background: var(--ppp-dark);
+}
+
+.ppp-use-cases__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.ppp-use-cases__item--wide {
+  grid-column: span 2;
+}
+
+.ppp-use-case-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 190px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 0.65rem;
+  padding: 24px;
+  border: 1px solid var(--ppp-card-border);
+  border-radius: var(--ppp-radius-sm);
+  background:
+    linear-gradient(145deg, rgba(164, 207, 95, 0.12), transparent 50%),
+    var(--ppp-card);
+}
+
+.ppp-use-case-card--birthday {
+  background: var(--ppp-card);
+}
+
+.ppp-use-case-card--corporate {
+  background: var(--ppp-card);
+}
+
+.ppp-use-case-card--school-trips {
+  background: var(--ppp-card);
+}
+
+.ppp-use-case-card--friends-date {
+  background: var(--ppp-card);
+}
+
+.ppp-use-case-card--birthday,
+.ppp-use-case-card--corporate,
+.ppp-use-case-card--school-trips,
+.ppp-use-case-card--friends-date {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) minmax(260px, 0.85fr);
+  align-content: center;
+  justify-items: center;
+  row-gap: 0.65rem;
+  column-gap: 0;
+  min-height: 240px;
+  padding: 28px 32px 28px 0;
+}
+
+.ppp-use-case-card--birthday::before,
+.ppp-use-case-card--corporate::before,
+.ppp-use-case-card--school-trips::before,
+.ppp-use-case-card--friends-date::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 54%;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.ppp-use-case-card--birthday::before {
+  background-image:
+    linear-gradient(180deg, rgba(5, 8, 16, 0.08), rgba(5, 8, 16, 0.28)),
+    url("https://storage.googleapis.com/aerosports/celeberate-your-birthday-parties-at-aerosports.png");
+}
+
+.ppp-use-case-card--corporate::before {
+  background-image:
+    linear-gradient(180deg, rgba(5, 8, 16, 0.08), rgba(5, 8, 16, 0.28)),
+    url("https://storage.googleapis.com/pixel-pulse-play/web/CorporateParty.png");
+}
+
+.ppp-use-case-card--school-trips::before {
+  background-image:
+    linear-gradient(180deg, rgba(5, 8, 16, 0.08), rgba(5, 8, 16, 0.28)),
+    url("https://storage.googleapis.com/pixel-pulse-play/web/SchoolTrips.png");
+}
+
+.ppp-use-case-card--friends-date::before {
+  background-image:
+    linear-gradient(180deg, rgba(5, 8, 16, 0.08), rgba(5, 8, 16, 0.28)),
+    url("https://storage.googleapis.com/pixel-pulse-play/web/FundRaiser.png");
+}
+
+.ppp-use-case-card--birthday > *,
+.ppp-use-case-card--corporate > *,
+.ppp-use-case-card--school-trips > *,
+.ppp-use-case-card--friends-date > * {
+  grid-column: 2;
+  position: relative;
+  z-index: 1;
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: 0;
+  text-align: center;
+}
+
+.ppp-use-case-card:hover {
+  border-color: var(--ppp-cyan);
+  transform: translateY(-3px);
+  box-shadow: var(--glow-cyan);
+}
+
+.ppp-use-case-card h3 {
+  margin: 0;
+  color: var(--ppp-white);
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.ppp-use-case-card p {
+  margin: 0;
+  color: var(--ppp-muted);
+  line-height: 1.55;
+}
+
+.ppp-use-case-card__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  min-height: 42px;
+  margin-top: 0.25rem;
+  padding: 12px 22px;
+  border: 2px solid rgb(164, 207, 95);
+  border-radius: 8px;
+  background: rgb(164, 207, 95);
+  color: #050810;
+  font-family: var(--font-display);
+  font-size: 0.88rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.ppp-use-case-card__link:hover {
+  transform: translateY(-2px);
+  background: #b4df70;
+  box-shadow: 0 0 22px rgba(164, 207, 95, 0.28);
 }
 
 /* ================================================================
@@ -336,13 +815,15 @@
    ================================================================ */
 .ppp-pricing {
   background: var(--ppp-dark);
+  padding-top: var(--ppp-section-y);
 }
 
 .ppp-pricing__grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-auto-rows: 1fr;
   gap: 24px;
-  align-items: start;
+  align-items: stretch;
 }
 
 .ppp-pricing__card {
@@ -351,6 +832,7 @@
   border-radius: var(--ppp-radius-lg);
   padding: 36px 28px;
   position: relative;
+  height: 100%;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -377,7 +859,7 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   padding: 4px 16px;
-  border-radius: 20px;
+  border-radius: var(--ppp-radius-sm);
   white-space: nowrap;
 }
 
@@ -448,6 +930,122 @@
 .ppp-pricing__cta {
   width: 100%;
   margin-top: auto;
+}
+
+.ppp-pricing__tip {
+  margin: 0;
+}
+
+.ppp-pricing__tip p {
+  font-size: clamp(1.35rem, 3vw, 2.2rem);
+}
+
+.ppp-pricing__tip .ppp-btn {
+  flex: 0 0 auto;
+  background: var(--ppp-black);
+  border-color: var(--ppp-black);
+  color: var(--ppp-white);
+  box-shadow: none;
+}
+
+.ppp-pricing__tip .ppp-btn:hover {
+  background: #111827;
+  box-shadow: 0 0 22px rgba(5, 8, 16, 0.32);
+}
+
+/* ================================================================
+   COMPETITION HOOK
+   ================================================================ */
+.ppp-competition {
+  background: var(--ppp-black);
+}
+
+.ppp-competition__inner {
+  display: block;
+}
+
+.ppp-competition__copy {
+  max-width: 520px;
+  margin: 0;
+  color: var(--ppp-muted);
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.ppp-competition__board {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--ppp-card-border);
+  border-radius: var(--ppp-radius-sm);
+  background: var(--ppp-card);
+}
+
+.ppp-competition__board div {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 14px;
+  min-height: 118px;
+  padding: 0.85rem 4.2rem 0.85rem 1rem;
+  border-radius: var(--ppp-radius-sm);
+  border: 1px solid rgba(164, 207, 95, 0.36);
+  background:
+    linear-gradient(145deg, rgba(164, 207, 95, 0.24), rgba(251, 174, 123, 0.12) 52%, rgba(17, 24, 39, 0.96)),
+    var(--ppp-card);
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.28), 0 0 18px rgba(164, 207, 95, 0.1);
+}
+
+.ppp-competition__board div::after {
+  content: "☺";
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  width: 42px;
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-50%);
+  border: 1px solid rgba(251, 174, 123, 0.46);
+  border-radius: 50%;
+  background: rgba(5, 8, 16, 0.62);
+  color: rgb(164, 207, 95);
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  font-weight: 800;
+  line-height: 1;
+  box-shadow: 0 0 18px rgba(164, 207, 95, 0.16);
+}
+
+.ppp-competition__board div:nth-child(2n)::after {
+  content: "☻";
+}
+
+.ppp-competition__board div:nth-child(3n)::after {
+  content: "◕";
+}
+
+.ppp-competition__board span {
+  color: var(--ppp-cyan);
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 800;
+}
+
+.ppp-competition__board strong {
+  color: var(--ppp-white);
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.ppp-competition__board .ppp-competition__copy {
+  grid-column: 1 / -1;
 }
 
 /* ================================================================
@@ -534,11 +1132,15 @@
   background: var(--ppp-dark);
 }
 
+.ppp-blog__heading {
+  text-transform: none;
+}
+
 /* ================================================================
    FINAL CTA BAND
    ================================================================ */
 .ppp-cta-band {
-  padding: 100px 0;
+  padding: var(--ppp-section-y) 0;
   background: radial-gradient(ellipse at center, rgba(251, 174, 123, 0.06) 0%, var(--ppp-black) 70%);
   border-top: 1px solid var(--ppp-card-border);
   text-align: center;
@@ -571,6 +1173,60 @@
    RESPONSIVE
    ================================================================ */
 @media (max-width: 900px) {
+  .ppp-mini-cta__inner {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+
+  .ppp-mini-cta__actions {
+    justify-content: center;
+  }
+
+  .ppp-how__grid,
+  .ppp-use-cases__grid,
+  .ppp-competition__board {
+    grid-template-columns: 1fr;
+  }
+
+  .ppp-use-cases__item--wide {
+    grid-column: auto;
+  }
+
+  .ppp-use-case-card--birthday,
+  .ppp-use-case-card--corporate,
+  .ppp-use-case-card--school-trips,
+  .ppp-use-case-card--friends-date {
+    grid-template-columns: 1fr;
+    align-content: start;
+    padding: 0 24px 24px;
+  }
+
+  .ppp-use-case-card--birthday::before,
+  .ppp-use-case-card--corporate::before,
+  .ppp-use-case-card--school-trips::before,
+  .ppp-use-case-card--friends-date::before {
+    position: relative;
+    inset: auto;
+    width: calc(100% + 48px);
+    min-height: 190px;
+    margin-inline: -24px;
+  }
+
+  .ppp-use-case-card--birthday > *,
+  .ppp-use-case-card--corporate > *,
+  .ppp-use-case-card--school-trips > *,
+  .ppp-use-case-card--friends-date > * {
+    grid-column: 1;
+  }
+
+  .ppp-use-case-card--birthday .ppp-why__icon,
+  .ppp-use-case-card--corporate .ppp-why__icon,
+  .ppp-use-case-card--school-trips .ppp-why__icon,
+  .ppp-use-case-card--friends-date .ppp-why__icon {
+    margin-top: 24px;
+  }
+
   .ppp-stats__grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -585,11 +1241,27 @@
 
 @media (max-width: 600px) {
   .ppp-section {
-    padding: 56px 0;
+    padding: var(--ppp-section-y-mobile) 0;
+  }
+  .ppp-intro,
+  .ppp-cta-band {
+    padding: var(--ppp-section-y-mobile) 0;
+  }
+  .ppp-pricing {
+    padding-top: var(--ppp-section-y-mobile);
+  }
+  .ppp-mini-cta__inner {
+    padding: var(--ppp-cta-y-mobile) 0;
   }
   .ppp-attractions__grid {
     grid-template-columns: 1fr 1fr;
   }
+
+  .ppp-how__card,
+  .ppp-use-case-card {
+    min-height: 170px;
+  }
+
   .ppp-pricing__grid {
     grid-template-columns: 1fr;
   }

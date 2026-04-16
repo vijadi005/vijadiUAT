@@ -2,17 +2,40 @@
 
 import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
+import BookingButton from "./smallComponents/BookingButton";
 
-const MotionImage = ({ pageData }) => {
+const MotionImage = ({ pageData, heroData = {} }) => {
   const videoRef = useRef(null);
   const [isMuted, setIsMuted] = useState(true);
 
-  if (!pageData) return null;
-
   const item = Array.isArray(pageData) && pageData.length > 0 ? pageData[0] : pageData;
-  if (!item) return null;
+  const hasVideo = Boolean(item?.video);
+  const heroTitle = [heroData.headline, heroData.headlineSub].filter(Boolean).join(" ");
+  const heroText = heroData.subheadline || "";
+  const heroTrust = Array.isArray(heroData.trust) ? heroData.trust.join(" | ") : "";
 
-  const hasVideo = Boolean(item.video);
+  const heroCopy = (
+    <div className="ppp-hero-copy">
+      {heroTitle && <h1 className="ppp-hero-copy__title">{heroTitle}</h1>}
+      {heroText && <p className="ppp-hero-copy__text">{heroText}</p>}
+      <div className="ppp-hero-copy__actions">
+        {heroData.ctaPrimary && (
+          <BookingButton
+            title={heroData.ctaPrimary}
+            className="ppp-btn ppp-btn--primary"
+            bookingType="ticket"
+          />
+        )}
+        {heroData.ctaSecondary && (
+          <Link href="/attractions" className="ppp-btn ppp-btn--outline" prefetch>
+            {heroData.ctaSecondary}
+          </Link>
+        )}
+      </div>
+      {heroTrust && <p className="ppp-hero-copy__trust">{heroTrust}</p>}
+    </div>
+  );
 
   const handleToggleMute = async () => {
     const nextMuted = !isMuted;
@@ -38,6 +61,7 @@ const MotionImage = ({ pageData }) => {
           <video ref={videoRef} autoPlay muted={isMuted} loop playsInline width="100%">
             <source src={item.video} type="video/mp4" />
           </video>
+          {heroCopy}
           <button
             type="button"
             className="aero_home_video-toggle"
@@ -49,7 +73,10 @@ const MotionImage = ({ pageData }) => {
           </button>
         </section>
       ) : (
-        <motion.div />
+        <section className="aero_home_video-container ppp-hero-fallback">
+          <motion.div />
+          {heroCopy}
+        </section>
       )}
     </section>
   );

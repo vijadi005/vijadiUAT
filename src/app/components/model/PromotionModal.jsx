@@ -2,8 +2,10 @@
 import React, { useEffect, useState } from "react";
 import Modal from "./Modal";
 
-const PromotionModal = ({ promotionPopup = [], promotions = [] }) => {
+const PromotionModal = ({ promotionPopup = [], promotions = [], delayMs = 0 }) => {
   const sessionKey = "pixelpulse-promotion-popup-dismissed";
+  const sanitizedHTML = promotionPopup[0]?.value?.replace(/<br\s*\/?>/gi, "") || "";
+  const hasPopupContent = sanitizedHTML.trim() !== "";
   const hasPromotionRows = Array.isArray(promotions)
     ? promotions.some((promo) =>
         Object.values(promo || {}).some(
@@ -14,18 +16,31 @@ const PromotionModal = ({ promotionPopup = [], promotions = [] }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    if (hasPromotionRows) {
-      const isDismissed =
-        typeof window !== "undefined" &&
-        window.sessionStorage.getItem(sessionKey) === "true";
-      setIsModalOpen(!isDismissed);
-    } else {
+    const hasContent = hasPopupContent || hasPromotionRows;
+
+    if (!hasContent) {
       setIsModalOpen(false);
       if (typeof window !== "undefined") {
         window.sessionStorage.removeItem(sessionKey);
       }
+      return undefined;
     }
-  }, [hasPromotionRows]);
+
+    const isDismissed =
+      typeof window !== "undefined" &&
+      window.sessionStorage.getItem(sessionKey) === "true";
+
+    if (isDismissed) {
+      setIsModalOpen(false);
+      return undefined;
+    }
+
+    const timeout = window.setTimeout(() => {
+      setIsModalOpen(true);
+    }, delayMs);
+
+    return () => window.clearTimeout(timeout);
+  }, [delayMs, hasPopupContent, hasPromotionRows]);
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -33,7 +48,6 @@ const PromotionModal = ({ promotionPopup = [], promotions = [] }) => {
       window.sessionStorage.setItem(sessionKey, "true");
     }
   };
-  const sanitizedHTML = promotionPopup[0]?.value?.replace(/<br\s*\/?>/gi, "") || "";
   const visiblePromotions = Array.isArray(promotions)
     ? promotions.filter((promo) =>
         Object.values(promo || {}).some(
@@ -42,7 +56,7 @@ const PromotionModal = ({ promotionPopup = [], promotions = [] }) => {
       )
     : null;
 
-  if (!hasPromotionRows) {
+  if (!hasPopupContent && !hasPromotionRows) {
     return null;
   }
 

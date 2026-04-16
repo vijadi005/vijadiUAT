@@ -5,14 +5,10 @@ import "../../../styles/category.css";
 import "../../../styles/kidsparty.css";
 import "../../../styles/promotions.css";
 import { getDataByParentId } from "@/utils/customFunctions";
-import MotionImage from "@/components/MotionImage";
-import ImageMarquee from "@/components/ImageMarquee";
-import SubCategoryCard from "@/components/smallComponents/SubCategoryCard";
 import {
   fetchsheetdata,
   fetchMenuData,
   generateMetadataLib,
-  getWaiverLink,
   generateSchema,
 } from "@/lib/sheets";
 import Link from "next/link";
@@ -65,8 +61,6 @@ const Subcategory = async ({ params }) => {
     fetchMenuData(location_slug),
   ]);
 
-  const waiverLink = await getWaiverLink(location_slug);
-
   const categoryData = (
     await getDataByParentId(menudata, category_slug)
   )[0]?.children?.filter(
@@ -84,9 +78,6 @@ const Subcategory = async ({ params }) => {
     category_slug
   );
 
-
-  const safePageData = JSON.parse(JSON.stringify(attractionsData));
-  const safeWaiverLink = JSON.parse(JSON.stringify(waiverLink));
 
   const pagedata = attractionsData?.[0];
   if (!pagedata) return;
@@ -226,7 +217,7 @@ const Subcategory = async ({ params }) => {
               </article>}
  <a
   className="aero-header-contactus-btn aero-header-cta aero-header-cta--solid aero-d-changelocation"
-  href="/vaughan/contactus"
+  href="/contactus"
 >
   <span>Inquire</span>
 </a>
@@ -237,11 +228,6 @@ const Subcategory = async ({ params }) => {
                     
                       
                     
-                    {/*safeWaiverLink && (
-                      <Link href={safeWaiverLink} target="_blank" className="ppp-groupdetail-hero__link">
-                        Complete Waiver
-                      </Link>
-                    )*/}
                   </div>
 
                   <div className="ppp-groupdetail-hero-card__image">
@@ -319,49 +305,91 @@ const Subcategory = async ({ params }) => {
           </section>
         </section>
       ) : (
-        <>
-          <section>
-            <MotionImage pageData={safePageData} waiverLink={safeWaiverLink} />
-          </section>
-
-          <section className="subcategory_main_section-bg">
-            <section className="aero-max-container ">
-              <div style={{ padding: "40px 0 10px 0" }}>
-                <SectionHeading mainHeading="true">
+        <section className="ppp-detail-page">
+          <section className="ppp-detail-hero">
+            <div className="aero-max-container ppp-detail-hero__inner">
+              <div className="ppp-detail-hero__copy">
+                <SectionHeading className="section-heading-white" mainHeading="true">
                   <span>{pagedata?.title}</span>
                 </SectionHeading>
+                {pagedata?.metatitle && <h2>{pagedata.metatitle}</h2>}
+                {(pagedata?.metadescription || introText) && (
+                  <p>{pagedata?.metadescription || introText}</p>
+                )}
+                <div className="ppp-detail-hero__actions">
+                  <BookingButton title="Book Now" />
+                  <Link href="/contactus" className="ppp-detail-btn ppp-detail-btn--outline" prefetch>
+                    Inquire
+                  </Link>
+                </div>
               </div>
-              <div className="subcategory_main_section">
-                <h2>{pagedata?.metatitle}</h2>
-                <p>{pagedata?.metadescription}</p>
-              </div>
-            </section>
 
-            <section className="aero_home_article_section">
-              <section className="aero-max-container aero_home_seo_section">
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: pagedata.seosection || "",
-                  }}
+              <div className="ppp-detail-hero__media">
+                <img
+                  src={heroImage}
+                  alt={pagedata?.imagetitle || pagedata?.title || "Pixel Pulse Play"}
                 />
-              </section>
-            </section>
-
-            <SubCategoryCard
-              attractionsData={categoryData}
-              location_slug={location_slug}
-              theme={"default"}
-              title={`Other ${pagedata.parentid}`}
-              text={[pagedata.metadescription]}
-            />
+              </div>
+            </div>
           </section>
-        </>
+
+          <section className="ppp-detail-body">
+            <section className="aero-max-container ppp-detail-body__inner">
+              {pagedata?.seosection && (
+                <article className="ppp-detail-richtext">
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: pagedata.seosection,
+                    }}
+                  />
+                </article>
+              )}
+
+              {categoryData?.length > 0 && (
+                <section className="ppp-detail-grid-wrap">
+                  <div className="ppp-detail-section-intro">
+                    <SectionHeading className="section-heading-white">
+                      More <span>{pagedata.parentid}</span>
+                    </SectionHeading>
+                    <p>{pagedata.metadescription}</p>
+                  </div>
+
+                  <section className="ppp-detail-grid">
+                    {categoryData.map((item, i) => (
+                      <article className="ppp-detail-card" key={item.pageid || i}>
+                        <Link
+                          href={`/${item?.parentid}/${item?.path}`}
+                          prefetch
+                          className="ppp-detail-card__media"
+                        >
+                          <img
+                            src={item?.smallimage || "/assets/images/logo.png"}
+                            alt={item?.imagetitle || item?.desc || "Pixel Pulse Play"}
+                          />
+                        </Link>
+
+                        <div className="ppp-detail-card__body">
+                          <Link href={`/${item?.parentid}/${item?.path}`} prefetch>
+                            <h3>{item?.desc}</h3>
+                            <p>{item?.metatitle || item?.metadescription}</p>
+                          </Link>
+                          <Link
+                            href={`/${item?.parentid}/${item?.path}`}
+                            prefetch
+                            className="ppp-detail-card__link"
+                          >
+                            Read More
+                          </Link>
+                        </div>
+                      </article>
+                    ))}
+                  </section>
+                </section>
+              )}
+            </section>
+          </section>
+        </section>
       )}
-
-      {/* <ImageMarquee imagesString={pagedata.headerimage} /> */}
-
-
-
        <script
         type="application/ld+json"
         suppressHydrationWarning

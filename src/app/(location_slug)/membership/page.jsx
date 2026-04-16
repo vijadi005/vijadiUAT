@@ -1,12 +1,27 @@
 import React from "react";
 import "../../styles/subcategory.css";
-import MotionImage from "@/components/MotionImage";
-import { getDataByParentId } from "@/utils/customFunctions";
-import { fetchsheetdata, generateMetadataLib,getWaiverLink } from "@/lib/sheets";
+import Link from "next/link";
+import { fetchPageData, generateMetadataLib } from "@/lib/sheets";
+import { LOCATION_NAME } from "@/lib/constant";
+import SectionHeading from "@/components/home/SectionHeading";
+import BookingButton from "@/components/smallComponents/BookingButton";
+
+function stripHtml(html = "") {
+  return html
+    .replace(/<br\s*\/?>/gi, " ")
+    .replace(/<[^>]*>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function getPreferredImage(pageData) {
+  return pageData?.smallimage || pageData?.headerimage || "/assets/images/logo.png";
+}
 
 export async function generateMetadata({ params }) {
+  await params;
   const metadata = await generateMetadataLib({
-    location: params.location_slug || 'st-catharines',
+    location: LOCATION_NAME || "vaughan",
     category: '',
     page: 'membership'
   });
@@ -16,29 +31,45 @@ export async function generateMetadata({ params }) {
 
 
 const page = async ({ params }) => {
-  // const { location_slug = 'st-catharines' } = params;
-  const location_slug = 'st-catharines';
-
-  const [data] = await Promise.all([
-    fetchsheetdata('Data',location_slug),
-  ]);
- 
-  const waiverLink = await getWaiverLink(location_slug);
-  
-  
-  const memberData = getDataByParentId(data, "membership");
+  await params;
+  const location_slug = LOCATION_NAME || "vaughan";
+  const memberData = await fetchPageData(location_slug, "membership");
+  const heroImage = getPreferredImage(memberData);
+  const introText =
+    memberData?.metadescription ||
+    stripHtml(memberData?.section1 || "") ||
+    "Keep the fun going with Pixel Pulse Play membership options.";
 
   return (
-    <main>
-      <section>
-        <MotionImage pageData={memberData}  waiverLink={waiverLink} />
+    <main className="ppp-detail-page">
+      <section className="ppp-detail-hero">
+        <div className="aero-max-container ppp-detail-hero__inner">
+          <div className="ppp-detail-hero__copy">
+            <SectionHeading className="section-heading-white" mainHeading="true">
+              <span>{memberData?.title || memberData?.desc || "Membership"}</span>
+            </SectionHeading>
+            {memberData?.metatitle && <h2>{memberData.metatitle}</h2>}
+            <p>{introText}</p>
+            <div className="ppp-detail-hero__actions">
+              <BookingButton title="Book Now" />
+              <Link href="/contactus" className="ppp-detail-btn ppp-detail-btn--outline" prefetch>
+                Inquire
+              </Link>
+            </div>
+          </div>
+
+          <div className="ppp-detail-hero__media">
+            <img src={heroImage} alt={memberData?.imagetitle || "Pixel Pulse Play membership"} />
+          </div>
+        </div>
       </section>
-      <section className="subcategory_main_section-bg">
-        <section className="aero-max-container">
-          <div
-            className="subcategory_main_section"
-            dangerouslySetInnerHTML={{ __html: memberData[0]?.section1 || "" }}
-          ></div>
+
+      <section className="ppp-detail-body">
+        <section className="aero-max-container ppp-detail-body__inner">
+          <article
+            className="ppp-detail-richtext"
+            dangerouslySetInnerHTML={{ __html: memberData?.section1 || memberData?.seosection || "" }}
+          />
         </section>
       </section>
     </main>

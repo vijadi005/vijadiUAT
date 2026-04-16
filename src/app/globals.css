@@ -612,11 +612,13 @@ header:first-child + * {
 
 /* breadcrumb */
 .breadcrumb-container {
-  background: transparent;
+  padding-top: 105px;
+  background: #050810;
+  border-bottom: 1px solid var(--border-soft);
 }
 
 .breadcrumb {
-  padding: 30px 0;
+  padding: 12px 0;
   font-size: 14px;
 }
 
@@ -655,6 +657,17 @@ header:first-child + * {
   color: #a4cf5f;
   font-weight: 700;
   pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .breadcrumb-container {
+    padding-top: 92px;
+  }
+
+  .breadcrumb {
+    padding: 10px 0;
+    font-size: 13px;
+  }
 }
 
 /* booking overlay */

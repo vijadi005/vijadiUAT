@@ -8,10 +8,8 @@ import {
   fetchsheetdata,
   generateMetadataLib,
   fetchPageData,
-  getWaiverLink,
   generateSchema,
 } from "@/lib/sheets";
-import MotionImage from "@/components/MotionImage";
 import { LOCATION_NAME } from "@/lib/constant";
 import { notFound } from "next/navigation";
 import SectionHeading from "@/components/home/SectionHeading";
@@ -86,6 +84,22 @@ function parseHeroTextBlock(content = "") {
   };
 }
 
+function looksLikeRenderableImage(url = "") {
+  if (!url) return false;
+  if (url.startsWith("/")) return true;
+
+  const normalized = url.split("?")[0].toLowerCase();
+  return [".jpg", ".jpeg", ".png", ".webp", ".gif", ".avif", ".svg"].some((ext) =>
+    normalized.endsWith(ext),
+  );
+}
+
+function getPreferredImage(pageData) {
+  if (looksLikeRenderableImage(pageData?.smallimage)) return pageData.smallimage;
+  if (looksLikeRenderableImage(pageData?.headerimage)) return pageData.headerimage;
+  return pageData?.smallimage || pageData?.headerimage || "/assets/images/logo.png";
+}
+
 export async function generateMetadata({ params }) {
   const { category_slug } = await params;
   const location_slug = LOCATION_NAME;
@@ -110,7 +124,6 @@ const Category = async ({ params }) => {
   // 1️⃣ Fetch data
   const data = await fetchMenuData(location_slug);
   const pageData = await fetchPageData(location_slug, category_slug);
-  // const waiverLink = await getWaiverLink(location_slug);
 
   // 2️⃣ Derived data
   const attractionsData = data ? getDataByParentId(data, category_slug) : null;
@@ -136,6 +149,12 @@ const Category = async ({ params }) => {
   const aboutHeroLabelHtml = pageData?.section3 || "";
   const aboutHeroHeading = aboutHeroContent.heading;
   const aboutHeroBullets = aboutHeroContent.bullets;
+  const pageHeroContent = parseHeroTextBlock(pageData?.section2 || "");
+  const pageHeroLabelHtml = pageData?.section3 || "";
+  const pageHeroHeading = pageHeroContent.heading || attractionsData?.[0]?.desc || "";
+  const pageHeroBullets = pageHeroContent.bullets;
+  const pageHeroImage = getPreferredImage(pageData || attractionsData?.[0]);
+  const pageChildren = attractionsData?.[0]?.children?.filter((item) => item?.isactive == 1) || [];
 
   const jsonLDschema = await generateSchema(
     pageData,
@@ -379,72 +398,96 @@ const Category = async ({ params }) => {
             </section>
           </section>
         ) : (
-          <section className="aero_category_section_wrapper">
-            {/* <MotionImage
-              pageData={safePageData}
-              waiverLink={safeWaiverLink}
-            /> */}
-            <section className="aero-max-container">
-              <div style={{ padding: "50px 0 40px 0" }}>
-                <SectionHeading mainHeading="true"><span>{attractionsData[0]?.desc}</span></SectionHeading>
-              </div>
-              {
-                pageData?.seosection && (<section className="aero_home_article_section">
-                  <section className="aero-max-container aero_home_seo_section">
+          <section className="ppp-dynamic-page">
+            <section className="ppp-dynamic-hero">
+              <div className="aero-max-container ppp-dynamic-hero__inner">
+                <div className="ppp-dynamic-hero__copy">
+                  {pageHeroLabelHtml && (
                     <div
-                      dangerouslySetInnerHTML={{ __html: pageData?.seosection || "" }}
+                      className="ppp-dynamic-hero__label"
+                      dangerouslySetInnerHTML={{ __html: pageHeroLabelHtml }}
                     />
-                  </section>
-                </section>)
-              }
+                  )}
+                  <SectionHeading className="section-heading-white" mainHeading="true">
+                    <span>{pageHeroHeading}</span>
+                  </SectionHeading>
+                  {(pageData?.metadescription || introText) && (
+                    <p className="ppp-dynamic-hero__text">
+                      {pageData?.metadescription || introText}
+                    </p>
+                  )}
+                  <div className="ppp-dynamic-hero__actions">
+                    <BookingButton title="Book Now" />
+                    <Link href="/contactus" className="ppp-dynamic-btn ppp-dynamic-btn--outline" prefetch>
+                      Inquire
+                    </Link>
+                  </div>
+                  {pageHeroBullets.length > 0 && (
+                    <ul className="ppp-dynamic-hero__list">
+                      {pageHeroBullets.map((item, index) => (
+                        <li key={`${item}-${index}`}>{item}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
 
+                <div className="ppp-dynamic-hero__media">
+                  <img
+                    src={pageHeroImage}
+                    alt={pageData?.imagetitle || attractionsData[0]?.desc || "Pixel Pulse Play"}
+                  />
+                </div>
+              </div>
+            </section>
 
-              <section className="aero-blog-main-article-wrapper">
-                {attractionsData[0]?.children?.map((item, i) => {
-                  return (
-                    item?.isactive == 1 && (
-                      <article
-                        className="aero-blog-main-article-card"
-                        key={item.pageid}
-                      >
-                        <div className="aero-blog-img-section">
+            <section className="ppp-dynamic-body">
+              <div className="aero-max-container ppp-dynamic-body__inner">
+                {pageData?.seosection && (
+                  <article className="ppp-dynamic-richtext">
+                    <div dangerouslySetInnerHTML={{ __html: pageData.seosection }} />
+                  </article>
+                )}
+
+                {pageChildren.length > 0 && (
+                  <section className="ppp-dynamic-grid-wrap">
+                    <div className="ppp-dynamic-section-intro">
+                      <SectionHeading className="section-heading-white">
+                        Explore <span>{attractionsData[0]?.desc}</span>
+                      </SectionHeading>
+                    </div>
+
+                    <section className="ppp-dynamic-grid">
+                      {pageChildren.map((item, i) => (
+                        <article className="ppp-dynamic-card" key={item.pageid || i}>
                           <Link
-                            href={`${category_slug}/${item?.path}`}
+                            href={`/${category_slug}/${item?.path}`}
                             prefetch
-                            key={i}
+                            className="ppp-dynamic-card__media"
                           >
                             <img
-                              src={
-                                item?.smallimage || "/assets/images/logo.png"
-                              }
-                              alt="Article Image"
+                              src={item?.smallimage || "/assets/images/logo.png"}
+                              alt={item?.imagetitle || item?.desc || "Pixel Pulse Play"}
                             />
                           </Link>
-                        </div>
-                        <div className="aero-blog-content-section">
-                          <Link
-                            href={`${category_slug}/${item?.path}`}
-                            prefetch
-                            key={i}
-                          >
-                            <h2 className="aero-blog-second-heading">
-                              {item.desc}
-                            </h2>
-                            <p className="aero-blog-second-para">{item.metatitle}</p>
-                          </Link>
-                          <Link
-                            href={`${category_slug}/${item?.path}`}
-                            prefetch
-                            className="aero-blog-readmore-btn"
-                          >
-                            READ MORE
-                          </Link>
-                        </div>
-                      </article>
-                    )
-                  );
-                })}
-              </section>
+                          <div className="ppp-dynamic-card__body">
+                            <Link href={`/${category_slug}/${item?.path}`} prefetch>
+                              <h2>{item.desc}</h2>
+                              <p>{item.metatitle || item.metadescription}</p>
+                            </Link>
+                            <Link
+                              href={`/${category_slug}/${item?.path}`}
+                              prefetch
+                              className="ppp-dynamic-card__link"
+                            >
+                              Read More
+                            </Link>
+                          </div>
+                        </article>
+                      ))}
+                    </section>
+                  </section>
+                )}
+              </div>
             </section>
           </section>
         )}

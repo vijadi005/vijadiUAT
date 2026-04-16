@@ -14,6 +14,11 @@ import {
 } from "@/lib/sheets";
 import { LOCATION_NAME } from "@/lib/constant";
 
+const BIRTHDAY_VAULT_PROMO_IMAGE =
+  "https://storage.googleapis.com/pixel-pulse-play/web/PrivateParty.png";
+const SCHOOL_TRIPS_PROMO_IMAGE =
+  "https://storage.googleapis.com/pixel-pulse-play/web/SchoolTrips.png";
+
 export async function generateMetadata({ params }) {
   await params;
   const metadata = await generateMetadataLib({
@@ -124,7 +129,101 @@ function parseHeroTextBlock(content = "") {
   };
 }
 
-function buildPricingCards(pricingRows, detailKeys, pricingHeaders) {
+const DEFAULT_PRICING_CARD_META = [
+  {
+    title: "Game Rooms",
+    eyebrow: "Session Time",
+    image: "/assets/images/floorchallenge.jpg",
+    imageAlt: "Game rooms at Pixel Pulse Play",
+    bookable: true,
+  },
+  {
+    title: "Arcade+",
+    eyebrow: "Arcade Card",
+    duration: "Choose Your Card",
+    image: "/assets/images/arcade.JPG",
+    imageAlt: "Arcade at Pixel Pulse Play",
+    details: [
+      { label: "Arcade Card", value: "$10" },
+      { label: "Arcade Card", value: "$20" },
+    ],
+    bookable: false,
+  },
+];
+
+function parseBoolean(value, fallback = true) {
+  const normalizedValue = String(value ?? "").trim().toLowerCase();
+  if (!normalizedValue) {
+    return fallback;
+  }
+
+  if (["true", "yes", "1", "bookable", "show"].includes(normalizedValue)) {
+    return true;
+  }
+
+  if (["false", "no", "0", "hide", "hidden"].includes(normalizedValue)) {
+    return false;
+  }
+
+  return fallback;
+}
+
+function parsePricingCardDetails(value = "") {
+  return String(value || "")
+    .split("|")
+    .map((item) => item.trim())
+    .filter(Boolean)
+    .map((item) => {
+      const [label, ...valueParts] = item.split(":");
+      const detailValue = valueParts.join(":").trim();
+
+      if (!detailValue) {
+        return {
+          label: "Details",
+          value: label.trim(),
+        };
+      }
+
+      return {
+        label: label.trim() || "Details",
+        value: detailValue,
+      };
+    });
+}
+
+function buildPricingCardMeta(configData) {
+  const sheetMeta = [
+    ...(parseConfigMatrix(configData, "pricingcard") || []),
+    ...(parseConfigMatrix(configData, "pricingcards") || []),
+  ];
+  const cardCount = Math.max(sheetMeta.length, DEFAULT_PRICING_CARD_META.length);
+
+  return Array.from({ length: cardCount }, (_, index) => {
+    const row = sheetMeta[index] || {};
+    const fallback = DEFAULT_PRICING_CARD_META[index] || {};
+    const details = parsePricingCardDetails(row.value7);
+    const title = row.value1 || fallback.title || "";
+
+    return {
+      title,
+      eyebrow: row.value2 || fallback.eyebrow || "",
+      duration: row.value3 || fallback.duration || "",
+      image: row.value4 || fallback.image || "/assets/images/logo.png",
+      imageAlt:
+        row.value5 ||
+        fallback.imageAlt ||
+        title ||
+        "Pixel Pulse Play pricing image",
+      bookable: parseBoolean(
+        row.value6,
+        fallback.bookable ?? title.toLowerCase() !== "arcade+"
+      ),
+      details: details.length > 0 ? details : fallback.details,
+    };
+  });
+}
+
+function buildPricingCards(pricingRows, detailKeys, pricingHeaders, cardMeta) {
   const baseCards = pricingRows.map((row) => ({
     duration: row.value1,
     details: detailKeys.map((detailKey) => ({
@@ -132,26 +231,6 @@ function buildPricingCards(pricingRows, detailKeys, pricingHeaders) {
       value: row[detailKey] || "N/A",
     })),
   }));
-
-  const cardMeta = [
-    {
-      title: "Game Rooms",
-      eyebrow: "Session Time",
-      image: "/assets/images/floorchallenge.jpg",
-      imageAlt: "Game rooms at Pixel Pulse Play",
-    },
-    {
-      title: "Arcade+",
-      eyebrow: "Arcade Card",
-      duration: "Choose Your Card",
-      image: "/assets/images/arcade.JPG",
-      imageAlt: "Arcade at Pixel Pulse Play",
-      details: [
-        { label: "Arcade Card", value: "$10" },
-        { label: "Arcade Card", value: "$20" },
-      ],
-    },
-  ];
 
   return cardMeta.map((meta, index) => {
     const fallbackCard = baseCards[index] || { duration: "", details: [] };
@@ -163,9 +242,50 @@ function buildPricingCards(pricingRows, detailKeys, pricingHeaders) {
       details: meta.details || fallbackCard.details,
       image: meta.image,
       imageAlt: meta.imageAlt,
-      bookable: meta.title !== "Arcade+",
+      bookable: meta.bookable,
     };
   });
+}
+
+function getPromotionImage(promo = {}, index = 0) {
+  const sheetImage =
+    promo.image ||
+    promo.imageUrl ||
+    promo.imageurl ||
+    promo.image_url ||
+    "";
+
+  if (sheetImage) {
+    return {
+      src: sheetImage,
+      alt: promo.imageAlt || promo.imagealt || promo.image_alt || `${promo.title || "Promotion"} image`,
+    };
+  }
+
+  const normalizedTitle = String(promo.title || "").toLowerCase();
+
+  if (normalizedTitle.includes("birthday vault")) {
+    return {
+      src: BIRTHDAY_VAULT_PROMO_IMAGE,
+      alt: "Private party celebration at Pixel Pulse Play",
+    };
+  }
+
+  if (normalizedTitle.includes("school trip")) {
+    return {
+      src: SCHOOL_TRIPS_PROMO_IMAGE,
+      alt: "School trip group at Pixel Pulse Play",
+    };
+  }
+
+  if (index === 1) {
+    return {
+      src: SCHOOL_TRIPS_PROMO_IMAGE,
+      alt: "School trip group at Pixel Pulse Play",
+    };
+  }
+
+  return null;
 }
 
 const PricingPromosPage = async ({ params }) => {
@@ -191,8 +311,14 @@ const PricingPromosPage = async ({ params }) => {
   const pricingHeaders = parseConfigMatrix(configData, "pricingheader")?.[0] || {};
   const pricingRows = parseConfigMatrix(configData, "pricing") || [];
   const detailKeys = Object.keys(pricingHeaders).slice(1);
+  const pricingCardMeta = buildPricingCardMeta(configData);
 
-  const pricingCards = buildPricingCards(pricingRows, detailKeys, pricingHeaders);
+  const pricingCards = buildPricingCards(
+    pricingRows,
+    detailKeys,
+    pricingHeaders,
+    pricingCardMeta
+  );
 
   const introText =
     stripHtml(pageData?.section1 || "") ||
@@ -310,41 +436,63 @@ const PricingPromosPage = async ({ params }) => {
                 </div>
 
                 <div className="ppp-promotions-grid">
-                  {promotions.map((promo, index) => (
-                    <article className="ppp-promo-card" key={`${promo.title}-${index}`}>
-                      {promo.badge && <span className="ppp-promo-card__badge">{promo.badge}</span>}
+                  {promotions.map((promo, index) => {
+                    const promoImage = getPromotionImage(promo, index);
 
-                      <div className="ppp-promo-card__body">
-                        <h3>{promo.title}</h3>
-                        <p>{promo.description}</p>
+                    return (
+                    <article
+                      className={`ppp-promo-card${promoImage ? " ppp-promo-card--with-image" : ""}`}
+                      key={`${promo.title}-${index}`}
+                    >
+                      <div className="ppp-promo-card__content">
+                        {promo.badge && <span className="ppp-promo-card__badge">{promo.badge}</span>}
+
+                        <div className="ppp-promo-card__body">
+                          <h3>{promo.title}</h3>
+                          <p>{promo.description}</p>
+                        </div>
+
+                        <div className="ppp-promo-card__meta">
+                          {promo.validity && (
+                            <div>
+                              <span>Valid</span>
+                              <strong>{promo.validity}</strong>
+                            </div>
+                          )}
+                          {promo.code && (
+                            <div>
+                              <span>Code</span>
+                              <strong>{promo.code}</strong>
+                            </div>
+                          )}
+                        </div>
+
+                        {promo.link && (
+                          <Link
+                            href={promo.link}
+                            className="ppp-promo-card__link"
+                            target={promo.link.startsWith("http") ? "_blank" : undefined}
+                            rel={promo.link.startsWith("http") ? "noopener noreferrer" : undefined}
+                            title={promo.linktitle || undefined}
+                            aria-label={promo.linktitle || promo.linktext || "Claim offer"}
+                          >
+                            {promo.linktext || "Learn More"}
+                          </Link>
+                        )}
                       </div>
 
-                      <div className="ppp-promo-card__meta">
-                        {promo.validity && (
-                          <div>
-                            <span>Valid</span>
-                            <strong>{promo.validity}</strong>
-                          </div>
-                        )}
-                        {promo.code && (
-                          <div>
-                            <span>Code</span>
-                            <strong>{promo.code}</strong>
-                          </div>
-                        )}
-                      </div>
-
-                      {promo.link && (
-                        <Link
-                          href={promo.link}
-                          className="ppp-promo-card__link"
-                          target={promo.link.startsWith("http") ? "_blank" : undefined}
-                        >
-                          {promo.linktext || "Learn More"}
-                        </Link>
+                      {promoImage && (
+                        <div className="ppp-promo-card__image-wrap">
+                          <img
+                            src={promoImage.src}
+                            alt={promoImage.alt}
+                            className="ppp-promo-card__image"
+                          />
+                        </div>
                       )}
                     </article>
-                  ))}
+                  );
+                  })}
                 </div>
               </article>
             )}
