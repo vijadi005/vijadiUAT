@@ -575,6 +575,15 @@ const Home = async () => {
     accent: getConfigValue(dataconfig, ["useCasesAccent", "useCasesHeadingAccent"]),
     subtitle: getConfigValue(dataconfig, ["useCasesSubtitle"]),
   };
+  const leaderboardHeading = {
+    title:
+      getConfigValue(dataconfig, ["leaderboardTitle", "leaderboardHeadingTitle"]) ||
+      "Top Players",
+    accent:
+      getConfigValue(dataconfig, ["leaderboardAccent", "leaderboardHeadingAccent"]) ||
+      "This Week",
+    subtitle: getConfigValue(dataconfig, ["leaderboardSubtitle"]),
+  };
   const whyUsCta = {
     text: getConfigValue(dataconfig, ["whyUsCtaText"]),
     button: getConfigValue(dataconfig, ["whyUsCtaButton"]),
@@ -986,8 +995,11 @@ const Home = async () => {
       <section className="ppp-section ppp-competition">
         <div className="aero-max-container ppp-competition__inner">
           <SectionHeading className="section-heading-white">
-            Top Players <span>This Week</span>
+            {leaderboardHeading.title} {leaderboardHeading.accent && <span>{leaderboardHeading.accent}</span>}
           </SectionHeading>
+          {leaderboardHeading.subtitle && (
+            <p className="ppp-section__sub">{leaderboardHeading.subtitle}</p>
+          )}
           <div className="ppp-competition__board" aria-label="Leaderboard">
             <div className="ppp-competition__header" aria-hidden="true">
               <span>Rank</span>

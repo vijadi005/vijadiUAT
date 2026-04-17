@@ -9,7 +9,7 @@ import MenuButton from "./smallComponents/MenuButton";
 import LogoutButton from "./LogoutButton";
 import BookingButton from "./smallComponents/BookingButton";
 import { usePathname } from "next/navigation";
-import { getCtaContent } from "@/lib/ctaContent";
+import { getConfigValue, getCtaContent } from "@/lib/ctaContent";
 
 
 function normalizePath(path = "/") {
@@ -22,6 +22,10 @@ const Header = ({ location_slug, menudata, configdata, token }) => {
   const normalizedPathname = normalizePath(pathname || "/");
   const ctaContent = getCtaContent(configdata);
   const contactHref = ctaContent.contactHref || `/${location_slug}/contactus`;
+  const headerPhone =
+    getConfigValue(configdata, ["headerPhone", "footerPhone", "contactPhone", "locationPhone"]) ||
+    "+1 (905) 760-2922";
+  const headerPhoneHref = headerPhone.replace(/[^\d+]/g, "");
 
   const navItems = [
     { navName: "Home", navUrl: "", href: "/" },
@@ -93,6 +97,14 @@ const Header = ({ location_slug, menudata, configdata, token }) => {
 
             <div className="aero-header-actions">
               {token && <LogoutButton />}
+              {headerPhone && (
+                <a
+                  href={`tel:${headerPhoneHref}`}
+                  className="aero-header-phone-btn aero-header-cta"
+                >
+                  <span>{headerPhone}</span>
+                </a>
+              )}
               {ctaContent.inquireText && (
                 <Link
                   href={contactHref}
@@ -112,6 +124,14 @@ const Header = ({ location_slug, menudata, configdata, token }) => {
           </section>
 
           <section className="aero-header-mobile-actions" aria-label="Quick actions">
+            {headerPhone && (
+              <a
+                href={`tel:${headerPhoneHref}`}
+                className="aero-header-phone-btn aero-header-cta"
+              >
+                <span>{headerPhone}</span>
+              </a>
+            )}
             {ctaContent.inquireText && (
               <Link
                 href={contactHref}

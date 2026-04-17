@@ -19,6 +19,8 @@ vaughan,articlesLinkText,View All Articles
 vaughan,articlesHref,/blogs
 vaughan,backHomeText,Back to Home
 vaughan,sendAnotherText,Send another inquiry
+vaughan,footerPhone,+1 (905) 760-2922
+vaughan,footerEmail,connect@pixelpulseplay.ca
 vaughan,pricingCtaSecondaryText,Book 90min Session
 vaughan,pricingCtaSecondaryBookingType,ticket
 vaughan,pricingCtaText,Can you beat all the rooms in 60 minutes?
@@ -33,6 +35,9 @@ vaughan,pricingSubtitle,Pick the pass that fits your play time.
 vaughan,useCasesTitle,PLAN YOUR
 vaughan,useCasesAccent,VISIT
 vaughan,useCasesSubtitle,Perfect for birthdays, groups, school trips, and spontaneous play.
+vaughan,leaderboardTitle,Top Players
+vaughan,leaderboardAccent,This Week
+vaughan,leaderboardSubtitle,Can you climb the board?
 vaughan,partyCtaEyebrow,Ready to lock it in?
 vaughan,partyCtaTitle,Reserve your date and let the party countdown begin.
 vaughan,whyUsTitle,WHY

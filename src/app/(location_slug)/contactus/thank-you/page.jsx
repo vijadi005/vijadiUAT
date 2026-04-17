@@ -3,6 +3,7 @@ import "../../../styles/contactus.css";
 import { fetchsheetdata } from "@/lib/sheets";
 import { LOCATION_NAME } from "@/lib/constant";
 import { getCtaContent } from "@/lib/ctaContent";
+import ContactSubmittedEmail from "@/components/smallComponents/ContactSubmittedEmail";
 
 export const metadata = {
   title: "Thank You | Pixel Pulse Play",
@@ -26,13 +27,7 @@ export default async function ContactThankYouPage() {
             <h1 className="ppp-contact-thanks__title">
               Thanks for reaching out.
             </h1>
-            <p className="ppp-contact-thanks__message">
-              Your Pixel Pulse Play request is in our queue.
-            </p>
-            <p className="ppp-contact-thanks__text">
-              We will be in touch within 24 hours. If your request is urgent, email us at{" "}
-              <a href="mailto:connect@pixelpulseplay.ca">connect@pixelpulseplay.ca</a>.
-            </p>
+            <ContactSubmittedEmail />
             <div className="ppp-contact-thanks__steps" aria-label="What happens next">
               <div>
                 <strong>1</strong>

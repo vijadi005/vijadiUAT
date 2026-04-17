@@ -1,50 +1,136 @@
-
 .not-found-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  --not-found-lime: #a4cf5f;
+  --not-found-peach: #fbae7b;
+  --not-found-bg: #050810;
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: clamp(1.25rem, 4vw, 3rem);
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.025) 0,
+      rgba(255, 255, 255, 0.025) 1px,
+      transparent 1px,
+      transparent 86px
+    ),
+    radial-gradient(circle at 18% 18%, rgba(164, 207, 95, 0.2), transparent 30%),
+    radial-gradient(circle at 82% 36%, rgba(251, 174, 123, 0.18), transparent 28%),
+    linear-gradient(180deg, #050810 0%, #09111b 52%, #050810 100%);
+  color: #ffffff;
   text-align: center;
-  background: linear-gradient(135deg, #fdfbfb, #ebedee);
-  padding: 20px;
+}
+
+.not-found-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 24%, rgba(0, 0, 0, 0.24)),
+    radial-gradient(circle at center, transparent 0, rgba(0, 0, 0, 0.28) 74%);
+  pointer-events: none;
+}
+
+.not-found-card {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  width: min(100%, 760px);
+  padding: clamp(1.5rem, 4vw, 3rem);
+  border: 1px solid rgba(164, 207, 95, 0.32);
+  border-radius: 8px;
+  background:
+    linear-gradient(145deg, rgba(164, 207, 95, 0.12), rgba(251, 174, 123, 0.08) 42%, rgba(17, 24, 39, 0.94)),
+    #111827;
+  box-shadow:
+    0 24px 72px rgba(0, 0, 0, 0.38),
+    0 0 24px rgba(164, 207, 95, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.not-found-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 5px;
+  background: linear-gradient(90deg, var(--not-found-lime), var(--not-found-peach), #ff2d78);
+}
+
+.not-found-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 32px;
+  margin: 0 0 1rem;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid rgba(164, 207, 95, 0.34);
+  border-radius: 8px;
+  background: rgba(164, 207, 95, 0.1);
+  color: var(--not-found-lime);
+  font-family: "Barlow Condensed", Impact, sans-serif;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  line-height: 1;
+  text-transform: uppercase;
 }
 
 .not-found-title {
-  font-size: 8rem;
-  margin: 0;
-  color: #ff6b6b;
-  font-weight: 700;
+  max-width: 680px;
+  margin: 0 auto;
+  color: #ffffff;
+  font-family: "Barlow Condensed", Impact, sans-serif;
+  font-size: clamp(2.35rem, 7vw, 5.6rem);
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 0.95;
+  text-transform: uppercase;
 }
 
 .not-found-message {
-  font-size: 1.5rem;
-  color: #333;
-  margin: 20px 0;
-}
-
-.highlight {
-  color: var(--primary-color);
-  font-weight: bold;
-}
-
-.suggestion {
-  font-size: 1.1rem;
-  color: #555;
-  margin-bottom: 20px;
+  max-width: 520px;
+  margin: 1rem auto 0;
+  color: rgba(240, 246, 255, 0.82);
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  line-height: 1.7;
 }
 
 .not-found-link {
-  display: inline-block;
-  padding: 12px 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  margin-top: 1.5rem;
+  padding: 0.9rem 1.35rem;
+  border: 2px solid var(--not-found-lime);
+  border-radius: 8px;
+  background: var(--not-found-lime);
+  color: var(--not-found-bg);
+  font-family: "Barlow Condensed", Impact, sans-serif;
   font-size: 1rem;
-  color: #fff;
-  background-color: var(--primary-color);
+  font-weight: 800;
+  letter-spacing: 0.08em;
   text-decoration: none;
-  border-radius: 5px;
-  transition: background-color 0.3s;
+  text-transform: uppercase;
+  box-shadow: 0 0 20px rgba(164, 207, 95, 0.24);
+  transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
 }
 
 .not-found-link:hover {
-  background-color: #ed0873b3;
+  transform: translateY(-2px);
+  border-color: var(--not-found-peach);
+  background: var(--not-found-peach);
+  box-shadow: 0 0 28px rgba(251, 174, 123, 0.32);
+}
+
+@media (max-width: 640px) {
+  .not-found-card {
+    padding: 1.35rem;
+  }
+
+  .not-found-link {
+    width: 100%;
+  }
 }

@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 
+import { readFile } from "node:fs/promises";
+
 const SHEET_ID = "1NEovNJVBVY4LyXWg3nHFh5-LekMt8GfL4y4eaNz7X1I";
+const REDIRECT_SHEET_NAMES = ["redirects"];
 
 function parseCsv(csv = "") {
   const rows = [];
@@ -42,33 +45,57 @@ function parseCsv(csv = "") {
 
   return dataRows.map((csvRow) =>
     headers.reduce((acc, header, index) => {
-      acc[String(header).trim()] = csvRow[index] ?? "";
+      acc[String(header).replace(/^\uFEFF/, "").trim()] = csvRow[index] ?? "";
       return acc;
     }, {}),
   );
 }
 
-async function fetchSheetRedirects() {
+function normalizeRedirectRows(rows = []) {
+  return rows
+    .map((row) => ({
+      source: String(row.source || "").trim(),
+      destination: String(row.destination || "").trim(),
+      permanent: ["true", "yes", "1"].includes(
+        String(row.permanent || "").trim().toLowerCase(),
+      ),
+    }))
+    .filter((row) => row.source && row.destination)
+    .map((row) => ({
+      ...row,
+      source: row.source.startsWith("/") ? row.source : `/${row.source}`,
+    }));
+}
+
+async function fetchSheetRedirectTab(sheetName) {
   try {
     const response = await fetch(
-      `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=redirects`,
+      `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`,
     );
 
     if (!response.ok) {
       return [];
     }
 
-    return parseCsv(await response.text())
-      .map((row) => ({
-        source: String(row.source || "").trim(),
-        destination: String(row.destination || "").trim(),
-        permanent: ["true", "yes", "1"].includes(
-          String(row.permanent || "").trim().toLowerCase(),
-        ),
-      }))
-      .filter((row) => row.source && row.destination);
+    return normalizeRedirectRows(parseCsv(await response.text()));
   } catch (error) {
-    console.warn(`Sheet redirects unavailable: ${error.message}`);
+    console.warn(`Sheet redirects unavailable for "${sheetName}": ${error.message}`);
+    return [];
+  }
+}
+
+async function fetchSheetRedirects() {
+  const redirectGroups = await Promise.all(
+    REDIRECT_SHEET_NAMES.map((sheetName) => fetchSheetRedirectTab(sheetName)),
+  );
+
+  return redirectGroups.flat();
+}
+
+async function readLocalRedirects() {
+  try {
+    return normalizeRedirectRows(parseCsv(await readFile("social_redirects.csv", "utf8")));
+  } catch {
     return [];
   }
 }
@@ -80,6 +107,9 @@ const nextConfig = {
   },
   async redirects() {
     const sheetRedirects = await fetchSheetRedirects();
+    const socialRedirects = sheetRedirects.length > 0
+      ? sheetRedirects
+      : await readLocalRedirects();
 
     return [
       {
@@ -92,7 +122,7 @@ const nextConfig = {
         destination: "/:path*",
         permanent: true,
       },
-      ...sheetRedirects,
+      ...socialRedirects,
     ];
   },
 

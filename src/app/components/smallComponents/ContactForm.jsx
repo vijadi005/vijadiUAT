@@ -60,6 +60,7 @@ function ContactForm() {
       }
 
       toast.success("Your message has been sent successfully.");
+      window.sessionStorage.setItem("pppContactEmail", formData.email);
       router.push("/contactus/thank-you");
     } catch (error) {
       toast.error("We could not send your inquiry. Please try again later.");
