@@ -1797,3 +1797,56 @@ ul.attractions-grid li {
   line-height: 1.18 !important;
   text-transform: none !important;
 }
+
+.aero-header-inquire-btn {
+  position: relative;
+  overflow: hidden;
+  min-width: 108px;
+  border: 2px solid rgb(164, 207, 95) !important;
+  background:
+    linear-gradient(135deg, rgba(164, 207, 95, 0.16), rgba(251, 174, 123, 0.1)),
+    rgba(5, 8, 16, 0.68) !important;
+  color: rgb(226, 250, 188) !important;
+  box-shadow: 0 0 18px rgba(164, 207, 95, 0.18);
+}
+
+.aero-header-inquire-btn::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: rgb(164, 207, 95);
+  box-shadow: 0 0 12px rgba(164, 207, 95, 0.72);
+}
+
+.aero-header-inquire-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 0%, rgba(255, 255, 255, 0.22) 44%, transparent 66%);
+  transform: translateX(-120%);
+  transition: transform 0.45s ease;
+}
+
+.aero-header-inquire-btn span {
+  position: relative;
+  z-index: 1;
+  color: inherit;
+}
+
+.aero-header-inquire-btn:hover {
+  border-color: #fbae7b !important;
+  background: #fbae7b !important;
+  color: #050810 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 0 26px rgba(251, 174, 123, 0.34), 0 10px 24px rgba(0, 0, 0, 0.22);
+}
+
+.aero-header-inquire-btn:hover::before {
+  background: #050810;
+  box-shadow: none;
+}
+
+.aero-header-inquire-btn:hover::after {
+  transform: translateX(120%);
+}

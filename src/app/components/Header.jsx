@@ -92,7 +92,7 @@ const Header = ({ location_slug, menudata, configdata, token }) => {
               <Link
                 href={`/${location_slug}/contactus`}
                 prefetch
-                className="aero-header-contactus-btn aero-header-cta"
+                className="aero-header-contactus-btn aero-header-cta aero-header-inquire-btn"
               >
                 <span>Inquire</span>
               </Link>
@@ -107,7 +107,7 @@ const Header = ({ location_slug, menudata, configdata, token }) => {
             <Link
               href={`/${location_slug}/contactus`}
               prefetch
-              className="aero-header-contactus-btn aero-header-cta"
+              className="aero-header-contactus-btn aero-header-cta aero-header-inquire-btn"
             >
               <span>Inquire</span>
             </Link>
