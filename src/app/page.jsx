@@ -592,8 +592,8 @@ const Home = async () => {
             {siteData.howItWorks.ctaButton && (
               <BookingButton title={siteData.howItWorks.ctaButton} className="ppp-btn ppp-btn--primary" bookingType="ticket" />
             )}
-            <Link href="/attractions" className="ppp-btn ppp-btn--outline" prefetch>
-              View All Attractions
+            <Link href="/pricing-promos" className="ppp-btn ppp-btn--outline" prefetch>
+              View Pricing
             </Link>
           </div>
         </div>

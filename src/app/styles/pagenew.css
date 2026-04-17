@@ -1533,3 +1533,96 @@
   line-height: 1.18 !important;
   text-transform: none !important;
 }
+
+/* Keep home CTA strips aligned with the pricing-page CTA treatment. */
+.ppp-mini-cta {
+  padding: clamp(1.25rem, 2.4vw, 2rem) 0;
+  background: transparent;
+  border-block: 0;
+  box-shadow: none;
+}
+
+.ppp-mini-cta__inner {
+  position: relative;
+  overflow: hidden;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(1rem, 2vw, 1.5rem);
+  padding: clamp(1.3rem, 2.6vw, 2rem) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  background: linear-gradient(90deg, var(--ppp-lime), var(--ppp-peach));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 12px 38px rgba(0, 0, 0, 0.22);
+  text-align: left;
+}
+
+.ppp-mini-cta__inner::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  inset: 0 0 auto;
+  height: 5px;
+  background: var(--ppp-brand-line);
+}
+
+.ppp-mini-cta p {
+  position: relative;
+  z-index: 1;
+  color: var(--ppp-black);
+  font-size: clamp(1.15rem, 2.4vw, 1.8rem);
+  line-height: 1.05;
+}
+
+.ppp-mini-cta__actions {
+  position: relative;
+  z-index: 1;
+  justify-content: flex-end;
+}
+
+.ppp-mini-cta .ppp-btn {
+  border: 2px solid var(--ppp-black);
+  border-radius: 8px;
+  background: var(--ppp-black);
+  color: var(--ppp-white);
+  box-shadow: none;
+}
+
+.ppp-mini-cta .ppp-btn:hover {
+  background: #111827;
+  border-color: #111827;
+  color: var(--ppp-white);
+  box-shadow: 0 0 22px rgba(5, 8, 16, 0.32);
+}
+
+.ppp-cta-band {
+  padding: clamp(1.25rem, 2.4vw, 2rem) 0;
+  background:
+    linear-gradient(135deg, rgba(251, 174, 123, 0.1), transparent 34%),
+    linear-gradient(225deg, rgba(164, 207, 95, 0.09), transparent 36%),
+    linear-gradient(180deg, #080c14, #050810);
+  border-top: 1px solid var(--ppp-card-border);
+}
+
+.ppp-cta-band__inner {
+  border-radius: 8px;
+  padding: clamp(1.3rem, 2.6vw, 2rem);
+  border-color: rgba(164, 207, 95, 0.32);
+  background:
+    linear-gradient(135deg, rgba(164, 207, 95, 0.14), transparent 34%),
+    linear-gradient(160deg, rgba(251, 174, 123, 0.12), rgba(17, 24, 39, 0.95) 58%);
+  box-shadow: 0 20px 62px rgba(0, 0, 0, 0.32), var(--glow-lime);
+}
+
+@media (max-width: 900px) {
+  .ppp-mini-cta__inner,
+  .ppp-cta-band__inner {
+    text-align: left;
+  }
+
+  .ppp-mini-cta__actions,
+  .ppp-cta-band__actions {
+    justify-content: flex-start;
+  }
+}
