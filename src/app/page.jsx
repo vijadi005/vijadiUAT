@@ -521,6 +521,31 @@ const Home = async () => {
       siteData.gamesMeta.subtitle ||
       getConfigValue(dataconfig, ["gamesSubtitle"]),
   };
+  const heroData = {
+    ...siteData.hero,
+    ctaPrimary:
+      siteData.hero.ctaPrimary ||
+      getConfigValue(dataconfig, ["heroCtaPrimary", "heroCtaButton", "homeHeroCtaPrimary"]) ||
+      ctaContent.bookNowText,
+    ctaSecondary:
+      siteData.hero.ctaSecondary ||
+      getConfigValue(dataconfig, ["heroCtaSecondary", "homeHeroCtaSecondary"]),
+    ctaSecondaryHref:
+      getConfigValue(dataconfig, ["heroCtaSecondaryHref", "homeHeroCtaSecondaryHref"]) ||
+      "/attractions",
+    urgencyStrip:
+      siteData.hero.urgencyStrip ||
+      getConfigValue(dataconfig, ["heroUrgencyStrip", "homeHeroUrgencyStrip"]),
+  };
+  const howItWorksCta = {
+    text:
+      siteData.howItWorks.cta ||
+      getConfigValue(dataconfig, ["howItWorksCtaText", "howItWorksCta"]),
+    button:
+      siteData.howItWorks.ctaButton ||
+      getConfigValue(dataconfig, ["howItWorksCtaButton", "howItWorksButton"]),
+    bookingType: getConfigValue(dataconfig, ["howItWorksCtaBookingType"]) || "ticket",
+  };
   const pricingCta = {
     text:
       siteData.pricingCta.text ||
@@ -532,6 +557,11 @@ const Home = async () => {
       siteData.pricingCta.bookingType ||
       getConfigValue(dataconfig, ["pricingCtaBookingType"]) ||
       "ticket",
+  };
+  const whyUsCta = {
+    text: getConfigValue(dataconfig, ["whyUsCtaText"]),
+    button: getConfigValue(dataconfig, ["whyUsCtaButton"]),
+    bookingType: getConfigValue(dataconfig, ["whyUsCtaBookingType"]) || "ticket",
   };
   const pricingHref = ctaContent.pricingHref || "/pricing-promos";
   const articlesHref = ctaContent.articlesHref || "/blogs";
@@ -545,14 +575,14 @@ const Home = async () => {
       />
 
       {/* ── Hero ── */}
-      <MotionImage pageData={safeHeaderImage} heroData={siteData.hero} waiverLink={waiverLink} />
+      <MotionImage pageData={safeHeaderImage} heroData={heroData} waiverLink={waiverLink} />
 
-      {(siteData.hero.urgencyStrip || siteData.hero.ctaPrimary) && (
+      {(heroData.urgencyStrip || heroData.ctaPrimary) && (
       <section className="ppp-mini-cta">
         <div className="aero-max-container ppp-mini-cta__inner">
-          {siteData.hero.urgencyStrip && <p>{siteData.hero.urgencyStrip}</p>}
-          {siteData.hero.ctaPrimary && (
-            <BookingButton title={siteData.hero.ctaPrimary} className="ppp-btn ppp-btn--primary" bookingType="ticket" />
+          {heroData.urgencyStrip && <p>{heroData.urgencyStrip}</p>}
+          {heroData.ctaPrimary && (
+            <BookingButton title={heroData.ctaPrimary} className="ppp-btn ppp-btn--primary" bookingType="ticket" />
           )}
         </div>
       </section>
@@ -607,13 +637,13 @@ const Home = async () => {
       </section>
       )}
 
-      {siteData.howItWorks.cta && (
+      {howItWorksCta.text && (
       <section className="ppp-mini-cta">
         <div className="aero-max-container ppp-mini-cta__inner">
-          <p>{siteData.howItWorks.cta}</p>
+          <p>{howItWorksCta.text}</p>
           <div className="ppp-mini-cta__actions">
-            {siteData.howItWorks.ctaButton && (
-              <BookingButton title={siteData.howItWorks.ctaButton} className="ppp-btn ppp-btn--primary" bookingType="ticket" />
+            {howItWorksCta.button && (
+              <BookingButton title={howItWorksCta.button} className="ppp-btn ppp-btn--primary" bookingType={howItWorksCta.bookingType} />
             )}
             {ctaContent.pricingText && (
               <Link href={pricingHref} className="ppp-btn ppp-btn--outline" prefetch>
@@ -735,6 +765,21 @@ const Home = async () => {
               </li>
             ))}
           </ul>
+        </div>
+      </section>
+      )}
+
+      {(whyUsCta.text || whyUsCta.button) && (
+      <section className="ppp-mini-cta">
+        <div className="aero-max-container ppp-mini-cta__inner">
+          {whyUsCta.text && <p>{whyUsCta.text}</p>}
+          {whyUsCta.button && (
+            <BookingButton
+              title={whyUsCta.button}
+              className="ppp-btn ppp-btn--primary"
+              bookingType={whyUsCta.bookingType}
+            />
+          )}
         </div>
       </section>
       )}
@@ -995,8 +1040,8 @@ const Home = async () => {
             {siteData.location.walkIn && <p className="ppp-cta-band__sub">{siteData.location.walkIn}</p>}
             {siteData.location.finalStrip && <p className="ppp-cta-band__sub">{siteData.location.finalStrip}</p>}
             <div className="ppp-cta-band__actions">
-              {siteData.hero.ctaPrimary && (
-                <BookingButton title={siteData.hero.ctaPrimary} className="ppp-btn ppp-btn--primary" bookingType="ticket" />
+              {heroData.ctaPrimary && (
+                <BookingButton title={heroData.ctaPrimary} className="ppp-btn ppp-btn--primary" bookingType="ticket" />
               )}
               {siteData.location.mapsLink && ctaContent.findLocationText && (
                 <Link

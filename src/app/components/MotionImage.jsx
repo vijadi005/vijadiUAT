@@ -28,7 +28,7 @@ const MotionImage = ({ pageData, heroData = {} }) => {
           />
         )}
         {heroData.ctaSecondary && (
-          <Link href="/attractions" className="ppp-btn ppp-btn--outline" prefetch>
+          <Link href={heroData.ctaSecondaryHref || "/attractions"} className="ppp-btn ppp-btn--outline" prefetch>
             {heroData.ctaSecondary}
           </Link>
         )}
