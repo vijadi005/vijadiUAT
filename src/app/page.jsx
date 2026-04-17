@@ -870,27 +870,35 @@ const Home = async () => {
       {(siteData.location.title || siteData.location.address || siteData.location.walkIn || siteData.location.finalStrip) && (
       <section className="ppp-cta-band">
         <div className="aero-max-container ppp-cta-band__inner">
-          {siteData.location.title && <SectionHeading>{siteData.location.title}</SectionHeading>}
-          {siteData.location.address && <p className="ppp-cta-band__sub">{siteData.location.address}</p>}
-          {siteData.location.walkIn && <p className="ppp-cta-band__sub">{siteData.location.walkIn}</p>}
-          {siteData.location.finalStrip && <p className="ppp-cta-band__sub">{siteData.location.finalStrip}</p>}
-          <div className="ppp-cta-band__actions">
-            {siteData.hero.ctaPrimary && (
-              <BookingButton title={siteData.hero.ctaPrimary} className="ppp-btn ppp-btn--primary" bookingType="ticket" />
-            )}
-            {siteData.location.mapsLink && (
-              <Link
-                href={siteData.location.mapsLink}
-                className="ppp-btn ppp-btn--outline"
-                target="_blank"
-                rel="noopener noreferrer"
-                prefetch={false}
-              >
-                Find Location
-              </Link>
-            )}
+          <div className="ppp-cta-band__content">
+            {siteData.location.title && <SectionHeading>{siteData.location.title}</SectionHeading>}
+            {siteData.location.address && <p className="ppp-cta-band__sub">{siteData.location.address}</p>}
+            {siteData.location.walkIn && <p className="ppp-cta-band__sub">{siteData.location.walkIn}</p>}
+            {siteData.location.finalStrip && <p className="ppp-cta-band__sub">{siteData.location.finalStrip}</p>}
+            <div className="ppp-cta-band__actions">
+              {siteData.hero.ctaPrimary && (
+                <BookingButton title={siteData.hero.ctaPrimary} className="ppp-btn ppp-btn--primary" bookingType="ticket" />
+              )}
+              {siteData.location.mapsLink && (
+                <Link
+                  href={siteData.location.mapsLink}
+                  className="ppp-btn ppp-btn--outline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  prefetch={false}
+                >
+                  Find Location
+                </Link>
+              )}
+            </div>
           </div>
-        </div>
+          <figure className="ppp-cta-band__media">
+            <img
+              src="https://storage.googleapis.com/pixel-pulse-play/web/pixelreception.png"
+              alt="Pixel Pulse Play reception area"
+            />
+          </figure>
+          </div>
       </section>
       )}
 
