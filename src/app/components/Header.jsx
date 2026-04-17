@@ -10,6 +10,7 @@ import LogoutButton from "./LogoutButton";
 import BookingButton from "./smallComponents/BookingButton";
 import { usePathname } from "next/navigation";
 
+
 function normalizePath(path = "/") {
   if (!path) return "/";
   return path !== "/" && path.endsWith("/") ? path.slice(0, -1) : path;
@@ -118,10 +119,14 @@ const Header = ({ location_slug, menudata, configdata, token }) => {
             {token && <LogoutButton />}
           </section>
         </div>
+        
       </header>
       <div className="aero-header-spacer" aria-hidden="true" />
+            
     </>
+    
   );
 };
 
 export default Header;
+
