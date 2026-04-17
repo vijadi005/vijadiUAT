@@ -782,15 +782,36 @@ const Home = async () => {
       {siteData.leaderboard.length > 0 && (
       <section className="ppp-section ppp-competition">
         <div className="aero-max-container ppp-competition__inner">
-          <div className="ppp-competition__board" aria-label="Leaderboard preview">
+          <SectionHeading className="section-heading-white">
+            Top Players <span>This Week</span>
+          </SectionHeading>
+          <div className="ppp-competition__board" aria-label="Leaderboard">
+            <div className="ppp-competition__header" aria-hidden="true">
+              <span>Rank</span>
+              <span>Player</span>
+              <span>Game</span>
+              <span>Score</span>
+              <span>Time</span>
+            </div>
             {siteData.leaderboard.map((row, index) => (
-              <div key={`${row.name}-${index}`}>
-                <span>{row.rank}</span>
-                <strong>{row.name}</strong>
+              <article
+                key={`${row.name}-${index}`}
+                className={`ppp-competition__row${index < 3 ? " ppp-competition__row--podium" : ""}`}
+              >
+                <span className="ppp-competition__rank">{row.rank || index + 1}</span>
+                <div className="ppp-competition__player">
+                  <span className="ppp-competition__avatar" aria-hidden="true">
+                    {String(row.name || "P").charAt(0)}
+                  </span>
+                  <strong>{row.name}</strong>
+                </div>
+                <span className="ppp-competition__game">{row.game || "-"}</span>
+                <span className="ppp-competition__score">{row.score || "-"}</span>
+                <span className="ppp-competition__time">{row.time || "-"}</span>
                 <p className="ppp-competition__copy">
                   {[row.game, row.score, row.time].filter(Boolean).join(" | ")}
                 </p>
-              </div>
+              </article>
             ))}
           </div>
         </div>

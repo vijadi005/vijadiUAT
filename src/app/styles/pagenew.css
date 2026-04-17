@@ -14,6 +14,9 @@
   --ppp-card-border:#1f2d40;
   --ppp-cyan:       #fbae7b;
   --ppp-cyan-dim:   #00b8cc;
+  --ppp-lime:       #a4cf5f;
+  --ppp-peach:      #fbae7b;
+  --ppp-orange:     #ff6b00;
   --ppp-magenta:    #ff2d78;
   --ppp-yellow:     #ffd200;
   --ppp-white:      #f0f6ff;
@@ -29,6 +32,9 @@
   /* Neon glow helpers */
   --glow-cyan:      0 0 18px rgba(251, 174, 123, 0.35);
   --glow-magenta:   0 0 18px rgba(255, 45, 120, 0.35);
+  --glow-lime:      0 0 24px rgba(164, 207, 95, 0.28);
+  --ppp-brand-line: linear-gradient(90deg, var(--ppp-lime), var(--ppp-peach), var(--ppp-magenta));
+  --ppp-brand-card: linear-gradient(145deg, rgba(164, 207, 95, 0.13), rgba(251, 174, 123, 0.1) 42%, rgba(17, 24, 39, 0.98));
 
   /* Typography */
   --font-display:   'Barlow Condensed', 'Impact', sans-serif;
@@ -38,7 +44,23 @@
 /* ── Base reset for home scope ── */
 .ppp-home {
   font-family: var(--font-body);
-  background: var(--ppp-black);
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.018) 0,
+      rgba(255, 255, 255, 0.018) 1px,
+      transparent 1px,
+      transparent 88px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.012) 0,
+      rgba(255, 255, 255, 0.012) 1px,
+      transparent 1px,
+      transparent 88px
+    ),
+    linear-gradient(180deg, #050810 0%, #090d16 18%, #101722 42%, #080c14 68%, #050810 100%);
+  background-attachment: fixed;
   color: var(--ppp-white);
   overflow-x: hidden;
 }
@@ -93,6 +115,38 @@
 .ppp-section {
   padding: var(--ppp-section-y) 0;
   position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.ppp-section > * {
+  position: relative;
+  z-index: 1;
+}
+
+.ppp-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(164, 207, 95, 0.05), transparent 22%, transparent 78%, rgba(251, 174, 123, 0.05)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 22%, transparent 78%, rgba(0, 0, 0, 0.16));
+  opacity: 0.74;
+}
+
+.ppp-section::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: max(24px, calc((100vw - 1180px) / 2));
+  right: max(24px, calc((100vw - 1180px) / 2));
+  z-index: 0;
+  height: 3px;
+  background: var(--ppp-brand-line);
+  opacity: 0.72;
+  pointer-events: none;
 }
 
 /* ── Section subtitle ── */
@@ -113,9 +167,11 @@
 }
 
 .ppp-mini-cta {
-  background: linear-gradient(90deg, var(--ppp-cyan), #a4cf5f);
+  background:
+    linear-gradient(90deg, var(--ppp-lime), var(--ppp-peach));
   color: var(--ppp-black);
   border-block: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 12px 38px rgba(0, 0, 0, 0.22);
 }
 
 .ppp-mini-cta__inner {
@@ -189,7 +245,8 @@
    ================================================================ */
 .ppp-intro {
   padding: var(--ppp-section-y) 0;
-  background: linear-gradient(180deg, var(--ppp-dark) 0%, var(--ppp-black) 100%);
+  background:
+    linear-gradient(180deg, rgba(13, 17, 23, 0.96) 0%, rgba(5, 8, 16, 0.9) 100%);
 }
 
 .ppp-intro__inner {
@@ -211,13 +268,13 @@
   font-weight: 500;
   line-height: 1.85;
   text-align: left;
-  border: 1px solid rgba(251, 174, 123, 0.26);
+  border: 1px solid rgba(164, 207, 95, 0.34);
   border-radius: 8px;
   background:
-    linear-gradient(135deg, rgba(255, 45, 120, 0.13), transparent 38%),
-    linear-gradient(160deg, rgba(251, 174, 123, 0.15), rgba(17, 24, 39, 0.92) 55%),
+    linear-gradient(135deg, rgba(164, 207, 95, 0.13), transparent 36%),
+    linear-gradient(160deg, rgba(251, 174, 123, 0.16), rgba(17, 24, 39, 0.94) 55%),
     var(--ppp-card);
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.32), var(--glow-lime), inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .ppp-intro__body::before {
@@ -226,7 +283,7 @@
   inset: 0 0 auto;
   height: 6px;
   border-radius: 8px 8px 0 0;
-  background: linear-gradient(90deg, var(--ppp-magenta), #ff6b00, var(--ppp-cyan));
+  background: var(--ppp-brand-line);
 }
 
 .ppp-intro__body::after {
@@ -245,7 +302,8 @@
    HOW IT WORKS
    ================================================================ */
 .ppp-how {
-  background: var(--ppp-black);
+  background:
+    linear-gradient(145deg, rgba(5, 8, 16, 0.98), rgba(11, 18, 28, 0.94) 52%, rgba(5, 8, 16, 0.98));
 }
 
 .ppp-how__grid {
@@ -267,13 +325,13 @@
   overflow: hidden;
   padding: 42px 28px 34px;
   text-align: left;
-  border: 1px solid rgba(251, 174, 123, 0.5);
+  border: 1px solid rgba(164, 207, 95, 0.44);
   border-radius: 8px;
   background:
-    linear-gradient(135deg, rgba(255, 45, 120, 0.34), rgba(255, 107, 0, 0.16) 36%, transparent 62%),
-    linear-gradient(160deg, rgba(251, 174, 123, 0.24), rgba(5, 8, 16, 0.98) 54%),
+    linear-gradient(135deg, rgba(164, 207, 95, 0.22), rgba(251, 174, 123, 0.16) 36%, transparent 62%),
+    linear-gradient(160deg, rgba(251, 174, 123, 0.22), rgba(5, 8, 16, 0.98) 54%),
     #090d16;
-  box-shadow: 0 24px 78px rgba(0, 0, 0, 0.46), 0 0 34px rgba(251, 174, 123, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  box-shadow: 0 24px 78px rgba(0, 0, 0, 0.46), var(--glow-lime), inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 
 .ppp-how__card::before {
@@ -281,7 +339,7 @@
   position: absolute;
   inset: 0 0 auto;
   height: 7px;
-  background: linear-gradient(90deg, var(--ppp-magenta), #ff6b00, var(--ppp-cyan));
+  background: var(--ppp-brand-line);
 }
 
 .ppp-how__card::after {
@@ -347,13 +405,13 @@
   justify-content: center;
   border: 0;
   border-radius: 8px;
-  background: linear-gradient(135deg, var(--ppp-magenta), #ff6b00);
+  background: linear-gradient(135deg, var(--ppp-lime), var(--ppp-peach));
   color: var(--ppp-white);
   font-family: var(--font-display);
   font-size: 1.6rem;
   font-weight: 800;
   letter-spacing: 1px;
-  box-shadow: 0 14px 34px rgba(255, 45, 120, 0.34), 0 0 0 1px rgba(255, 255, 255, 0.16) inset;
+  box-shadow: 0 14px 34px rgba(164, 207, 95, 0.28), 0 0 0 1px rgba(255, 255, 255, 0.16) inset;
 }
 
 .ppp-how__title,
@@ -433,9 +491,9 @@
    ================================================================ */
 .ppp-attractions {
   background:
-    radial-gradient(circle at 14% 16%, rgba(251, 174, 123, 0.12), transparent 28%),
-    radial-gradient(circle at 86% 42%, rgba(255, 45, 120, 0.1), transparent 30%),
-    linear-gradient(180deg, var(--ppp-black) 0%, #090d16 52%, var(--ppp-black) 100%);
+    linear-gradient(135deg, rgba(251, 174, 123, 0.08), transparent 36%),
+    linear-gradient(225deg, rgba(164, 207, 95, 0.08), transparent 34%),
+    linear-gradient(180deg, #050810 0%, #0b111b 52%, #050810 100%);
 }
 
 .ppp-attractions__grid {
@@ -451,10 +509,10 @@
   position: relative;
   border-radius: var(--ppp-radius-md);
   overflow: hidden;
-  border: 1px solid rgba(251, 174, 123, 0.42);
+  border: 1px solid rgba(164, 207, 95, 0.42);
   transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
   background: var(--ppp-card);
-  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.34), 0 0 22px rgba(251, 174, 123, 0.08);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.34), 0 0 22px rgba(164, 207, 95, 0.1);
 }
 
 .ppp-attraction-card::before {
@@ -463,14 +521,14 @@
   inset: 0 0 auto;
   z-index: 2;
   height: 5px;
-  background: linear-gradient(90deg, var(--ppp-magenta), #ff6b00, var(--ppp-cyan));
+  background: var(--ppp-brand-line);
   opacity: 0.92;
 }
 
 .ppp-attraction-card:hover {
   transform: translateY(-6px);
-  border-color: var(--ppp-cyan);
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.42), 0 0 34px rgba(251, 174, 123, 0.28);
+  border-color: var(--ppp-lime);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.42), 0 0 34px rgba(164, 207, 95, 0.22);
 }
 
 .ppp-attraction-card__fig {
@@ -478,7 +536,7 @@
   margin: 0;
   overflow: hidden;
   background:
-    linear-gradient(135deg, rgba(251, 174, 123, 0.22), rgba(255, 45, 120, 0.1) 42%, rgba(17, 24, 39, 0.96)),
+    linear-gradient(135deg, rgba(164, 207, 95, 0.2), rgba(251, 174, 123, 0.13) 42%, rgba(17, 24, 39, 0.96)),
     var(--ppp-card);
 }
 
@@ -526,11 +584,11 @@
 .ppp-attraction-card__meta {
   display: inline-flex;
   padding: 0.35rem 0.55rem;
-  border: 1px solid rgba(251, 174, 123, 0.4);
+  border: 1px solid rgba(164, 207, 95, 0.44);
   border-radius: var(--ppp-radius-sm);
   background: rgba(5, 8, 16, 0.72);
   margin-top: 0.65rem;
-  color: var(--ppp-cyan);
+  color: var(--ppp-lime);
   font-size: 0.72rem;
   font-weight: 700;
   line-height: 1.35;
@@ -541,7 +599,9 @@
    PROMOTIONS  (inherits promotions.css, override theming)
    ================================================================ */
 .ppp-promos {
-  background: var(--ppp-dark);
+  background:
+    linear-gradient(135deg, rgba(164, 207, 95, 0.08), transparent 36%),
+    linear-gradient(180deg, rgba(13, 17, 23, 0.94), rgba(7, 12, 20, 0.98));
 }
 
 /* ================================================================
@@ -549,9 +609,9 @@
    ================================================================ */
 .ppp-why {
   background:
-    radial-gradient(circle at 16% 20%, rgba(164, 207, 95, 0.12), transparent 30%),
-    radial-gradient(circle at 88% 48%, rgba(251, 174, 123, 0.1), transparent 32%),
-    var(--ppp-black);
+    linear-gradient(125deg, rgba(164, 207, 95, 0.1), transparent 32%),
+    linear-gradient(235deg, rgba(251, 174, 123, 0.09), transparent 35%),
+    #050810;
 }
 
 .ppp-why__grid {
@@ -567,7 +627,7 @@
   position: relative;
   overflow: hidden;
   background:
-    linear-gradient(145deg, rgba(164, 207, 95, 0.24), rgba(251, 174, 123, 0.12) 44%, rgba(17, 24, 39, 0.98)),
+    var(--ppp-brand-card),
     var(--ppp-card);
   border: 2px solid rgba(164, 207, 95, 0.54);
   border-radius: var(--ppp-radius-lg);
@@ -584,7 +644,7 @@
   position: absolute;
   inset: 0 0 auto;
   height: 5px;
-  background: linear-gradient(90deg, rgb(164, 207, 95), var(--ppp-cyan), var(--ppp-magenta));
+  background: var(--ppp-brand-line);
 }
 
 .ppp-why__card::after {
@@ -647,7 +707,8 @@
    USE CASES
    ================================================================ */
 .ppp-use-cases {
-  background: var(--ppp-dark);
+  background:
+    linear-gradient(180deg, rgba(8, 13, 22, 0.98), rgba(13, 17, 23, 0.95));
 }
 
 .ppp-use-cases__grid {
@@ -673,11 +734,12 @@
   justify-content: flex-end;
   gap: 0.65rem;
   padding: 24px;
-  border: 1px solid var(--ppp-card-border);
+  border: 1px solid rgba(164, 207, 95, 0.32);
   border-radius: var(--ppp-radius-sm);
   background:
-    linear-gradient(145deg, rgba(164, 207, 95, 0.12), transparent 50%),
+    var(--ppp-brand-card),
     var(--ppp-card);
+  box-shadow: 0 16px 46px rgba(0, 0, 0, 0.28), 0 0 18px rgba(164, 207, 95, 0.08);
 }
 
 .ppp-use-case-card--birthday {
@@ -761,9 +823,9 @@
 }
 
 .ppp-use-case-card:hover {
-  border-color: var(--ppp-cyan);
+  border-color: var(--ppp-lime);
   transform: translateY(-3px);
-  box-shadow: var(--glow-cyan);
+  box-shadow: var(--glow-lime);
 }
 
 .ppp-use-case-card h3 {
@@ -814,7 +876,8 @@
    PRICING
    ================================================================ */
 .ppp-pricing {
-  background: var(--ppp-dark);
+  background:
+    linear-gradient(180deg, rgba(13, 17, 23, 0.95), rgba(5, 8, 16, 0.98));
   padding-top: var(--ppp-section-y);
 }
 
@@ -827,8 +890,11 @@
 }
 
 .ppp-pricing__card {
-  background: var(--ppp-card);
-  border: 1px solid var(--ppp-card-border);
+  overflow: hidden;
+  background:
+    var(--ppp-brand-card),
+    var(--ppp-card);
+  border: 1px solid rgba(164, 207, 95, 0.28);
   border-radius: var(--ppp-radius-lg);
   padding: 36px 28px;
   position: relative;
@@ -836,22 +902,31 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+.ppp-pricing__card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 5px;
+  background: var(--ppp-brand-line);
 }
 .ppp-pricing__card:hover {
-  border-color: var(--ppp-cyan-dim);
+  transform: translateY(-4px);
+  border-color: var(--ppp-lime);
+  box-shadow: var(--glow-lime);
 }
 .ppp-pricing__card--featured {
-  border-color: var(--ppp-cyan);
-  box-shadow: var(--glow-cyan);
+  border-color: var(--ppp-peach);
+  box-shadow: var(--glow-cyan), var(--glow-lime);
 }
 
 .ppp-pricing__badge {
   position: absolute;
-  top: -14px;
+  top: 10px;
   left: 50%;
   transform: translateX(-50%);
-  background: var(--ppp-cyan);
+  background: var(--ppp-lime);
   color: var(--ppp-black);
   font-family: var(--font-display);
   font-size: 0.7rem;
@@ -861,6 +936,7 @@
   padding: 4px 16px;
   border-radius: var(--ppp-radius-sm);
   white-space: nowrap;
+  z-index: 2;
 }
 
 .ppp-pricing__tier {
@@ -885,7 +961,7 @@
   display: flex;
   align-items: baseline;
   gap: 2px;
-  color: var(--ppp-cyan);
+  color: var(--ppp-peach);
 }
 .ppp-pricing__dollar {
   font-size: 1.2rem;
@@ -922,7 +998,7 @@
   gap: 8px;
 }
 .ppp-pricing__check {
-  color: var(--ppp-cyan);
+  color: var(--ppp-lime);
   font-weight: 700;
   flex-shrink: 0;
 }
@@ -957,7 +1033,8 @@
    COMPETITION HOOK
    ================================================================ */
 .ppp-competition {
-  background: var(--ppp-black);
+  background:
+    linear-gradient(145deg, rgba(5, 8, 16, 0.98), rgba(12, 19, 28, 0.96));
 }
 
 .ppp-competition__inner {
@@ -965,77 +1042,106 @@
 }
 
 .ppp-competition__copy {
-  max-width: 520px;
+  display: none;
   margin: 0;
   color: var(--ppp-muted);
-  font-size: 1.05rem;
+  font-size: 0.86rem;
   line-height: 1.65;
 }
 
 .ppp-competition__board {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 12px;
-  padding: 16px;
-  border: 1px solid var(--ppp-card-border);
-  border-radius: var(--ppp-radius-sm);
-  background: var(--ppp-card);
+  gap: 10px;
+  padding: 18px;
+  border: 1px solid rgba(164, 207, 95, 0.32);
+  border-radius: var(--ppp-radius-lg);
+  background:
+    linear-gradient(145deg, rgba(164, 207, 95, 0.1), rgba(251, 174, 123, 0.08)),
+    var(--ppp-card);
+  box-shadow: var(--glow-lime);
 }
 
-.ppp-competition__board div {
-  position: relative;
+.ppp-competition__header,
+.ppp-competition__row {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 72px minmax(180px, 1.25fr) minmax(140px, 1fr) minmax(110px, 0.7fr) minmax(90px, 0.6fr);
   align-items: center;
-  gap: 14px;
-  min-height: 118px;
-  padding: 0.85rem 4.2rem 0.85rem 1rem;
+  gap: 16px;
+}
+
+.ppp-competition__header {
+  padding: 0 18px 8px;
+  color: rgba(240, 246, 255, 0.58);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.ppp-competition__row {
+  position: relative;
+  min-height: 74px;
+  padding: 14px 18px;
   border-radius: var(--ppp-radius-sm);
   border: 1px solid rgba(164, 207, 95, 0.36);
   background:
-    linear-gradient(145deg, rgba(164, 207, 95, 0.24), rgba(251, 174, 123, 0.12) 52%, rgba(17, 24, 39, 0.96)),
+    linear-gradient(90deg, rgba(164, 207, 95, 0.16), transparent 34%),
+    linear-gradient(145deg, rgba(251, 174, 123, 0.12), rgba(17, 24, 39, 0.96) 56%),
     var(--ppp-card);
   box-shadow: 0 16px 38px rgba(0, 0, 0, 0.28), 0 0 18px rgba(164, 207, 95, 0.1);
 }
 
-.ppp-competition__board div::after {
-  content: "☺";
-  position: absolute;
-  top: 50%;
-  right: 1rem;
-  width: 42px;
-  height: 42px;
+.ppp-competition__row--podium {
+  border-color: rgba(251, 174, 123, 0.62);
+  background:
+    linear-gradient(90deg, rgba(251, 174, 123, 0.22), transparent 38%),
+    linear-gradient(145deg, rgba(164, 207, 95, 0.16), rgba(17, 24, 39, 0.96) 58%),
+    var(--ppp-card);
+}
+
+.ppp-competition__rank {
+  width: 46px;
+  height: 46px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transform: translateY(-50%);
-  border: 1px solid rgba(251, 174, 123, 0.46);
+  border: 1px solid rgba(164, 207, 95, 0.48);
   border-radius: 50%;
-  background: rgba(5, 8, 16, 0.62);
-  color: rgb(164, 207, 95);
+  background: rgba(5, 8, 16, 0.72);
+  color: var(--ppp-peach);
   font-family: var(--font-display);
   font-size: 1.45rem;
   font-weight: 800;
   line-height: 1;
-  box-shadow: 0 0 18px rgba(164, 207, 95, 0.16);
+  box-shadow: 0 0 18px rgba(164, 207, 95, 0.14);
 }
 
-.ppp-competition__board div:nth-child(2n)::after {
-  content: "☻";
+.ppp-competition__player {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: 12px;
 }
 
-.ppp-competition__board div:nth-child(3n)::after {
-  content: "◕";
-}
-
-.ppp-competition__board span {
-  color: var(--ppp-cyan);
+.ppp-competition__avatar {
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--ppp-lime), var(--ppp-peach));
+  color: var(--ppp-black);
   font-family: var(--font-display);
-  font-size: 1.6rem;
+  font-size: 1.2rem;
   font-weight: 800;
+  text-transform: uppercase;
 }
 
-.ppp-competition__board strong {
+.ppp-competition__player strong {
+  min-width: 0;
+  overflow-wrap: anywhere;
   color: var(--ppp-white);
   font-family: var(--font-display);
   font-size: 1.25rem;
@@ -1044,15 +1150,28 @@
   text-transform: uppercase;
 }
 
-.ppp-competition__board .ppp-competition__copy {
-  grid-column: 1 / -1;
+.ppp-competition__game,
+.ppp-competition__score,
+.ppp-competition__time {
+  color: rgba(240, 246, 255, 0.82);
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.ppp-competition__score {
+  color: var(--ppp-lime);
+}
+
+.ppp-competition__time {
+  color: var(--ppp-muted);
 }
 
 /* ================================================================
    REVIEWS
    ================================================================ */
 .ppp-reviews {
-  background: var(--ppp-black);
+  background:
+    linear-gradient(180deg, rgba(5, 8, 16, 0.98), rgba(10, 15, 24, 0.96));
 }
 
 .ppp-reviews__grid {
@@ -1062,17 +1181,30 @@
 }
 
 .ppp-review-card {
-  background: var(--ppp-card);
-  border: 1px solid var(--ppp-card-border);
+  position: relative;
+  overflow: hidden;
+  background:
+    var(--ppp-brand-card),
+    var(--ppp-card);
+  border: 1px solid rgba(164, 207, 95, 0.28);
   border-radius: var(--ppp-radius-lg);
   padding: 28px;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  transition: border-color 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+.ppp-review-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 5px;
+  background: var(--ppp-brand-line);
 }
 .ppp-review-card:hover {
-  border-color: var(--ppp-magenta);
+  transform: translateY(-4px);
+  border-color: var(--ppp-lime);
+  box-shadow: var(--glow-lime);
 }
 
 .ppp-review-card__stars {
@@ -1102,7 +1234,7 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--ppp-cyan), var(--ppp-magenta));
+  background: linear-gradient(135deg, var(--ppp-lime), var(--ppp-peach));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1129,11 +1261,17 @@
    BLOG SECTION
    ================================================================ */
 .ppp-blog {
-  background: var(--ppp-dark);
+  background:
+    linear-gradient(180deg, rgba(13, 17, 23, 0.96), rgba(6, 10, 18, 0.98));
 }
 
 .ppp-blog__heading {
   text-transform: none;
+}
+
+.ppp-blog .aero_home_article_card,
+.ppp-blog article {
+  border-color: rgba(164, 207, 95, 0.26);
 }
 
 /* ================================================================
@@ -1141,16 +1279,36 @@
    ================================================================ */
 .ppp-cta-band {
   padding: var(--ppp-section-y) 0;
-  background: radial-gradient(ellipse at center, rgba(251, 174, 123, 0.06) 0%, var(--ppp-black) 70%);
+  background:
+    linear-gradient(135deg, rgba(251, 174, 123, 0.1), transparent 34%),
+    linear-gradient(225deg, rgba(164, 207, 95, 0.09), transparent 36%),
+    linear-gradient(180deg, #080c14, #050810);
   border-top: 1px solid var(--ppp-card-border);
-  text-align: center;
+  text-align: left;
 }
 
 .ppp-cta-band__inner {
+  position: relative;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: 20px;
+  padding: 32px;
+  border: 1px solid rgba(164, 207, 95, 0.32);
+  border-radius: var(--ppp-radius-lg);
+  background:
+    linear-gradient(135deg, rgba(164, 207, 95, 0.14), transparent 34%),
+    linear-gradient(160deg, rgba(251, 174, 123, 0.12), rgba(17, 24, 39, 0.95) 58%);
+  box-shadow: 0 20px 62px rgba(0, 0, 0, 0.32), var(--glow-lime);
+}
+
+.ppp-cta-band__inner::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 5px;
+  background: var(--ppp-brand-line);
 }
 
 .ppp-cta-band__sub {
@@ -1158,14 +1316,14 @@
   font-size: 1rem;
   line-height: 1.6;
   max-width: 520px;
-  margin: 0 auto;
+  margin: 0;
 }
 
 .ppp-cta-band__actions {
   display: flex;
   gap: 16px;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   margin-top: 8px;
 }
 
@@ -1187,6 +1345,35 @@
   .ppp-use-cases__grid,
   .ppp-competition__board {
     grid-template-columns: 1fr;
+  }
+
+  .ppp-competition__header {
+    display: none;
+  }
+
+  .ppp-competition__row {
+    grid-template-columns: auto 1fr;
+    gap: 10px 14px;
+    align-items: start;
+  }
+
+  .ppp-competition__rank {
+    grid-row: 1 / span 3;
+  }
+
+  .ppp-competition__player,
+  .ppp-competition__copy {
+    grid-column: 2;
+  }
+
+  .ppp-competition__copy {
+    display: block;
+  }
+
+  .ppp-competition__game,
+  .ppp-competition__score,
+  .ppp-competition__time {
+    display: none;
   }
 
   .ppp-use-cases__item--wide {

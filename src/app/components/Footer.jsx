@@ -2,9 +2,6 @@
 
 import Image from "next/image";
 import "../styles/home.css";
-import event_icon from "@public/assets/images/home/event_icon.svg";
-import park_feature_icon from "@public/assets/images/home/park_feature_icon.svg";
-import jump_icon from "@public/assets/images/home/jump_icon.svg";
 import Link from "next/link";
 import { getDataByParentId } from "@/utils/customFunctions";
 import RatingComponent from "./smallComponents/RatingComponent";
@@ -36,7 +33,6 @@ const Footer = async ({ location_slug, configdata, menudata, reviewdata }) => {
   const groupsData = getDataByParentId(menudata, "group-events");
   const companyData = getDataByParentId(menudata, "about-us");
   const blogsData = getDataByParentId(menudata, "blogs");
-  const birthDaypartyData = getDataByParentId(menudata, "kids-birthday-parties");
   const companyChildren = companyData?.[0]?.children || [];
   const blogChildren = blogsData?.[0]?.children || [];
   const hasFooterContactLink = companyChildren.some(
@@ -47,41 +43,6 @@ const Footer = async ({ location_slug, configdata, menudata, reviewdata }) => {
 
   return (
     <footer className="aero_footer_section-bg">
-      {/* Hero Section */}
-      {attractionsData?.[0]?.children?.length > 0 && (
-        <section className="aero_home-headerimg-wrapper">
-          <Image
-            src="/assets/images/shootinggame.jpg"
-            alt="Shooting game"
-            width={1200}
-            height={600}
-            title="Shooting game"
-            unoptimized
-          />
-          <article className="aero-max-container aero_home_BPJ_wrapper">
-            {[
-              { icon: event_icon, text: "Birthday Parties", url: `/${location_slug}/${birthDaypartyData?.[0]?.path}` },
-             
-              { icon: jump_icon, text: "Group Events", url: `/${location_slug}/${groupsData?.[0]?.path}` },
-            ].map((item, index) => (
-              <div className="d-flex-center" key={index}>
-                <a href={item.url} >
-                  <Image
-                    src={item.icon}
-                    width={90}
-                    height={80}
-                    alt={item.text}
-                    className={item.text === "Birthday Parties" ? "aero_home_BPJ_icon--glow" : ""}
-                    unoptimized
-                  />
-                </a>
-                <span>{item.text}</span>
-              </div>
-            ))}
-          </article>
-        </section>
-      )}
-
       <section className="aero-max-container">
         {/* Rating */}
         {/* {reviewdata && <RatingComponent ratingdata={reviewdata} />} */}
