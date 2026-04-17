@@ -13,12 +13,7 @@ import Script from "next/script";
 const Footer = async ({ location_slug, configdata, menudata, reviewdata }) => {
   if (!configdata?.length || !menudata?.length) return null;
 
-  const {
-    facebook,
-    insta,
-    tiktok,
-    chatid,
-  } = configdata[0] || {};
+  const { chatid } = configdata[0] || {};
 
   const attractionsData = getDataByParentId(menudata, "attractions");
   const programsData = getDataByParentId(menudata, "programs");
@@ -32,17 +27,17 @@ const Footer = async ({ location_slug, configdata, menudata, reviewdata }) => {
   );
   const socialLinks = [
     {
-      href: facebook ? `https://www.facebook.com/${facebook}` : "https://www.facebook.com/PixelPulsePlay",
+      href: "/facebook",
       icon: facebookicon,
       label: "Facebook",
     },
     {
-      href: insta ? `https://www.instagram.com/${insta}` : "https://www.instagram.com/pixelpulseplay",
+      href: "/instagram",
       icon: instagramicon,
       label: "Instagram",
     },
     {
-      href: tiktok ? `https://www.tiktok.com/${tiktok}` : "https://www.tiktok.com/@pixelpulseplay",
+      href: "/tiktok",
       icon: tiktokicon,
       label: "TikTok",
     },
@@ -134,7 +129,7 @@ const Footer = async ({ location_slug, configdata, menudata, reviewdata }) => {
                     key={item.label}
                     href={item.href}
                     target="_blank"
-                    prefetch
+                    prefetch={false}
                     className="aero_social_icon"
                     aria-label={item.label}
                   >
