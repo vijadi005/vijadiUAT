@@ -512,3 +512,211 @@
   font-size: 14px;
   color: #6b7280;
 }
+
+/* Final override: keep Blogs and About aligned with the Attractions page */
+.ppp-blogs-page,
+.ppp-about-page {
+  --ppp-lime: #a4cf5f;
+  --ppp-peach: #fbae7b;
+  --ppp-magenta: #ff2d78;
+  --ppp-card: #111827;
+  --ppp-muted: #8a9bb5;
+  --ppp-brand-line: linear-gradient(90deg, var(--ppp-lime), var(--ppp-peach), var(--ppp-magenta));
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.018) 0, rgba(255, 255, 255, 0.018) 1px, transparent 1px, transparent 88px),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.012) 0, rgba(255, 255, 255, 0.012) 1px, transparent 1px, transparent 88px),
+    linear-gradient(180deg, #050810 0%, #09111b 30%, #101722 62%, #050810 100%);
+}
+
+.ppp-blogs-hero,
+.ppp-about-hero {
+  padding: clamp(1.6rem, 3.4vw, 3rem) 0 1.4rem;
+  background:
+    linear-gradient(135deg, rgba(164, 207, 95, 0.1), transparent 34%),
+    linear-gradient(225deg, rgba(251, 174, 123, 0.1), transparent 34%),
+    linear-gradient(180deg, rgba(5, 8, 16, 0.98), rgba(9, 17, 27, 0.94));
+}
+
+.ppp-blogs-hero::before,
+.ppp-about-hero::before {
+  left: max(24px, calc((100vw - 1180px) / 2));
+  right: max(24px, calc((100vw - 1180px) / 2));
+  top: auto;
+  bottom: 0;
+  width: auto;
+  height: 3px;
+  border-radius: 0;
+  filter: none;
+  opacity: 0.86;
+  background: var(--ppp-brand-line);
+}
+
+.ppp-blogs-hero::after,
+.ppp-about-hero::after {
+  inset: 0;
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  filter: none;
+  opacity: 1;
+  background:
+    linear-gradient(90deg, rgba(164, 207, 95, 0.055), transparent 22%, transparent 78%, rgba(251, 174, 123, 0.055)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 24%, rgba(0, 0, 0, 0.18));
+  pointer-events: none;
+}
+
+.ppp-blogs-hero .ppp-about-hero-card,
+.ppp-about-page .ppp-about-hero-card,
+.ppp-about-content,
+.ppp-about-grid-wrap,
+.ppp-about-card-modern,
+.ppp-blog-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(164, 207, 95, 0.28);
+  border-radius: 8px;
+  background:
+    linear-gradient(145deg, rgba(164, 207, 95, 0.1), rgba(251, 174, 123, 0.07) 42%, rgba(17, 24, 39, 0.94)),
+    var(--ppp-card);
+  box-shadow: 0 20px 56px rgba(0, 0, 0, 0.28), 0 0 18px rgba(164, 207, 95, 0.08);
+  backdrop-filter: blur(12px);
+}
+
+.ppp-blogs-hero .ppp-about-hero-card::before,
+.ppp-about-page .ppp-about-hero-card::before,
+.ppp-about-content::before,
+.ppp-about-grid-wrap::before,
+.ppp-about-card-modern::before,
+.ppp-blog-card::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  inset: 0 0 auto;
+  height: 5px;
+  background: var(--ppp-brand-line);
+}
+
+.ppp-blogs-hero .ppp-about-hero-card h2,
+.ppp-about-page .ppp-about-hero-card h2,
+.ppp-about-richtext :is(h1, h2, h3, h4),
+.ppp-about-card-modern__body h2,
+.ppp-blog-card__title {
+  color: var(--white-color);
+  font-family: "Barlow Condensed", Impact, sans-serif;
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.ppp-blogs-hero .ppp-about-hero-card h2,
+.ppp-about-page .ppp-about-hero-card h2 {
+  font-size: clamp(2rem, 4.6vw, 4rem);
+}
+
+.ppp-blogs-hero .ppp-about-hero-card li,
+.ppp-about-page .ppp-about-hero-card li,
+.ppp-about-richtext,
+.ppp-about-richtext p,
+.ppp-about-richtext li,
+.ppp-about-card-modern__body p,
+.ppp-blogs-section-intro p,
+.ppp-blog-card__excerpt {
+  color: rgba(240, 246, 255, 0.8);
+}
+
+.ppp-blogs-hero .ppp-about-hero-card li::before,
+.ppp-about-page .ppp-about-hero-card li::before,
+.ppp-about-richtext li::before {
+  width: 9px;
+  height: 9px;
+  background: linear-gradient(135deg, var(--ppp-lime), var(--ppp-peach));
+  box-shadow: 0 0 16px rgba(164, 207, 95, 0.28);
+}
+
+.ppp-blogs-layout,
+.ppp-about-layout {
+  gap: clamp(1.25rem, 2.4vw, 2rem);
+  padding: clamp(2rem, 4vw, 3.25rem) 0;
+}
+
+.ppp-blog-card,
+.ppp-about-card-modern {
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.ppp-blog-card:hover,
+.ppp-about-card-modern:hover {
+  transform: translateY(-5px);
+  border-color: rgba(251, 174, 123, 0.58);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.34), 0 0 22px rgba(164, 207, 95, 0.16);
+}
+
+.ppp-blog-card__link,
+.ppp-about-card-modern__link,
+.ppp-blogs-booking-cta button {
+  border: 2px solid var(--ppp-lime);
+  border-radius: 8px;
+  background: var(--ppp-lime);
+  color: #050810;
+  box-shadow: 0 0 18px rgba(164, 207, 95, 0.18);
+}
+
+.ppp-blog-card__link:hover,
+.ppp-about-card-modern__link:hover,
+.ppp-blogs-booking-cta button:hover {
+  background: var(--ppp-peach);
+  border-color: var(--ppp-peach);
+  color: #050810;
+  box-shadow: 0 0 24px rgba(164, 207, 95, 0.28);
+}
+
+.ppp-blogs-booking-cta {
+  padding: 0 0 clamp(2rem, 4vw, 3.25rem);
+  background: transparent;
+}
+
+@media (max-width: 768px) {
+  .ppp-blogs-hero,
+  .ppp-about-hero {
+    padding-top: 1.5rem;
+  }
+
+  .ppp-blogs-hero .ppp-about-hero-card,
+  .ppp-about-page .ppp-about-hero-card,
+  .ppp-about-content,
+  .ppp-about-grid-wrap,
+  .ppp-about-card-modern,
+  .ppp-blog-card {
+    border-radius: 8px;
+  }
+}
+
+:is(
+  .ppp-about-hero-card,
+  .ppp-blogs-hero-card
+) h2 {
+  font-size: clamp(1.15rem, 2.1vw, 1.75rem) !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+  line-height: 1.16 !important;
+}
+
+.ppp-blog-card__title,
+.ppp-about-card-modern__body h2 {
+  font-size: clamp(1.05rem, 1.65vw, 1.35rem) !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+  line-height: 1.18 !important;
+  text-transform: none !important;
+}
+
+.ppp-about-content h2,
+.ppp-about-richtext h2,
+.ppp-about-richtext .container h2 {
+  font-size: clamp(1.05rem, 1.65vw, 1.35rem) !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+  line-height: 1.18 !important;
+  text-transform: none !important;
+}

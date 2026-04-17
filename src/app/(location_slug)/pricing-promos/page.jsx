@@ -30,19 +30,94 @@ export async function generateMetadata({ params }) {
 }
 
 function parseConfigMatrix(configData, key) {
+  const normalizedKey = String(key || "").trim().toLowerCase();
+
   return configData
-    ?.filter((item) => item.key === key)
-    ?.map((item) => item?.value)
-    ?.map((value) => value?.split(";"))
+    ?.filter((item) => String(item.key || "").trim().toLowerCase() === normalizedKey)
+    ?.flatMap((item) =>
+      String(item?.value || "")
+        .replace(/<br\s*\/?>/gi, "\n")
+        .split("\n")
+        .map((line) => line.trim())
+        .filter(Boolean)
+    )
+    ?.map((value) => value.split(";"))
     ?.map((columns) => {
       const mappedValues = {};
 
       columns.forEach((column, index) => {
-        mappedValues[`value${index + 1}`] = column?.trim();
+        mappedValues[`value${index + 1}`] = column?.trim() || "";
       });
 
       return mappedValues;
     });
+}
+
+function getConfigValues(configData, key) {
+  const normalizedKey = String(key || "").trim().toLowerCase();
+
+  return (Array.isArray(configData) ? configData : [])
+    .filter((item) => String(item.key || "").trim().toLowerCase() === normalizedKey)
+    .map((item) => item?.value)
+    .filter((value) => value !== undefined && value !== null && String(value).trim());
+}
+
+function parseJsonConfigValue(value) {
+  const cleaned = String(value || "")
+    .replace(/<br\s*\/?>/gi, "\n")
+    .trim();
+
+  if (!cleaned) return null;
+
+  const candidates = [
+    cleaned,
+    cleaned.replace(/^"+|"+$/g, "").replace(/""/g, '"'),
+  ];
+
+  for (const candidate of candidates) {
+    try {
+      return JSON.parse(candidate);
+    } catch {
+      // Try the next normalized candidate.
+    }
+  }
+
+  return null;
+}
+
+function buildPricingCardsFromPricingHeaderJson(configData) {
+  return getConfigValues(configData, "pricingheader")
+    .map(parseJsonConfigValue)
+    .filter((item) => item && typeof item === "object" && !Array.isArray(item))
+    .map((item, index) => {
+      const title = item.title || `Pricing Option ${index + 1}`;
+      const details = Array.isArray(item.details)
+        ? item.details
+            .map((detail) => ({
+              label: detail.duration || detail.label || detail.name || "Duration",
+              value: detail.price || detail.value || detail.amount || "",
+            }))
+            .filter((detail) => detail.label || detail.value)
+        : [];
+
+      return {
+        title,
+        eyebrow: item.eyebrow || item.badge || "Pricing",
+        duration: item.subtitle || item.subTitle || item.duration || "",
+        details,
+        image: item.img || item.image || item.imageUrl || "/assets/images/logo.png",
+        imageAlt: item.imageAlt || item.alt || `${title} pricing image`,
+        bookable: parseBoolean(item.is_book ?? item.bookable ?? item.isBook, true),
+      };
+    });
+}
+
+function getConfigRowValues(row = {}) {
+  return Object.keys(row)
+    .filter((key) => /^value\d+$/.test(key))
+    .sort((a, b) => Number(a.replace("value", "")) - Number(b.replace("value", "")))
+    .map((key) => row[key])
+    .filter(Boolean);
 }
 
 function stripHtml(html = "") {
@@ -191,12 +266,16 @@ function parsePricingCardDetails(value = "") {
     });
 }
 
-function buildPricingCardMeta(configData) {
+function buildPricingCardMeta(configData, pricingRowCount = 0) {
   const sheetMeta = [
     ...(parseConfigMatrix(configData, "pricingcard") || []),
     ...(parseConfigMatrix(configData, "pricingcards") || []),
   ];
-  const cardCount = Math.max(sheetMeta.length, DEFAULT_PRICING_CARD_META.length);
+  const cardCount = Math.max(
+    pricingRowCount,
+    sheetMeta.length,
+    DEFAULT_PRICING_CARD_META.length
+  );
 
   return Array.from({ length: cardCount }, (_, index) => {
     const row = sheetMeta[index] || {};
@@ -218,28 +297,82 @@ function buildPricingCardMeta(configData) {
         row.value6,
         fallback.bookable ?? title.toLowerCase() !== "arcade+"
       ),
-      details: details.length > 0 ? details : fallback.details,
+      details,
+      fallbackDetails: fallback.details || [],
     };
   });
 }
 
-function buildPricingCards(pricingRows, detailKeys, pricingHeaders, cardMeta) {
-  const baseCards = pricingRows.map((row) => ({
-    duration: row.value1,
-    details: detailKeys.map((detailKey) => ({
-      label: pricingHeaders[detailKey],
-      value: row[detailKey] || "N/A",
-    })),
-  }));
+function buildPricingSections(pricingRows, pricingHeaders) {
+  const headerValues = getConfigRowValues(pricingHeaders);
+  const detailKeys = Object.keys(pricingHeaders).slice(1);
+  const hasMatrixHeaders =
+    detailKeys.length > 0 &&
+    pricingRows.some((row) => detailKeys.some((detailKey) => row[detailKey]));
 
+  if (hasMatrixHeaders) {
+    return pricingRows.map((row) => ({
+      duration: row.value1,
+      details: detailKeys
+        .map((detailKey) => ({
+          label: pricingHeaders[detailKey],
+          value: row[detailKey] || "",
+        }))
+        .filter((detail) => detail.label || detail.value),
+    }));
+  }
+
+  const sections = [];
+  let currentSection =
+    headerValues.length === 1
+      ? { duration: headerValues[0], details: [] }
+      : null;
+
+  if (currentSection) {
+    sections.push(currentSection);
+  }
+
+  pricingRows.forEach((row) => {
+    const values = getConfigRowValues(row);
+    if (values.length === 0) return;
+
+    if (values.length === 1) {
+      currentSection = { duration: values[0], details: [] };
+      sections.push(currentSection);
+      return;
+    }
+
+    if (!currentSection) {
+      currentSection = { duration: headerValues[0] || "", details: [] };
+      sections.push(currentSection);
+    }
+
+    const [label, ...valueParts] = values;
+    currentSection.details.push({
+      label,
+      value: valueParts.join(" "),
+    });
+  });
+
+  return sections.filter((section) => section.duration || section.details.length > 0);
+}
+
+function buildPricingCards(pricingSections, cardMeta) {
   return cardMeta.map((meta, index) => {
-    const fallbackCard = baseCards[index] || { duration: "", details: [] };
+    const pricingSection = pricingSections[index] || { duration: "", details: [] };
+    const detailsFromPricingConfig = pricingSection.details || [];
+    const details =
+      detailsFromPricingConfig.length > 0
+        ? detailsFromPricingConfig
+        : meta.details?.length > 0
+          ? meta.details
+          : meta.fallbackDetails || [];
 
     return {
-      title: meta.title,
+      title: meta.title || `Pricing Option ${index + 1}`,
       eyebrow: meta.eyebrow,
-      duration: meta.duration || fallbackCard.duration,
-      details: meta.details || fallbackCard.details,
+      duration: meta.duration || pricingSection.duration,
+      details,
       image: meta.image,
       imageAlt: meta.imageAlt,
       bookable: meta.bookable,
@@ -308,17 +441,16 @@ const PricingPromosPage = async ({ params }) => {
     console.error("pricing-promos page data failed to load:", error);
   }
 
+  const pricingCardsFromHeaderJson = buildPricingCardsFromPricingHeaderJson(configData);
   const pricingHeaders = parseConfigMatrix(configData, "pricingheader")?.[0] || {};
   const pricingRows = parseConfigMatrix(configData, "pricing") || [];
-  const detailKeys = Object.keys(pricingHeaders).slice(1);
-  const pricingCardMeta = buildPricingCardMeta(configData);
+  const pricingSections = buildPricingSections(pricingRows, pricingHeaders);
+  const pricingCardMeta = buildPricingCardMeta(configData, pricingSections.length);
 
-  const pricingCards = buildPricingCards(
-    pricingRows,
-    detailKeys,
-    pricingHeaders,
-    pricingCardMeta
-  );
+  const pricingCards =
+    pricingCardsFromHeaderJson.length > 0
+      ? pricingCardsFromHeaderJson
+      : buildPricingCards(pricingSections, pricingCardMeta);
 
   const introText =
     stripHtml(pageData?.section1 || "") ||
@@ -408,19 +540,6 @@ const PricingPromosPage = async ({ params }) => {
                   </div>
                 </div>
               )}
-            </article>
-
-            <article className="ppp-inline-cta">
-              <div>
-                <p className="ppp-inline-cta__eyebrow">Ready to lock it in?</p>
-                <h3>Reserve your play session before spots fill up.</h3>
-              </div>
-
-              <div className="ppp-inline-cta__actions">
-                <div className="aero-btn-booknow">
-                  <BookingButton title="Book Now" />
-                </div>
-              </div>
             </article>
 
             {hasPromotions && (

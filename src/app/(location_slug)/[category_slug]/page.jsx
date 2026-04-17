@@ -181,16 +181,23 @@ const Category = async ({ params }) => {
                       <div dangerouslySetInnerHTML={{ __html: attractionHeroLabelHtml }} />
                     )}
                     {attractionHeroHeading && <h2>{attractionHeroHeading}</h2>}
-                    {attractionHeroBullets.length > 0 && (
-                      <ul>
-                        {attractionHeroBullets.map((item, index) => (
-                          <li key={`${item}-${index}`}>{item}</li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
-                </div>
-              </div>
+	                    {attractionHeroBullets.length > 0 && (
+	                      <ul>
+	                        {attractionHeroBullets.map((item, index) => (
+	                          <li key={`${item}-${index}`}>{item}</li>
+	                        ))}
+	                      </ul>
+	                    )}
+	                    <div className="ppp-attractions-hero__actions">
+	                      <BookingButton
+	                        title="Book Now"
+	                        className="ppp-attractions-hero__book-btn"
+	                        bookingType="ticket"
+	                      />
+	                    </div>
+	                  </div>
+	                </div>
+	              </div>
             </section>
 
             <section className="aero_category_section_wrapper">
@@ -503,13 +510,7 @@ const Category = async ({ params }) => {
           </section>)
         }
 
-        {!isGroupsEventsPage && (
-          <div className="d-flex-center aero-btn-booknow" style={{ padding: "2em", backgroundColor: "var(--black-color)" }}>
-            <BookingButton title="Book Now" />
-          </div>
-        )}
-
-        <script
+	        <script
           type="application/ld+json"
           // suppressHydrationWarning
           dangerouslySetInnerHTML={{ __html: jsonLDschema || "" }}

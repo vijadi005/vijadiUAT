@@ -1287,92 +1287,259 @@
 
 /* main footer section */
 .aero_footer_section-bg {
-  background-color: var(--black-color);
+  --footer-lime: #a4cf5f;
+  --footer-peach: #fbae7b;
+  --footer-magenta: #ff2d78;
+  --footer-card: #111827;
+  --footer-line: linear-gradient(90deg, var(--footer-lime), var(--footer-peach), var(--footer-magenta));
+  position: relative;
+  overflow: hidden;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.018) 0,
+      rgba(255, 255, 255, 0.018) 1px,
+      transparent 1px,
+      transparent 88px
+    ),
+    linear-gradient(180deg, #050810 0%, #09111b 46%, #050810 100%);
+  border-top: 1px solid rgba(164, 207, 95, 0.28);
+  color: var(--white-color);
+}
+
+.aero_footer_section-bg::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: max(24px, calc((100vw - 1180px) / 2));
+  right: max(24px, calc((100vw - 1180px) / 2));
+  height: 5px;
+  background: var(--footer-line);
+  opacity: 0.9;
+}
+
+.aero_footer_inner {
+  position: relative;
+  z-index: 1;
+  padding-block: clamp(2rem, 5vw, 4rem);
 }
 
 .aero_logo_social_wrap {
-  flex-direction: column;
-  margin: 2em 2em 1em;
-  gap: 1rem;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1.25rem;
+  margin: 0 0 1.25rem;
+  padding: 1.25rem;
+  border: 1px solid rgba(164, 207, 95, 0.32);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(164, 207, 95, 0.14), transparent 34%),
+    linear-gradient(160deg, rgba(251, 174, 123, 0.12), rgba(17, 24, 39, 0.95) 58%);
+  box-shadow: 0 20px 62px rgba(0, 0, 0, 0.32), 0 0 24px rgba(164, 207, 95, 0.16);
+}
+
+.aero_logo_social_wrap > a {
+  display: inline-flex;
+  align-items: center;
+}
+
+.aero_logo_social_wrap > a img {
+  width: 82px;
+  height: auto;
+}
+
+.aero_footer_brand_copy {
+  min-width: 0;
+}
+
+.aero_footer_brand_copy strong {
+  display: block;
+  color: var(--white-color);
+  font-family: "Barlow Condensed", Impact, sans-serif;
+  font-size: clamp(1.65rem, 3vw, 2.4rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.aero_footer_brand_copy p {
+  max-width: 620px;
+  margin: 0.45rem 0 0;
+  color: rgba(240, 246, 255, 0.72);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.aero_social_icon_wrap {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.55rem;
 }
 
 .aero_social_icon {
   display: inline-flex;
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--white-color);
-  margin: 0.7em;
-  border-radius: 50%;
+  border: 1px solid rgba(164, 207, 95, 0.42);
+  margin: 0;
+  border-radius: 8px;
+  background: rgba(5, 8, 16, 0.62);
   font-size: 1.2rem;
   color: var(--white-color);
-  transition: all 0.5s ease-in-out;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
 }
 
 .aero_social_icon img {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
   background: var(--white-color);
-  border-radius: 50%;
+}
+
+.aero_social_icon:hover {
+  transform: translateY(-2px);
+  border-color: var(--footer-lime);
+  background: rgba(164, 207, 95, 0.1);
+  box-shadow: 0 0 20px rgba(164, 207, 95, 0.2);
 }
 
 .aero_footer_col-4-wrapper {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 1rem;
-  padding: 1em;
+  padding: 0;
 }
 
 .aero_footer_col-4-wrapper ul {
   list-style: none;
-  flex-basis: 26%;
+  min-width: 0;
+  margin: 0;
+  padding: 1.25rem;
+  border: 1px solid rgba(164, 207, 95, 0.22);
+  border-radius: 8px;
+  background:
+    linear-gradient(145deg, rgba(164, 207, 95, 0.08), rgba(251, 174, 123, 0.06) 42%, rgba(17, 24, 39, 0.92)),
+    var(--footer-card);
 }
 
 .aero_footer_col-4-wrapper ul:last-child {
-  flex-basis: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  grid-column: span 1;
 }
 
 .aero_footer_col-4-wrapper ul:last-child li:first-child {
-  width: 100%;
-  text-align: center;
+  text-align: left;
 }
 
 .aero_footer_col-4-wrapper ul li {
-  font-size: 0.8rem;
-  color: var(--white-color);
+  font-size: 0.9rem;
+  color: rgba(240, 246, 255, 0.76);
   font-weight: 400;
-  padding-bottom: 0.8em;
+  padding-bottom: 0.72rem;
+  line-height: 1.45;
+}
+
+.aero_footer_col-4-wrapper ul li a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.15s ease, padding-left 0.15s ease;
+}
+
+.aero_footer_col-4-wrapper ul li a:hover {
+  color: var(--footer-lime);
+  padding-left: 4px;
 }
 
 .aero_footer_col-4-wrapper ul li:first-child {
-  font-size: 1.3rem;
-  padding-bottom: 0.5em;
-  margin-bottom: 0.5em;
-  font-weight: 500;
-  border-bottom: 0.1px solid #fff;
+  position: relative;
+  color: var(--white-color);
+  font-family: "Barlow Condensed", Impact, sans-serif;
+  font-size: 1.32rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 1;
+  text-transform: uppercase;
+  padding-bottom: 0.75rem;
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(164, 207, 95, 0.28);
+}
+
+.aero_footer_col-4-wrapper ul li:first-child::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 58px;
+  height: 2px;
+  background: var(--footer-line);
 }
 
 .aero_footer_article-card {
-  gap: 1rem;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.25rem 0;
 }
 
 .aero_footer_article-card img {
-  border-radius: 50%;
-  border: 1px solid var(--white-color);
+  flex: 0 0 auto;
+  width: 54px;
+  height: 54px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid rgba(164, 207, 95, 0.36);
 }
 
 .aero_footer_article-card div h6 {
-  font-size: 0.8rem;
-  font-weight: 400;
-  padding-bottom: 0.5em;
+  margin: 0 0 0.3rem;
+  color: var(--footer-peach);
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.25;
+  text-transform: uppercase;
 }
 
 .aero_footer_article-card div p {
-  font-size: 1rem;
-  font-weight: 500;
+  margin: 0;
+  color: rgba(240, 246, 255, 0.82);
+  font-size: 0.86rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+@media (max-width: 1100px) {
+  .aero_footer_col-4-wrapper {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .aero_footer_col-4-wrapper ul:last-child {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 720px) {
+  .aero_logo_social_wrap {
+    grid-template-columns: 1fr;
+    text-align: center;
+    justify-items: center;
+  }
+
+  .aero_footer_brand_copy p {
+    margin-inline: auto;
+  }
+
+  .aero_social_icon_wrap {
+    justify-content: center;
+  }
+
+  .aero_footer_col-4-wrapper,
+  .aero_footer_col-4-wrapper ul:last-child {
+    grid-template-columns: 1fr;
+    grid-column: auto;
+  }
 }
 
 .figcaption-bg {
@@ -1570,15 +1737,14 @@ ul.attractions-grid li {
   }
 
   .aero_logo_social_wrap {
-    flex-direction: row;
-    justify-content: space-between;
+    grid-template-columns: auto minmax(0, 1fr) auto;
   }
 
   .aero_social_icon {
-    width: 50px;
-    height: 50px;
-    font-size: 1.5rem;
-    margin: 0.4em;
+    width: 42px;
+    height: 42px;
+    font-size: 1.2rem;
+    margin: 0;
   }
 
   .aero_social_icon img {
@@ -1592,9 +1758,8 @@ ul.attractions-grid li {
   }
 
   .aero_footer_col-4-wrapper {
-    flex-wrap: nowrap;
-    padding: 2em 1.5em 3em;
-    gap: 2rem;
+    padding: 0;
+    gap: 1rem;
   }
 
   .aero_footer_col-4-wrapper ul:last-child li:first-child {
@@ -1602,7 +1767,7 @@ ul.attractions-grid li {
   }
 
   .aero_footer_col-4-wrapper ul li:first-child {
-    font-size: 1.45rem;
+    font-size: 1.32rem;
   }
 
   .aero_footer_col-4-wrapper ul li {
@@ -1610,16 +1775,25 @@ ul.attractions-grid li {
   }
 
   .aero_footer_article-card img {
-    min-width: 80px;
-    height: 80px;
+    min-width: 54px;
+    height: 54px;
   }
 
   .aero_footer_article-card div h6 {
-    font-size: 1rem;
+    font-size: 0.72rem;
   }
 
   .aero_footer_article-card div p {
-    font-size: 0.9rem;
+    font-size: 0.86rem;
   }
   
+}
+
+.aero_home_birthday_section h2,
+.aero_home_seo_section :is(h2, h3) {
+  font-size: clamp(1.15rem, 2.1vw, 1.75rem) !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+  line-height: 1.18 !important;
+  text-transform: none !important;
 }

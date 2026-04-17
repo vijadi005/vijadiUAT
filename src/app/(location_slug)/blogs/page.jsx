@@ -180,10 +180,7 @@ const schema = {
           })}
         </section>
       </section>
-      <div
-        className="d-flex-center aero-btn-booknow"
-        style={{ padding: "2em", backgroundColor: "var(--black-color)" }}
-      >
+      <div className="d-flex-center aero-btn-booknow ppp-blogs-booking-cta">
         <BookingButton title="Book Now" />
       </div>
     </main>

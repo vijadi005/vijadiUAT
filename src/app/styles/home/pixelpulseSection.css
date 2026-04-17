@@ -190,3 +190,12 @@
   border-left: 4px solid #22d3ee;
   text-align: left;
 }
+
+.section h2,
+.card h3 {
+  font-size: clamp(1.05rem, 1.75vw, 1.45rem) !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+  line-height: 1.18 !important;
+  text-transform: none !important;
+}

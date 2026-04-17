@@ -48,7 +48,11 @@
   bottom: 20px;
   left: 20px;
   color: #fff;
-  font-size: 1.3rem;
+  font-size: clamp(1.05rem, 1.65vw, 1.35rem) !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+  line-height: 1.18 !important;
+  text-transform: none !important;
   z-index: 2;
 }
 

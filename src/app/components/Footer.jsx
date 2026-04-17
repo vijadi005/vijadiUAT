@@ -43,12 +43,8 @@ const Footer = async ({ location_slug, configdata, menudata, reviewdata }) => {
 
   return (
     <footer className="aero_footer_section-bg">
-      <section className="aero-max-container">
-        {/* Rating */}
-        {/* {reviewdata && <RatingComponent ratingdata={reviewdata} />} */}
-
-        {/* Logo + Socials */}
-        {/* <div className="aero_logo_social_wrap d-flex-center ">
+      <section className="aero-max-container aero_footer_inner">
+        <div className="aero_logo_social_wrap">
           <Link href={`/${location_slug}`} prefetch>
             <Image
               src={logo}
@@ -58,6 +54,10 @@ const Footer = async ({ location_slug, configdata, menudata, reviewdata }) => {
               unoptimized
             />
           </Link>
+          <div className="aero_footer_brand_copy">
+            <strong>Pixel Pulse Play</strong>
+            <p>Interactive game rooms, birthdays, groups, and next-level indoor play in Vaughan.</p>
+          </div>
           <div className="aero_social_icon_wrap">
             {facebook && (
               <Link href={`https://www.facebook.com/${facebook}`} target="_blank" prefetch className="aero_social_icon">
@@ -80,9 +80,8 @@ const Footer = async ({ location_slug, configdata, menudata, reviewdata }) => {
               </Link>
             )}
           </div>
-        </div> */}
+        </div>
 
-        {/* Footer Menus */}
         <section className="aero_footer_col-4-wrapper">
           <ul>
             <li>Attractions</li>

@@ -205,37 +205,30 @@ const Subcategory = async ({ params }) => {
         <section className="ppp-groupdetail-page">
           <section className="ppp-groupdetail-hero">
             <div className="aero-max-container ppp-groupdetail-hero__inner">
-              <div className="ppp-pricing-hero__panel ppp-groupdetail-hero__panel--single">
-                <div className="ppp-pricing-hero-card ppp-groupdetail-hero-card--single">
-                  <div className="ppp-about-hero-card">
-                  { <article className="ppp-groupdetail-overview">
-                <SectionHeading className="section-heading-white" mainHeading="true">
-                  <span>{pagedata?.title}</span>
-                </SectionHeading>
-                <h2>{pagedata?.metatitle}</h2>
-               {/* <p>{pagedata?.metadescription}</p>*/}
-              </article>}
- <a
-  className="aero-header-contactus-btn aero-header-cta aero-header-cta--solid aero-d-changelocation"
-  href="/contactus"
->
-  <span>Inquire</span>
-</a>
-                  </div>
+              <div className="ppp-groupdetail-hero__copy">
+                <article className="ppp-groupdetail-overview">
+                  <SectionHeading className="section-heading-white" mainHeading="true">
+                    <span>{pagedata?.title}</span>
+                  </SectionHeading>
+                  <h2>{pagedata?.metatitle}</h2>
+                </article>
 
-                  <div className="ppp-groupdetail-hero__actions">
-                    
-                    
-                      
-                    
-                  </div>
+                <div className="ppp-groupdetail-hero__actions">
+                  <a
+                    className="ppp-groupdetail-inquire-btn"
+                    href="/contactus"
+                  >
+                    <span>Inquire</span>
+                  </a>
+                </div>
+              </div>
 
-                  <div className="ppp-groupdetail-hero-card__image">
-                    <img
-                      src={heroImage}
-                      alt={pagedata?.imagetitle || pagedata?.title || "Private party image"}
-                    />
-                  </div>
+              <div className="ppp-groupdetail-hero__panel">
+                <div className="ppp-groupdetail-hero-card__image">
+                  <img
+                    src={heroImage}
+                    alt={pagedata?.imagetitle || pagedata?.title || "Private party image"}
+                  />
                 </div>
               </div>
             </div>

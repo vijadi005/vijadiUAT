@@ -15,17 +15,25 @@ const page = () => {
               Reach out for birthday parties, group bookings, fundraisers,
               or anything else you want to plan with the Pixel Pulse Play team.
             </p>
-          </div>
-
-          <div className="ppp-contact-hero__panel">
-            <div className="ppp-about-hero-card">
-              <span className="ppp-about-hero-card__label">Fastest way to connect</span>
-              <h2>Send us the key details and we&apos;ll help you sort out the best next step.</h2>
-              <ul>
-                <li>Ask about parties, bookings, and visit planning</li>
-                <li>Share your preferred date and time if you have one</li>
-                <li>Get a response with the right info for your inquiry</li>
-              </ul>
+            <div className="ppp-contact-hero__details" aria-label="Contact details">
+              <div className="ppp-contact-hero__detail">
+                <span>Phone</span>
+                <a href="tel:+19057602922">+1 (905) 760-2922</a>
+              </div>
+              <div className="ppp-contact-hero__detail">
+                <span>Email</span>
+                <a href="mailto:connect@pixelpulseplay.ca">connect@pixelpulseplay.ca</a>
+              </div>
+              <div className="ppp-contact-hero__detail">
+                <span>Location</span>
+                <a
+                  href="https://maps.app.goo.gl/anxfwSCGYZNpNmnC7"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  960 Edgeley Blvd #2, Vaughan, ON L4K 4V4
+                </a>
+              </div>
             </div>
           </div>
         </div>

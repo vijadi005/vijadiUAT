@@ -1,45 +1,71 @@
 .aero_category_section_wrapper {
-  background-color: var(--black-color);
-  /* padding: 3em 0.75em; */
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.018) 0,
+      rgba(255, 255, 255, 0.018) 1px,
+      transparent 1px,
+      transparent 88px
+    ),
+    linear-gradient(180deg, #050810 0%, #0b111b 46%, #050810 100%);
   color: var(--white-color);
 }
 
 .ppp-attractions-page {
+  --ppp-lime: #a4cf5f;
+  --ppp-peach: #fbae7b;
+  --ppp-magenta: #ff2d78;
+  --ppp-card: #111827;
+  --ppp-muted: #8a9bb5;
+  --ppp-brand-line: linear-gradient(90deg, var(--ppp-lime), var(--ppp-peach), var(--ppp-magenta));
+  --ppp-brand-card: linear-gradient(145deg, rgba(164, 207, 95, 0.13), rgba(251, 174, 123, 0.1) 42%, rgba(17, 24, 39, 0.98));
   background:
-    radial-gradient(circle at top left, rgba(251, 174, 123, 0.14), transparent 24%),
-    radial-gradient(circle at top right, rgba(164, 207, 95, 0.12), transparent 20%),
-    linear-gradient(180deg, #050810 0%, #09111b 24%, #000000 100%);
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.018) 0,
+      rgba(255, 255, 255, 0.018) 1px,
+      transparent 1px,
+      transparent 88px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.012) 0,
+      rgba(255, 255, 255, 0.012) 1px,
+      transparent 1px,
+      transparent 88px
+    ),
+    linear-gradient(180deg, #050810 0%, #09111b 24%, #101722 58%, #050810 100%);
 }
 
 .ppp-attractions-hero {
   position: relative;
   overflow: hidden;
-  padding: 2rem 0;
-}
-
-.ppp-attractions-hero::before,
-.ppp-attractions-hero::after {
-  content: "";
-  position: absolute;
-  border-radius: 999px;
-  filter: blur(24px);
-  opacity: 0.5;
+  padding: clamp(3rem, 6vw, 5rem) 0 2rem;
+  background:
+    linear-gradient(135deg, rgba(164, 207, 95, 0.1), transparent 36%),
+    linear-gradient(225deg, rgba(251, 174, 123, 0.1), transparent 34%),
+    linear-gradient(180deg, rgba(5, 8, 16, 0.98), rgba(9, 17, 27, 0.94));
 }
 
 .ppp-attractions-hero::before {
-  width: 280px;
-  height: 280px;
-  top: -60px;
-  left: -70px;
-  background: rgba(251, 174, 123, 0.2);
+  content: "";
+  position: absolute;
+  left: max(24px, calc((100vw - 1180px) / 2));
+  right: max(24px, calc((100vw - 1180px) / 2));
+  bottom: 0;
+  height: 3px;
+  background: var(--ppp-brand-line);
+  opacity: 0.8;
 }
 
 .ppp-attractions-hero::after {
-  width: 320px;
-  height: 320px;
-  right: -90px;
-  bottom: 20px;
-  background: rgba(164, 207, 95, 0.16);
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(164, 207, 95, 0.05), transparent 22%, transparent 78%, rgba(251, 174, 123, 0.05)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 24%, rgba(0, 0, 0, 0.18));
+  pointer-events: none;
 }
 
 .ppp-attractions-hero__inner {
@@ -56,7 +82,7 @@
 .ppp-attractions-content,
 .ppp-attractions-grid-wrap,
 .ppp-attraction-card-modern {
-  backdrop-filter: blur(16px);
+  backdrop-filter: blur(12px);
 }
 
 .ppp-attractions-hero__copy {
@@ -94,6 +120,55 @@
   gap: 0.9rem;
   align-items: center;
   margin-top: 1.6rem;
+}
+
+.ppp-attractions-hero .ppp-attractions-hero__actions {
+  position: relative;
+  z-index: 1;
+}
+
+.ppp-attractions-hero__book-btn {
+  position: relative;
+  min-height: 52px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  overflow: hidden;
+  padding: 15px 34px;
+  border: 2px solid var(--ppp-lime);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, var(--ppp-lime), var(--ppp-peach));
+  color: #050810;
+  font-family: "Barlow Condensed", Impact, sans-serif;
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 0 24px rgba(164, 207, 95, 0.28), 0 14px 32px rgba(0, 0, 0, 0.24);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.ppp-attractions-hero__book-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 0%, rgba(255, 255, 255, 0.32) 42%, transparent 64%);
+  transform: translateX(-120%);
+  transition: transform 0.45s ease;
+}
+
+.ppp-attractions-hero__book-btn:hover {
+  transform: translateY(-3px);
+  border-color: var(--ppp-peach);
+  box-shadow: 0 0 34px rgba(164, 207, 95, 0.38), 0 18px 42px rgba(0, 0, 0, 0.3);
+}
+
+.ppp-attractions-hero__book-btn:hover::after {
+  transform: translateX(120%);
 }
 
 .ppp-attractions-hero__link {
@@ -151,15 +226,34 @@
 
 .ppp-attractions-hero-card {
   width: 100%;
-  border-radius: 28px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(164, 207, 95, 0.34);
+  border-radius: 8px;
   padding: clamp(1.4rem, 2.6vw, 2rem);
+  background:
+    var(--ppp-brand-card),
+    var(--ppp-card);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.34), 0 0 24px rgba(164, 207, 95, 0.14);
+}
+
+.ppp-attractions-hero-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 5px;
+  background: var(--ppp-brand-line);
 }
 
 .ppp-attractions-hero-card h2 {
   margin: 0.8rem 0 1rem;
-  font-size: clamp(1.45rem, 3vw, 2.1rem);
-  line-height: 1.08;
-  text-transform: none;
+  color: var(--white-color);
+  font-family: "Barlow Condensed", Impact, sans-serif;
+  font-size: clamp(2rem, 4.5vw, 4rem);
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 0.98;
+  text-transform: uppercase;
 }
 
 .ppp-attractions-hero-card ul {
@@ -172,7 +266,7 @@
   position: relative;
   padding-left: 1.2rem;
   margin-bottom: 0.9rem;
-  color: var(--text-muted);
+  color: rgba(240, 246, 255, 0.88);
   line-height: 1.7;
 }
 
@@ -181,26 +275,88 @@
   position: absolute;
   top: 0.75rem;
   left: 0;
-  width: 8px;
-  height: 8px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  background: linear-gradient(135deg, var(--ppp-lime), var(--ppp-peach));
+  box-shadow: 0 0 16px rgba(164, 207, 95, 0.28);
+}
+
+.ppp-attractions-hero .ppp-about-hero-card {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  border: 1px solid rgba(164, 207, 95, 0.34);
+  border-radius: 8px;
+  padding: clamp(1.6rem, 3vw, 2.6rem);
+  background:
+    var(--ppp-brand-card),
+    var(--ppp-card);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.34), 0 0 24px rgba(164, 207, 95, 0.14);
+}
+
+.ppp-attractions-hero .ppp-about-hero-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 5px;
+  background: var(--ppp-brand-line);
+}
+
+.ppp-attractions-hero .ppp-about-hero-card h2 {
+  margin: 0.8rem 0 1rem;
+  color: var(--white-color);
+  font-family: "Barlow Condensed", Impact, sans-serif;
+  font-size: clamp(2rem, 4.5vw, 4rem);
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 0.98;
+  text-transform: uppercase;
+}
+
+.ppp-attractions-hero .ppp-about-hero-card li {
+  color: rgba(240, 246, 255, 0.88);
+}
+
+.ppp-attractions-hero .ppp-about-hero-card li::before {
+  width: 9px;
+  height: 9px;
+  background: linear-gradient(135deg, var(--ppp-lime), var(--ppp-peach));
+  box-shadow: 0 0 16px rgba(164, 207, 95, 0.28);
 }
 
 .ppp-attractions-layout {
   display: grid;
   gap: 1.75rem;
-  padding: 0 0 2.5rem;
+  padding: clamp(2.5rem, 5vw, 4.5rem) 0;
 }
 
 .ppp-attractions-content,
 .ppp-attractions-grid-wrap {
-  border-radius: 28px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(164, 207, 95, 0.24);
+  border-radius: 8px;
   padding: clamp(1.3rem, 2.6vw, 2.2rem);
+  background:
+    linear-gradient(135deg, rgba(164, 207, 95, 0.1), transparent 36%),
+    linear-gradient(160deg, rgba(251, 174, 123, 0.09), rgba(17, 24, 39, 0.95) 56%);
+  box-shadow: 0 20px 62px rgba(0, 0, 0, 0.28);
+}
+
+.ppp-attractions-content::before,
+.ppp-attractions-grid-wrap::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 5px;
+  background: var(--ppp-brand-line);
 }
 
 .ppp-attractions-richtext {
-  color: var(--text-muted);
+  position: relative;
+  z-index: 1;
+  color: rgba(240, 246, 255, 0.82);
   line-height: 1.85;
   text-transform: none;
 }
@@ -211,7 +367,7 @@
 
 .ppp-attractions-richtext p,
 .ppp-attractions-richtext li {
-  color: var(--text-muted);
+  color: rgba(240, 246, 255, 0.82);
 }
 
 .ppp-attractions-richtext ul li::before {
@@ -230,27 +386,47 @@
 }
 
 .ppp-attractions-grid {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.25rem;
 }
 
 .ppp-attraction-card-modern {
-  border-radius: 24px;
+  position: relative;
+  border: 1px solid rgba(164, 207, 95, 0.32);
+  border-radius: 8px;
   overflow: hidden;
+  background:
+    linear-gradient(145deg, rgba(164, 207, 95, 0.13), rgba(251, 174, 123, 0.1) 42%, rgba(17, 24, 39, 0.98)),
+    var(--ppp-card);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.32), 0 0 18px rgba(164, 207, 95, 0.08);
   transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
+.ppp-attraction-card-modern::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 2;
+  height: 5px;
+  background: var(--ppp-brand-line);
+}
+
 .ppp-attraction-card-modern:hover {
-  transform: translateY(-4px);
-  border-color: rgba(251, 174, 123, 0.32);
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.34);
+  transform: translateY(-6px);
+  border-color: var(--ppp-lime);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.42), 0 0 34px rgba(164, 207, 95, 0.2);
 }
 
 .ppp-attraction-card-modern__media {
   display: block;
   aspect-ratio: 16 / 10;
   overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(164, 207, 95, 0.2), rgba(251, 174, 123, 0.12) 42%, rgba(17, 24, 39, 0.96)),
+    var(--ppp-card);
 }
 
 .ppp-attraction-card-modern__media img {
@@ -273,13 +449,17 @@
 .ppp-attraction-card-modern__body h2 {
   margin: 0 0 0.55rem;
   color: var(--white-color);
-  font-size: clamp(1.3rem, 2vw, 1.65rem);
+  font-family: "Barlow Condensed", Impact, sans-serif;
+  font-size: clamp(1.45rem, 2.4vw, 1.9rem);
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 1;
   text-align: left;
-  text-transform: none;
+  text-transform: uppercase;
 }
 
 .ppp-attraction-card-modern__body p {
-  color: var(--text-muted);
+  color: rgba(240, 246, 255, 0.76);
   line-height: 1.7;
 }
 
@@ -290,15 +470,21 @@
   min-height: 46px;
   width: fit-content;
   padding: 14px 28px;
-  border-radius: 6px;
-  background: transparent;
-  border: 2px solid var(--primary-color);
-  color: var(--primary-color);
+  border-radius: 8px;
+  background: var(--ppp-lime);
+  border: 2px solid var(--ppp-lime);
+  color: #050810;
   font-family: "Barlow Condensed", Impact, sans-serif;
   font-size: 0.95rem;
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.ppp-attraction-card-modern__link:hover {
+  background: #b4df70;
+  box-shadow: 0 0 22px rgba(164, 207, 95, 0.28);
 }
 
 .ppp-groups-page {
@@ -1329,4 +1515,299 @@
   .ppp-dynamic-grid-wrap {
     padding: 1.1rem;
   }
+}
+
+/* Pixel Pulse treatment for all sheet-driven navigation pages */
+.ppp-groups-page,
+.ppp-about-page,
+.ppp-dynamic-page {
+  --ppp-lime: #a4cf5f;
+  --ppp-peach: #fbae7b;
+  --ppp-magenta: #ff2d78;
+  --ppp-card: #111827;
+  --ppp-muted: #8a9bb5;
+  --ppp-brand-line: linear-gradient(90deg, var(--ppp-lime), var(--ppp-peach), var(--ppp-magenta));
+  --ppp-brand-card: linear-gradient(145deg, rgba(164, 207, 95, 0.13), rgba(251, 174, 123, 0.1) 42%, rgba(17, 24, 39, 0.98));
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.018) 0,
+      rgba(255, 255, 255, 0.018) 1px,
+      transparent 1px,
+      transparent 88px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.012) 0,
+      rgba(255, 255, 255, 0.012) 1px,
+      transparent 1px,
+      transparent 88px
+    ),
+    linear-gradient(180deg, #050810 0%, #09111b 30%, #101722 62%, #050810 100%);
+  color: var(--white-color);
+}
+
+.ppp-groups-hero,
+.ppp-about-hero,
+.ppp-dynamic-hero {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(1.6rem, 3.4vw, 3rem) 0 1.4rem;
+  background:
+    linear-gradient(135deg, rgba(164, 207, 95, 0.1), transparent 34%),
+    linear-gradient(225deg, rgba(251, 174, 123, 0.1), transparent 34%),
+    linear-gradient(180deg, rgba(5, 8, 16, 0.98), rgba(9, 17, 27, 0.94));
+}
+
+.ppp-groups-hero::before,
+.ppp-about-hero::before,
+.ppp-dynamic-hero::before {
+  content: "";
+  position: absolute;
+  left: max(24px, calc((100vw - 1180px) / 2));
+  right: max(24px, calc((100vw - 1180px) / 2));
+  bottom: 0;
+  width: auto;
+  height: 3px;
+  border-radius: 0;
+  filter: none;
+  opacity: 0.86;
+  background: var(--ppp-brand-line);
+}
+
+.ppp-groups-hero::after,
+.ppp-about-hero::after,
+.ppp-dynamic-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  filter: none;
+  opacity: 1;
+  background:
+    linear-gradient(90deg, rgba(164, 207, 95, 0.055), transparent 22%, transparent 78%, rgba(251, 174, 123, 0.055)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 24%, rgba(0, 0, 0, 0.18));
+  pointer-events: none;
+}
+
+.ppp-groups-hero__inner,
+.ppp-about-hero__inner,
+.ppp-dynamic-hero__inner {
+  gap: clamp(0.9rem, 1.8vw, 1.5rem);
+  align-items: stretch;
+}
+
+.ppp-groups-hero__panel,
+.ppp-about-hero__panel {
+  width: 100%;
+}
+
+.ppp-groups-hero .ppp-about-hero-card,
+.ppp-about-hero-card,
+.ppp-dynamic-hero__copy,
+.ppp-dynamic-hero__media,
+.ppp-groups-content,
+.ppp-groups-grid-wrap,
+.ppp-group-card-modern,
+.ppp-about-content,
+.ppp-about-grid-wrap,
+.ppp-about-card-modern,
+.ppp-dynamic-richtext,
+.ppp-dynamic-grid-wrap,
+.ppp-dynamic-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(164, 207, 95, 0.28);
+  border-radius: 8px;
+  background:
+    linear-gradient(145deg, rgba(164, 207, 95, 0.1), rgba(251, 174, 123, 0.07) 42%, rgba(17, 24, 39, 0.94)),
+    var(--ppp-card);
+  box-shadow: 0 20px 56px rgba(0, 0, 0, 0.28), 0 0 18px rgba(164, 207, 95, 0.08);
+  backdrop-filter: blur(12px);
+}
+
+.ppp-groups-hero .ppp-about-hero-card::before,
+.ppp-about-hero-card::before,
+.ppp-dynamic-hero__copy::before,
+.ppp-dynamic-hero__media::before,
+.ppp-groups-content::before,
+.ppp-groups-grid-wrap::before,
+.ppp-group-card-modern::before,
+.ppp-about-content::before,
+.ppp-about-grid-wrap::before,
+.ppp-about-card-modern::before,
+.ppp-dynamic-richtext::before,
+.ppp-dynamic-grid-wrap::before,
+.ppp-dynamic-card::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  inset: 0 0 auto;
+  height: 5px;
+  background: var(--ppp-brand-line);
+}
+
+.ppp-groups-hero .ppp-about-hero-card,
+.ppp-about-hero-card,
+.ppp-dynamic-hero__copy {
+  width: 100%;
+  padding: clamp(1.2rem, 2.4vw, 2.2rem);
+}
+
+.ppp-groups-hero .ppp-about-hero-card h2,
+.ppp-about-hero-card h2,
+.ppp-dynamic-hero .section-heading {
+  color: var(--white-color);
+  font-family: "Barlow Condensed", Impact, sans-serif;
+  font-size: clamp(2rem, 4.6vw, 4rem);
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 0.98;
+  text-transform: uppercase;
+}
+
+.ppp-groups-hero .ppp-about-hero-card li,
+.ppp-about-hero-card li,
+.ppp-dynamic-hero__text,
+.ppp-dynamic-richtext,
+.ppp-dynamic-richtext p,
+.ppp-dynamic-richtext li,
+.ppp-groups-richtext,
+.ppp-groups-richtext p,
+.ppp-groups-richtext li,
+.ppp-about-richtext,
+.ppp-about-richtext p,
+.ppp-about-richtext li {
+  color: rgba(240, 246, 255, 0.8);
+}
+
+.ppp-groups-hero .ppp-about-hero-card li::before,
+.ppp-about-hero-card li::before,
+.ppp-dynamic-hero__list li::before {
+  width: 9px;
+  height: 9px;
+  background: linear-gradient(135deg, var(--ppp-lime), var(--ppp-peach));
+  box-shadow: 0 0 16px rgba(164, 207, 95, 0.28);
+}
+
+.ppp-groups-layout,
+.ppp-about-layout,
+.ppp-dynamic-body__inner {
+  gap: clamp(1.25rem, 2.4vw, 2rem);
+  padding: clamp(2rem, 4vw, 3.25rem) 0;
+}
+
+.ppp-group-card-modern,
+.ppp-about-card-modern,
+.ppp-dynamic-card {
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.ppp-group-card-modern:hover,
+.ppp-about-card-modern:hover,
+.ppp-dynamic-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(251, 174, 123, 0.58);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.34), 0 0 22px rgba(164, 207, 95, 0.16);
+}
+
+.ppp-group-card-modern__body h2,
+.ppp-about-card-modern__body h2,
+.ppp-dynamic-card__body h2 {
+  font-family: "Barlow Condensed", Impact, sans-serif;
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.ppp-group-card-modern__body p,
+.ppp-about-card-modern__body p,
+.ppp-dynamic-card__body p {
+  color: rgba(240, 246, 255, 0.76);
+}
+
+.ppp-group-card-modern__link,
+.ppp-about-card-modern__link,
+.ppp-dynamic-card__link,
+.ppp-dynamic-hero__actions button {
+  border: 2px solid var(--ppp-lime);
+  border-radius: 8px;
+  background: var(--ppp-lime);
+  color: #050810;
+  box-shadow: 0 0 18px rgba(164, 207, 95, 0.18);
+}
+
+.ppp-dynamic-btn--outline {
+  border-color: var(--ppp-lime);
+  border-radius: 8px;
+  color: var(--ppp-lime);
+}
+
+.ppp-group-card-modern__link:hover,
+.ppp-about-card-modern__link:hover,
+.ppp-dynamic-card__link:hover,
+.ppp-dynamic-hero__actions button:hover {
+  background: var(--ppp-peach);
+  border-color: var(--ppp-peach);
+  box-shadow: 0 0 24px rgba(164, 207, 95, 0.28);
+}
+
+.ppp-dynamic-hero__media {
+  min-height: clamp(280px, 34vw, 420px);
+}
+
+.ppp-dynamic-hero__media img {
+  height: 100%;
+  object-fit: cover;
+}
+
+.aero_home_article_section {
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.014) 0,
+      rgba(255, 255, 255, 0.014) 1px,
+      transparent 1px,
+      transparent 88px
+    ),
+    linear-gradient(180deg, #050810 0%, #09111b 100%);
+}
+
+:is(
+  .ppp-about-hero-card,
+  .ppp-attractions-hero-card,
+  .ppp-groups-hero-card,
+  .ppp-dynamic-hero__copy
+) h2 {
+  font-size: clamp(1.15rem, 2.1vw, 1.75rem) !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+  line-height: 1.16 !important;
+}
+
+:is(
+  .ppp-attraction-card-modern__body,
+  .ppp-group-card-modern__body,
+  .ppp-about-card-modern__body,
+  .ppp-dynamic-card__body,
+  .aero_category_section_card_desc
+) h2 {
+  font-size: clamp(1.05rem, 1.65vw, 1.35rem) !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+  line-height: 1.18 !important;
+  text-transform: none !important;
+}
+
+.ppp-about-content h2,
+.ppp-about-richtext h2,
+.ppp-about-richtext .container h2 {
+  font-size: clamp(1.05rem, 1.65vw, 1.35rem) !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+  line-height: 1.18 !important;
+  text-transform: none !important;
 }

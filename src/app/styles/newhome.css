@@ -617,3 +617,12 @@
     grid-template-columns: 1fr;
   }
 }
+
+.ppp-attraction-card__title,
+.ppp-why__title {
+  font-size: clamp(1.05rem, 1.65vw, 1.35rem) !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+  line-height: 1.18 !important;
+  text-transform: none !important;
+}
