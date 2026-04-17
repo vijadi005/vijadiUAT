@@ -26,6 +26,7 @@ const SITE_DATA_SHEET_NAMES = [
   "howItWorks",
   "howItWorksMeta",
   "games",
+  "gamesMeta",
   "whyUsMeta",
   "whyUs",
   "useCases",
@@ -62,6 +63,11 @@ const emptySiteData = {
     steps: [],
   },
   games: [],
+  gamesMeta: {
+    title: "",
+    accent: "",
+    subtitle: "",
+  },
   whyUs: [],
   whyUsMeta: {
     title: "",
@@ -240,6 +246,7 @@ function keyValueDataFromSheet(sheet, fields) {
 function parseSiteDataSheets(sheets) {
   const hero = keyValueSheet(sheets, "hero");
   const howCta = keyValueSheet(sheets, "howItWorksMeta");
+  const gamesMeta = keyValueSheet(sheets, "gamesMeta");
   const whyUsMeta = keyValueSheet(sheets, "whyUsMeta");
   const location = keyValueSheet(sheets, "location");
   const pricingMeta = keyValueSheet(sheets, "pricingMeta");
@@ -273,6 +280,11 @@ function parseSiteDataSheets(sheets) {
       color: String(row.color || ""),
       emoji: String(row.emoji || ""),
     })).filter((row) => row.name || row.tag),
+    gamesMeta: {
+      title: sheetValue(gamesMeta, "title"),
+      accent: sheetValue(gamesMeta, "accent"),
+      subtitle: sheetValue(gamesMeta, "subtitle"),
+    },
     whyUsMeta: {
       title: sheetValue(whyUsMeta, "title"),
       accent: sheetValue(whyUsMeta, "accent"),
@@ -498,6 +510,29 @@ const Home = async () => {
       siteData.whyUsMeta.subtitle ||
       getConfigValue(dataconfig, ["whyUsSubtitle"]),
   };
+  const gamesHeading = {
+    title:
+      siteData.gamesMeta.title ||
+      getConfigValue(dataconfig, ["gamesTitle", "gamesHeadingTitle"]),
+    accent:
+      siteData.gamesMeta.accent ||
+      getConfigValue(dataconfig, ["gamesAccent", "gamesHeadingAccent"]),
+    subtitle:
+      siteData.gamesMeta.subtitle ||
+      getConfigValue(dataconfig, ["gamesSubtitle"]),
+  };
+  const pricingCta = {
+    text:
+      siteData.pricingCta.text ||
+      getConfigValue(dataconfig, ["pricingCtaText", "pricingTipText"]),
+    button:
+      siteData.pricingCta.button ||
+      getConfigValue(dataconfig, ["pricingCtaButton", "pricingTipButton"]),
+    bookingType:
+      siteData.pricingCta.bookingType ||
+      getConfigValue(dataconfig, ["pricingCtaBookingType"]) ||
+      "ticket",
+  };
   const pricingHref = ctaContent.pricingHref || "/pricing-promos";
   const articlesHref = ctaContent.articlesHref || "/blogs";
 
@@ -572,6 +607,24 @@ const Home = async () => {
       </section>
       )}
 
+      {siteData.howItWorks.cta && (
+      <section className="ppp-mini-cta">
+        <div className="aero-max-container ppp-mini-cta__inner">
+          <p>{siteData.howItWorks.cta}</p>
+          <div className="ppp-mini-cta__actions">
+            {siteData.howItWorks.ctaButton && (
+              <BookingButton title={siteData.howItWorks.ctaButton} className="ppp-btn ppp-btn--primary" bookingType="ticket" />
+            )}
+            {ctaContent.pricingText && (
+              <Link href={pricingHref} className="ppp-btn ppp-btn--outline" prefetch>
+                {ctaContent.pricingText}
+              </Link>
+            )}
+          </div>
+        </div>
+      </section>
+      )}
+
       {/* ── Intro section ── */}
       {showHomepageIntro && (homepageIntroHeading || homepageIntroHeadingAccent || homepageSection1) && (
       <section className="ppp-intro">
@@ -588,35 +641,18 @@ const Home = async () => {
       </section>
       )}
 
-      {/* ── Why Pixel Pulse ── */}
-      {siteData.whyUs.length > 0 && (
-      <section className="ppp-section ppp-why">
-        <div className="aero-max-container">
-          {(whyUsHeading.title || whyUsHeading.accent) && (
-            <SectionHeading>
-              {whyUsHeading.title} {whyUsHeading.accent && <span>{whyUsHeading.accent}</span>}
-            </SectionHeading>
-          )}
-          {whyUsHeading.subtitle && (
-            <p className="ppp-section__sub">{whyUsHeading.subtitle}</p>
-          )}
-          <ul className="ppp-why__grid">
-            {siteData.whyUs.map((r, i) => (
-              <li key={i} className="ppp-why__card">
-                {r.icon && <span className="ppp-why__icon" aria-hidden="true">{r.icon}</span>}
-                <h3 className="ppp-why__title">{r.title}</h3>
-                <p className="ppp-why__body">{r.desc}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-      )}
-
       {/* ── Attractions grid ── */}
       {siteData.games.length > 0 && (
         <section className="ppp-section ppp-attractions">
           <div className="aero-max-container">
+            {(gamesHeading.title || gamesHeading.accent) && (
+              <SectionHeading>
+                {gamesHeading.title} {gamesHeading.accent && <span>{gamesHeading.accent}</span>}
+              </SectionHeading>
+            )}
+            {gamesHeading.subtitle && (
+              <p className="ppp-section__sub">{gamesHeading.subtitle}</p>
+            )}
             <ul className="ppp-attractions__grid">
               {siteData.games.map((game, i) => {
                 const item = attractionsData?.[0]?.children?.[i] || {};
@@ -654,20 +690,51 @@ const Home = async () => {
         </section>
       )}
 
-      {siteData.howItWorks.cta && (
-      <section className="ppp-mini-cta">
+      {siteData.pricing.length > 0 && (pricingCta.text || pricingCta.button) && (
+      <section className="ppp-mini-cta ppp-pricing__tip">
         <div className="aero-max-container ppp-mini-cta__inner">
-          <p>{siteData.howItWorks.cta}</p>
+          {pricingCta.text && <p>{pricingCta.text}</p>}
           <div className="ppp-mini-cta__actions">
-            {siteData.howItWorks.ctaButton && (
-              <BookingButton title={siteData.howItWorks.ctaButton} className="ppp-btn ppp-btn--primary" bookingType="ticket" />
+            {pricingCta.button && (
+              <BookingButton
+                title={pricingCta.button}
+                className="ppp-btn ppp-btn--primary"
+                bookingType={pricingCta.bookingType}
+              />
             )}
-            {ctaContent.pricingText && (
-              <Link href={pricingHref} className="ppp-btn ppp-btn--outline" prefetch>
-                {ctaContent.pricingText}
-              </Link>
+            {ctaContent.pricingSecondaryText && (
+              <BookingButton
+                title={ctaContent.pricingSecondaryText}
+                className="ppp-btn ppp-btn--primary"
+                bookingType={ctaContent.pricingSecondaryBookingType}
+              />
             )}
           </div>
+        </div>
+      </section>
+      )}
+
+      {/* ── Why Pixel Pulse ── */}
+      {siteData.whyUs.length > 0 && (
+      <section className="ppp-section ppp-why">
+        <div className="aero-max-container">
+          {(whyUsHeading.title || whyUsHeading.accent) && (
+            <SectionHeading>
+              {whyUsHeading.title} {whyUsHeading.accent && <span>{whyUsHeading.accent}</span>}
+            </SectionHeading>
+          )}
+          {whyUsHeading.subtitle && (
+            <p className="ppp-section__sub">{whyUsHeading.subtitle}</p>
+          )}
+          <ul className="ppp-why__grid">
+            {siteData.whyUs.map((r, i) => (
+              <li key={i} className="ppp-why__card">
+                {r.icon && <span className="ppp-why__icon" aria-hidden="true">{r.icon}</span>}
+                <h3 className="ppp-why__title">{r.title}</h3>
+                <p className="ppp-why__body">{r.desc}</p>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
       )}
@@ -722,30 +789,6 @@ const Home = async () => {
               })}
             </div>
           </div>
-        </section>
-      )}
-
-      {siteData.pricing.length > 0 && (siteData.pricingCta.text || siteData.pricingCta.button) && (
-      <section className="ppp-mini-cta ppp-pricing__tip">
-        <div className="aero-max-container ppp-mini-cta__inner">
-          {siteData.pricingCta.text && <p>{siteData.pricingCta.text}</p>}
-          <div className="ppp-mini-cta__actions">
-            {siteData.pricingCta.button && (
-              <BookingButton
-                title={siteData.pricingCta.button}
-                className="ppp-btn ppp-btn--primary"
-                bookingType={siteData.pricingCta.bookingType}
-              />
-            )}
-            {ctaContent.pricingSecondaryText && (
-              <BookingButton
-                title={ctaContent.pricingSecondaryText}
-                className="ppp-btn ppp-btn--primary"
-                bookingType={ctaContent.pricingSecondaryBookingType}
-              />
-            )}
-          </div>
-        </div>
       </section>
       )}
 
