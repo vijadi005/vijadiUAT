@@ -1,7 +1,12 @@
 import React from "react";
 import SectionHeading from "./SectionHeading";
 
-const Promotions = ({ promotions }) => {
+const Promotions = ({
+  promotions,
+  heading = "",
+  headingAccent = "",
+  intro = "",
+}) => {
 //   const promoData = attractionsData?.[0]?.children || [];
 
 //   if (!promoData.length) return null;
@@ -10,13 +15,13 @@ const Promotions = ({ promotions }) => {
     <section className="aero_home_article_section">
       <div className="aero-max-container">
 
-        <SectionHeading className="section-heading-white">
-          Current <span>Promotions</span>
-        </SectionHeading>
+        {(heading || headingAccent) && (
+          <SectionHeading className="section-heading-white">
+            {heading} {headingAccent && <span>{headingAccent}</span>}
+          </SectionHeading>
+        )}
 
-        <p>
-          Do not miss out on these amazing deals! Save big on your next visit.
-        </p>
+        {intro && <p>{intro}</p>}
 
             <div className="promotions__grid">
                 {promotions.map((promo, index) => (

@@ -2,10 +2,11 @@ import React from "react";
 import "../../styles/kidsparty.css";
 import "../../styles/subcategory.css";
 import Link from "next/link";
-import { fetchPageData, generateMetadataLib } from "@/lib/sheets";
+import { fetchPageData, fetchsheetdata, generateMetadataLib } from "@/lib/sheets";
 import { LOCATION_NAME } from "@/lib/constant";
 import SectionHeading from "@/components/home/SectionHeading";
 import BookingButton from "@/components/smallComponents/BookingButton";
+import { getCtaContent } from "@/lib/ctaContent";
 
 function stripHtml(html = "") {
   return html
@@ -32,7 +33,19 @@ export async function generateMetadata({ params }) {
 const page = async ({ params }) => {
   await params;
   const location_slug = LOCATION_NAME || "vaughan";
-  const pageData = await fetchPageData(location_slug, "bogo");
+  const [pageData, configData] = await Promise.all([
+    fetchPageData(location_slug, "bogo"),
+    fetchsheetdata("config", location_slug),
+  ]);
+  const configCta = getCtaContent(configData);
+  const pageCta = getCtaContent(pageData || {});
+  const ctaContent = {
+    ...configCta,
+    ...Object.fromEntries(
+      Object.entries(pageCta).filter(([, value]) => Boolean(value)),
+    ),
+  };
+  const contactHref = ctaContent.contactHref || "/contactus";
   const heroImage = getPreferredImage(pageData);
   const introText =
     pageData?.metadescription ||
@@ -49,12 +62,16 @@ const page = async ({ params }) => {
             </SectionHeading>
             {pageData?.metatitle && <h2>{pageData.metatitle}</h2>}
             <p>{introText}</p>
-            <div className="ppp-detail-hero__actions">
-              <BookingButton title="Book Now" />
-              <Link href="/contactus" className="ppp-detail-btn ppp-detail-btn--outline" prefetch>
-                Inquire
-              </Link>
-            </div>
+            {(ctaContent.bookNowText || ctaContent.inquireText) && (
+              <div className="ppp-detail-hero__actions">
+                {ctaContent.bookNowText && <BookingButton title={ctaContent.bookNowText} />}
+                {ctaContent.inquireText && (
+                  <Link href={contactHref} className="ppp-detail-btn ppp-detail-btn--outline" prefetch>
+                    {ctaContent.inquireText}
+                  </Link>
+                )}
+              </div>
+            )}
           </div>
 
           <div className="ppp-detail-hero__media">

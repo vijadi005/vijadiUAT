@@ -4,12 +4,13 @@ export const runtime = "nodejs";
 import "../../styles/blogs.css";
 import React from "react";
 import Link from "next/link";
-import { fetchMenuData, generateMetadataLib } from "@/lib/sheets";
+import { fetchsheetdata, generateMetadataLib } from "@/lib/sheets";
 import { fetchBlogs, getFallbackBlogs } from "@/lib/blogs";
 import { LOCATION_NAME } from "@/lib/constant";
 import { slugify } from "@/utils/slugify";
 import SectionHeading from "@/components/home/SectionHeading";
 import BookingButton from "@/components/smallComponents/BookingButton";
+import { getCtaContent } from "@/lib/ctaContent";
 
 export async function generateMetadata({ params }) {
   await params;
@@ -75,7 +76,11 @@ function formatBlogDate(createdAt) {
 const page = async ({ params }) => {
   await params;
   const location_slug = LOCATION_NAME || "vaughan";
-  const extractBlogData = await fetchBlogs();
+  const [extractBlogData, configData] = await Promise.all([
+    fetchBlogs(),
+    fetchsheetdata("config", location_slug),
+  ]);
+  const ctaContent = getCtaContent(configData);
   const blogsToRender =
     Array.isArray(extractBlogData) && extractBlogData.length > 0
       ? extractBlogData
@@ -167,22 +172,26 @@ const schema = {
                       <p className="ppp-blog-card__excerpt">{item.metaDescription}</p>
                     )}
                   </Link>
-                  <Link
-                    href={href}
-                    prefetch
-                    className="ppp-blog-card__link"
-                  >
-                    READ MORE
-                  </Link>
+                  {ctaContent.readMoreText && (
+                    <Link
+                      href={href}
+                      prefetch
+                      className="ppp-blog-card__link"
+                    >
+                      {ctaContent.readMoreText}
+                    </Link>
+                  )}
                 </div>
               </article>
             );
           })}
         </section>
       </section>
-      <div className="d-flex-center aero-btn-booknow ppp-blogs-booking-cta">
-        <BookingButton title="Book Now" />
-      </div>
+      {ctaContent.bookNowText && (
+        <div className="d-flex-center aero-btn-booknow ppp-blogs-booking-cta">
+          <BookingButton title={ctaContent.bookNowText} />
+        </div>
+      )}
     </main>
   );
 };

@@ -15,6 +15,7 @@ import Link from "next/link";
 import { LOCATION_NAME } from "@/lib/constant";
 import SectionHeading from "@/components/home/SectionHeading";
 import BookingButton from "@/components/smallComponents/BookingButton";
+import { getCtaContent } from "@/lib/ctaContent";
 
 function stripHtml(html = "") {
   return html
@@ -81,6 +82,15 @@ const Subcategory = async ({ params }) => {
 
   const pagedata = attractionsData?.[0];
   if (!pagedata) return;
+  const configCta = getCtaContent(dataconfig);
+  const pageCta = getCtaContent(pagedata || {});
+  const ctaContent = {
+    ...configCta,
+    ...Object.fromEntries(
+      Object.entries(pageCta).filter(([, value]) => Boolean(value)),
+    ),
+  };
+  const contactHref = ctaContent.contactHref || "/contactus";
   const isAttractionDetailPage = category_slug === "attractions";
   const isGroupsDetailPage = category_slug === "group-events";
   const detailContentHtml = pagedata?.seosection || "";
@@ -104,11 +114,13 @@ const Subcategory = async ({ params }) => {
                 <h2>{pagedata?.metatitle}</h2>
                 <p>{pagedata?.metadescription}</p>
               </article>
-                <div className="ppp-subcategory-hero__actions">
-                  <div className="aero-btn-booknow">
-                    <BookingButton title="Book Now" />
+                {ctaContent.bookNowText && (
+                  <div className="ppp-subcategory-hero__actions">
+                    <div className="aero-btn-booknow">
+                      <BookingButton title={ctaContent.bookNowText} />
+                    </div>
                   </div>
-                </div>
+                )}
 
                 <div className="ppp-subcategory-hero__stats">
                   <div className="ppp-subcategory-stat">
@@ -185,13 +197,15 @@ const Subcategory = async ({ params }) => {
                             <h3>{item?.desc}</h3>
                             <p>{item?.metatitle}</p>
                           </Link>
-                          <Link
-                            href={`/${item?.parentid}/${item?.path}`}
-                            prefetch
-                            className="ppp-subcategory-card__link"
-                          >
-                            Read More
-                          </Link>
+                          {ctaContent.readMoreText && (
+                            <Link
+                              href={`/${item?.parentid}/${item?.path}`}
+                              prefetch
+                              className="ppp-subcategory-card__link"
+                            >
+                              {ctaContent.readMoreText}
+                            </Link>
+                          )}
                         </div>
                       </article>
                     ))}
@@ -213,14 +227,16 @@ const Subcategory = async ({ params }) => {
                   <h2>{pagedata?.metatitle}</h2>
                 </article>
 
-                <div className="ppp-groupdetail-hero__actions">
-                  <a
-                    className="ppp-groupdetail-inquire-btn"
-                    href="/contactus"
-                  >
-                    <span>Inquire</span>
-                  </a>
-                </div>
+                {ctaContent.inquireText && (
+                  <div className="ppp-groupdetail-hero__actions">
+                    <a
+                      className="ppp-groupdetail-inquire-btn"
+                      href={contactHref}
+                    >
+                      <span>{ctaContent.inquireText}</span>
+                    </a>
+                  </div>
+                )}
               </div>
 
               <div className="ppp-groupdetail-hero__panel">
@@ -281,13 +297,15 @@ const Subcategory = async ({ params }) => {
                             <h3>{item?.desc}</h3>
                             <p>{item?.metatitle}</p>
                           </Link>
-                          <Link
-                            href={`/${location_slug}/${item?.parentid}/${item?.path}`}
-                            prefetch
-                            className="ppp-groupdetail-card__link"
-                          >
-                            Read More
-                          </Link>
+                          {ctaContent.readMoreText && (
+                            <Link
+                              href={`/${location_slug}/${item?.parentid}/${item?.path}`}
+                              prefetch
+                              className="ppp-groupdetail-card__link"
+                            >
+                              {ctaContent.readMoreText}
+                            </Link>
+                          )}
                         </div>
                       </article>
                     ))}
@@ -309,12 +327,16 @@ const Subcategory = async ({ params }) => {
                 {(pagedata?.metadescription || introText) && (
                   <p>{pagedata?.metadescription || introText}</p>
                 )}
-                <div className="ppp-detail-hero__actions">
-                  <BookingButton title="Book Now" />
-                  <Link href="/contactus" className="ppp-detail-btn ppp-detail-btn--outline" prefetch>
-                    Inquire
-                  </Link>
-                </div>
+                {(ctaContent.bookNowText || ctaContent.inquireText) && (
+                  <div className="ppp-detail-hero__actions">
+                    {ctaContent.bookNowText && <BookingButton title={ctaContent.bookNowText} />}
+                    {ctaContent.inquireText && (
+                      <Link href={contactHref} className="ppp-detail-btn ppp-detail-btn--outline" prefetch>
+                        {ctaContent.inquireText}
+                      </Link>
+                    )}
+                  </div>
+                )}
               </div>
 
               <div className="ppp-detail-hero__media">
@@ -366,13 +388,15 @@ const Subcategory = async ({ params }) => {
                             <h3>{item?.desc}</h3>
                             <p>{item?.metatitle || item?.metadescription}</p>
                           </Link>
-                          <Link
-                            href={`/${item?.parentid}/${item?.path}`}
-                            prefetch
-                            className="ppp-detail-card__link"
-                          >
-                            Read More
-                          </Link>
+                          {ctaContent.readMoreText && (
+                            <Link
+                              href={`/${item?.parentid}/${item?.path}`}
+                              prefetch
+                              className="ppp-detail-card__link"
+                            >
+                              {ctaContent.readMoreText}
+                            </Link>
+                          )}
                         </div>
                       </article>
                     ))}

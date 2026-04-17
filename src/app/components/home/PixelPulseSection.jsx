@@ -112,7 +112,7 @@ export default function PixelPulseVaughan() {
       {/*<div className="container section cta-box">
         <p>{pixelPulseContent.cta}</p>
         <div className="d-flex-center aero-btn-booknow" >
-          <BookingButton title="Book Now" />
+          <BookingButton title={pixelPulseContent.ctaButton} />
         </div>
       </div>
 

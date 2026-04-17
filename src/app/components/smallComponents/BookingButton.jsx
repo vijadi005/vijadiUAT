@@ -3,8 +3,12 @@
 import React, { useState } from 'react'
 import BookingModal from '../model/BookingModal';
 
-const BookingButton = ({ title = "Book Now", className = "", bookingType }) => {
+const BookingButton = ({ title = "", className = "", bookingType }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+    if (!title) {
+        return null;
+    }
 
     return (
         <>

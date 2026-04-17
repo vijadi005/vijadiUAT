@@ -14,6 +14,7 @@ import { LOCATION_NAME } from "@/lib/constant";
 import { notFound } from "next/navigation";
 import SectionHeading from "@/components/home/SectionHeading";
 import BookingButton from "@/components/smallComponents/BookingButton";
+import { getCtaContent } from "@/lib/ctaContent";
 
 function stripHtml(html = "") {
   return html
@@ -122,8 +123,11 @@ const Category = async ({ params }) => {
   }
 
   // 1️⃣ Fetch data
-  const data = await fetchMenuData(location_slug);
-  const pageData = await fetchPageData(location_slug, category_slug);
+  const [data, pageData, configData] = await Promise.all([
+    fetchMenuData(location_slug),
+    fetchPageData(location_slug, category_slug),
+    fetchsheetdata("config", location_slug),
+  ]);
 
   // 2️⃣ Derived data
   const attractionsData = data ? getDataByParentId(data, category_slug) : null;
@@ -155,6 +159,15 @@ const Category = async ({ params }) => {
   const pageHeroBullets = pageHeroContent.bullets;
   const pageHeroImage = getPreferredImage(pageData || attractionsData?.[0]);
   const pageChildren = attractionsData?.[0]?.children?.filter((item) => item?.isactive == 1) || [];
+  const configCta = getCtaContent(configData);
+  const pageCta = getCtaContent(pageData || {});
+  const ctaContent = {
+    ...configCta,
+    ...Object.fromEntries(
+      Object.entries(pageCta).filter(([, value]) => Boolean(value)),
+    ),
+  };
+  const contactHref = ctaContent.contactHref || "/contactus";
 
   const jsonLDschema = await generateSchema(
     pageData,
@@ -188,13 +201,15 @@ const Category = async ({ params }) => {
 	                        ))}
 	                      </ul>
 	                    )}
-	                    <div className="ppp-attractions-hero__actions">
-	                      <BookingButton
-	                        title="Book Now"
-	                        className="ppp-attractions-hero__book-btn"
-	                        bookingType="ticket"
-	                      />
-	                    </div>
+	                    {ctaContent.bookNowText && (
+	                      <div className="ppp-attractions-hero__actions">
+	                        <BookingButton
+	                          title={ctaContent.bookNowText}
+	                          className="ppp-attractions-hero__book-btn"
+	                          bookingType="ticket"
+	                        />
+	                      </div>
+	                    )}
 	                  </div>
 	                </div>
 	              </div>
@@ -236,13 +251,15 @@ const Category = async ({ params }) => {
                             <h2>{item.desc}</h2>
                             <p>{item.metatitle}</p>
                           </Link>
-                          <Link
-                            href={`${category_slug}/${item?.path}`}
-                            prefetch
-                            className="ppp-attraction-card-modern__link"
-                          >
-                            Read More
-                          </Link>
+                          {ctaContent.readMoreText && (
+                            <Link
+                              href={`${category_slug}/${item?.path}`}
+                              prefetch
+                              className="ppp-attraction-card-modern__link"
+                            >
+                              {ctaContent.readMoreText}
+                            </Link>
+                          )}
                         </div>
                       </article>
                     ))}
@@ -309,13 +326,15 @@ const Category = async ({ params }) => {
                             <h2>{item.desc}</h2>
                             <p>{item.metatitle}</p>
                           </Link>
-                          <Link
-                            href={`${category_slug}/${item?.path}`}
-                            prefetch
-                            className="ppp-group-card-modern__link"
-                          >
-                            Explore Option
-                          </Link>
+                          {ctaContent.exploreOptionText && (
+                            <Link
+                              href={`${category_slug}/${item?.path}`}
+                              prefetch
+                              className="ppp-group-card-modern__link"
+                            >
+                              {ctaContent.exploreOptionText}
+                            </Link>
+                          )}
                         </div>
                       </article>
                     ))}
@@ -388,13 +407,15 @@ const Category = async ({ params }) => {
                               <h2>{item.desc}</h2>
                               <p>{item.metatitle}</p>
                             </Link>
-                            <Link
-                              href={`${category_slug}/${item?.path}`}
-                              prefetch
-                              className="ppp-about-card-modern__link"
-                            >
-                              Read More
-                            </Link>
+                            {ctaContent.readMoreText && (
+                              <Link
+                                href={`${category_slug}/${item?.path}`}
+                                prefetch
+                                className="ppp-about-card-modern__link"
+                              >
+                                {ctaContent.readMoreText}
+                              </Link>
+                            )}
                           </div>
                         </article>
                       ))}
@@ -423,12 +444,16 @@ const Category = async ({ params }) => {
                       {pageData?.metadescription || introText}
                     </p>
                   )}
-                  <div className="ppp-dynamic-hero__actions">
-                    <BookingButton title="Book Now" />
-                    <Link href="/contactus" className="ppp-dynamic-btn ppp-dynamic-btn--outline" prefetch>
-                      Inquire
-                    </Link>
-                  </div>
+                  {(ctaContent.bookNowText || ctaContent.inquireText) && (
+                    <div className="ppp-dynamic-hero__actions">
+                      {ctaContent.bookNowText && <BookingButton title={ctaContent.bookNowText} />}
+                      {ctaContent.inquireText && (
+                        <Link href={contactHref} className="ppp-dynamic-btn ppp-dynamic-btn--outline" prefetch>
+                          {ctaContent.inquireText}
+                        </Link>
+                      )}
+                    </div>
+                  )}
                   {pageHeroBullets.length > 0 && (
                     <ul className="ppp-dynamic-hero__list">
                       {pageHeroBullets.map((item, index) => (
@@ -481,13 +506,15 @@ const Category = async ({ params }) => {
                               <h2>{item.desc}</h2>
                               <p>{item.metatitle || item.metadescription}</p>
                             </Link>
-                            <Link
-                              href={`/${category_slug}/${item?.path}`}
-                              prefetch
-                              className="ppp-dynamic-card__link"
-                            >
-                              Read More
-                            </Link>
+                            {ctaContent.readMoreText && (
+                              <Link
+                                href={`/${category_slug}/${item?.path}`}
+                                prefetch
+                                className="ppp-dynamic-card__link"
+                              >
+                                {ctaContent.readMoreText}
+                              </Link>
+                            )}
                           </div>
                         </article>
                       ))}

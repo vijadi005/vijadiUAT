@@ -13,6 +13,7 @@ import {
   generateMetadataLib,
 } from "@/lib/sheets";
 import { LOCATION_NAME } from "@/lib/constant";
+import { getCtaContent } from "@/lib/ctaContent";
 
 const BIRTHDAY_VAULT_PROMO_IMAGE =
   "https://storage.googleapis.com/pixel-pulse-play/web/PrivateParty.png";
@@ -108,6 +109,7 @@ function buildPricingCardsFromPricingHeaderJson(configData) {
         image: item.img || item.image || item.imageUrl || "/assets/images/logo.png",
         imageAlt: item.imageAlt || item.alt || `${title} pricing image`,
         bookable: parseBoolean(item.is_book ?? item.bookable ?? item.isBook, true),
+        ctaText: item.ctaText || item.cta || item.buttonText || "",
       };
     });
 }
@@ -299,6 +301,7 @@ function buildPricingCardMeta(configData, pricingRowCount = 0) {
       ),
       details,
       fallbackDetails: fallback.details || [],
+      ctaText: row.value8 || fallback.ctaText || "",
     };
   });
 }
@@ -376,6 +379,7 @@ function buildPricingCards(pricingSections, cardMeta) {
       image: meta.image,
       imageAlt: meta.imageAlt,
       bookable: meta.bookable,
+      ctaText: meta.ctaText,
     };
   });
 }
@@ -467,6 +471,16 @@ const PricingPromosPage = async ({ params }) => {
   const extraText = stripHtml(helpfulDetailsHtml);
   const hasPricingCards = pricingCards.length > 0;
   const hasPromotions = promotions.length > 0;
+  const configCta = getCtaContent(configData);
+  const pageCta = getCtaContent(pageData || {});
+  const ctaContent = {
+    ...configCta,
+    ...Object.fromEntries(
+      Object.entries(pageCta).filter(([, value]) => Boolean(value)),
+    ),
+  };
+  const promotionsTitle = ctaContent.promotionsHeading || "";
+  const promotionsAccent = ctaContent.promotionsHeadingAccent || "";
 
   return (
     <main className="ppp-pricing-page">
@@ -523,9 +537,9 @@ const PricingPromosPage = async ({ params }) => {
                           ))}
                         </div>
 
-                        {card.bookable && (
+                        {card.bookable && (card.ctaText || ctaContent.bookNowText) && (
                           <div className="aero-btn-booknow ppp-pricing-card__cta">
-                            <BookingButton title="Book Now" />
+                            <BookingButton title={card.ctaText || ctaContent.bookNowText} />
                           </div>
                         )}
                       </div>
@@ -534,25 +548,28 @@ const PricingPromosPage = async ({ params }) => {
                 </div>
               ) : (
                 <div className="ppp-empty-state">
-                  <p>Pricing details are being updated. Please use booking for the latest availability.</p>
-                  <div className="aero-btn-booknow ppp-pricing-card__cta">
-                    <BookingButton title="Book Now" />
-                  </div>
+                  {introText && <p>{introText}</p>}
+                  {ctaContent.bookNowText && (
+                    <div className="aero-btn-booknow ppp-pricing-card__cta">
+                      <BookingButton title={ctaContent.bookNowText} />
+                    </div>
+                  )}
                 </div>
               )}
             </article>
 
             {hasPromotions && (
               <article className="ppp-promotions-block">
-                <div className="ppp-section-intro">
-                  <SectionHeading className="section-heading-white">
-                    Current <span>Promotions</span>
-                  </SectionHeading>
-                  <p>
-                    These offers are designed to make your next Pixel Pulse visit
-                    even more fun for less.
-                  </p>
-                </div>
+                {(promotionsTitle || promotionsAccent || ctaContent.promotionsIntro) && (
+                  <div className="ppp-section-intro">
+                    {(promotionsTitle || promotionsAccent) && (
+                      <SectionHeading className="section-heading-white">
+                        {promotionsTitle} {promotionsAccent && <span>{promotionsAccent}</span>}
+                      </SectionHeading>
+                    )}
+                    {ctaContent.promotionsIntro && <p>{ctaContent.promotionsIntro}</p>}
+                  </div>
+                )}
 
                 <div className="ppp-promotions-grid">
                   {promotions.map((promo, index) => {
@@ -586,16 +603,16 @@ const PricingPromosPage = async ({ params }) => {
                           )}
                         </div>
 
-                        {promo.link && (
+                        {promo.link && (promo.linktext || ctaContent.learnMoreText) && (
                           <Link
                             href={promo.link}
                             className="ppp-promo-card__link"
                             target={promo.link.startsWith("http") ? "_blank" : undefined}
                             rel={promo.link.startsWith("http") ? "noopener noreferrer" : undefined}
                             title={promo.linktitle || undefined}
-                            aria-label={promo.linktitle || promo.linktext || "Claim offer"}
+                            aria-label={promo.linktitle || promo.linktext || ctaContent.learnMoreText || promo.title}
                           >
-                            {promo.linktext || "Learn More"}
+                            {promo.linktext || ctaContent.learnMoreText}
                           </Link>
                         )}
                       </div>

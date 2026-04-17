@@ -15,6 +15,7 @@ import {
 import SectionHeading from "@/components/home/SectionHeading";
 import BookingButton from "@/components/smallComponents/BookingButton";
 import Loading from "@/loading";
+import { getConfigValue, getCtaContent, getRowValue } from "@/lib/ctaContent";
 
 function stripHtml(html = "") {
   return html
@@ -253,6 +254,20 @@ const Page = async ({ params }) => {
   const partyHeroLabelHtml = data?.section3 || "";
   const partyHeroHeading = partyHeroContent.heading;
   const partyHeroBullets = partyHeroContent.bullets;
+  const configCta = getCtaContent(dataconfig);
+  const pageCta = getCtaContent(data || {});
+  const ctaContent = {
+    ...configCta,
+    ...Object.fromEntries(
+      Object.entries(pageCta).filter(([, value]) => Boolean(value)),
+    ),
+  };
+  const partyCtaEyebrow =
+    getRowValue(data || {}, ["ctaEyebrow", "partyCtaEyebrow"]) ||
+    getConfigValue(dataconfig, ["birthdayCtaEyebrow", "partyCtaEyebrow"]);
+  const partyCtaTitle =
+    getRowValue(data || {}, ["ctaTitle", "partyCtaTitle"]) ||
+    getConfigValue(dataconfig, ["birthdayCtaTitle", "partyCtaTitle"]);
 
   return (
     <main className="ppp-party-page">
@@ -292,19 +307,25 @@ const Page = async ({ params }) => {
         </section>
       </section>
 
-      <section className="ppp-party-cta-band">
-        <div className="aero-max-container ppp-party-cta-band__inner">
-          <div>
-            <p className="ppp-party-cta-band__eyebrow">Ready to lock it in?</p>
-            <h3>Reserve your date and let the party countdown begin.</h3>
-          </div>
-          <div className="ppp-party-cta-band__actions">
-            <div className="aero-btn-booknow">
-              <BookingButton title="Book Now" />
+      {(partyCtaEyebrow || partyCtaTitle || ctaContent.bookNowText) && (
+        <section className="ppp-party-cta-band">
+          <div className="aero-max-container ppp-party-cta-band__inner">
+            <div>
+              {partyCtaEyebrow && (
+                <p className="ppp-party-cta-band__eyebrow">{partyCtaEyebrow}</p>
+              )}
+              {partyCtaTitle && <h3>{partyCtaTitle}</h3>}
             </div>
+            {ctaContent.bookNowText && (
+              <div className="ppp-party-cta-band__actions">
+                <div className="aero-btn-booknow">
+                  <BookingButton title={ctaContent.bookNowText} />
+                </div>
+              </div>
+            )}
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       <script
         type="application/ld+json"

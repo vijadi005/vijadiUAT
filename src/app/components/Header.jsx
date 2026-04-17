@@ -9,6 +9,7 @@ import MenuButton from "./smallComponents/MenuButton";
 import LogoutButton from "./LogoutButton";
 import BookingButton from "./smallComponents/BookingButton";
 import { usePathname } from "next/navigation";
+import { getCtaContent } from "@/lib/ctaContent";
 
 
 function normalizePath(path = "/") {
@@ -19,6 +20,8 @@ function normalizePath(path = "/") {
 const Header = ({ location_slug, menudata, configdata, token }) => {
   const pathname = usePathname();
   const normalizedPathname = normalizePath(pathname || "/");
+  const ctaContent = getCtaContent(configdata);
+  const contactHref = ctaContent.contactHref || `/${location_slug}/contactus`;
 
   const navItems = [
     { navName: "Home", navUrl: "", href: "/" },
@@ -90,32 +93,40 @@ const Header = ({ location_slug, menudata, configdata, token }) => {
 
             <div className="aero-header-actions">
               {token && <LogoutButton />}
-              <Link
-                href={`/${location_slug}/contactus`}
-                prefetch
-                className="aero-header-contactus-btn aero-header-cta aero-header-inquire-btn"
-              >
-                <span>Inquire</span>
-              </Link>
+              {ctaContent.inquireText && (
+                <Link
+                  href={contactHref}
+                  prefetch
+                  className="aero-header-contactus-btn aero-header-cta aero-header-inquire-btn"
+                >
+                  <span>{ctaContent.inquireText}</span>
+                </Link>
+              )}
 
-              <div className="aero-header-booking">
-                <BookingButton title="Book Now" />
-              </div>
+              {ctaContent.bookNowText && (
+                <div className="aero-header-booking">
+                  <BookingButton title={ctaContent.bookNowText} />
+                </div>
+              )}
             </div>
           </section>
 
           <section className="aero-header-mobile-actions" aria-label="Quick actions">
-            <Link
-              href={`/${location_slug}/contactus`}
-              prefetch
-              className="aero-header-contactus-btn aero-header-cta aero-header-inquire-btn"
-            >
-              <span>Inquire</span>
-            </Link>
+            {ctaContent.inquireText && (
+              <Link
+                href={contactHref}
+                prefetch
+                className="aero-header-contactus-btn aero-header-cta aero-header-inquire-btn"
+              >
+                <span>{ctaContent.inquireText}</span>
+              </Link>
+            )}
 
-            <div className="aero-header-booking">
-              <BookingButton title="Book Now" />
-            </div>
+            {ctaContent.bookNowText && (
+              <div className="aero-header-booking">
+                <BookingButton title={ctaContent.bookNowText} />
+              </div>
+            )}
             {token && <LogoutButton />}
           </section>
         </div>
@@ -129,4 +140,3 @@ const Header = ({ location_slug, menudata, configdata, token }) => {
 };
 
 export default Header;
-

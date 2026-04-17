@@ -2,7 +2,12 @@
 import React, { useEffect, useState } from "react";
 import Modal from "./Modal";
 
-const PromotionModal = ({ promotionPopup = [], promotions = [], delayMs = 0 }) => {
+const PromotionModal = ({
+  promotionPopup = [],
+  promotions = [],
+  delayMs = 0,
+  claimOfferText = "",
+}) => {
   const sessionKey = "pixelpulse-promotion-popup-dismissed";
   const sanitizedHTML = promotionPopup[0]?.value?.replace(/<br\s*\/?>/gi, "") || "";
   const hasPopupContent = sanitizedHTML.trim() !== "";
@@ -104,14 +109,14 @@ const PromotionModal = ({ promotionPopup = [], promotions = [], delayMs = 0 }) =
                     </span>
                   )}
                 </div>
-                {promotion.link && (
+                {promotion.link && (promotion.linktext || claimOfferText) && (
                   <a
                     href={promotion.link}
                     className="aero_promotion_popup__cta"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    {promotion.linktext || "Claim Offer"}
+                    {promotion.linktext || claimOfferText}
                   </a>
                 )}
               </article>

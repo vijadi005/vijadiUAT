@@ -1,12 +1,19 @@
 import Link from "next/link";
 import "../../../styles/contactus.css";
+import { fetchsheetdata } from "@/lib/sheets";
+import { LOCATION_NAME } from "@/lib/constant";
+import { getCtaContent } from "@/lib/ctaContent";
 
 export const metadata = {
   title: "Thank You | Pixel Pulse Play",
   description: "Thanks for submitting the Pixel Pulse Play contact form.",
 };
 
-export default function ContactThankYouPage() {
+export default async function ContactThankYouPage() {
+  const configData = await fetchsheetdata("config", LOCATION_NAME);
+  const ctaContent = getCtaContent(configData);
+  const pricingHref = ctaContent.pricingHref || "/pricing-promos";
+
   return (
     <main className="ppp-contact-page">
       <section className="ppp-contact-thanks">
@@ -41,15 +48,21 @@ export default function ContactThankYouPage() {
               </div>
             </div>
             <div className="ppp-contact-thanks__actions">
-              <Link href="/" className="submit-button">
-                Back to Home
-              </Link>
-              <Link href="/pricing-promos" className="ppp-contact-thanks__link ppp-contact-thanks__link--highlight">
-                View Pricing
-              </Link>
-              <Link href="/contactus" className="ppp-contact-thanks__link">
-                Send another inquiry
-              </Link>
+              {ctaContent.backHomeText && (
+                <Link href="/" className="submit-button">
+                  {ctaContent.backHomeText}
+                </Link>
+              )}
+              {ctaContent.pricingText && (
+                <Link href={pricingHref} className="ppp-contact-thanks__link ppp-contact-thanks__link--highlight">
+                  {ctaContent.pricingText}
+                </Link>
+              )}
+              {ctaContent.sendAnotherText && (
+                <Link href="/contactus" className="ppp-contact-thanks__link">
+                  {ctaContent.sendAnotherText}
+                </Link>
+              )}
             </div>
           </article>
         </div>

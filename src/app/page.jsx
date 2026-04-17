@@ -16,6 +16,7 @@ import { LOCATION_NAME } from "./lib/constant";
 import SectionHeading from "./components/home/SectionHeading";
 import BookingButton from "./components/smallComponents/BookingButton";
 import PromotionModal from "./components/model/PromotionModal";
+import { getConfigValue, getCtaContent } from "@/lib/ctaContent";
 
 export const dynamic = "force-dynamic";
 
@@ -25,6 +26,7 @@ const SITE_DATA_SHEET_NAMES = [
   "howItWorks",
   "howItWorksMeta",
   "games",
+  "whyUsMeta",
   "whyUs",
   "useCases",
   "pricing",
@@ -33,6 +35,7 @@ const SITE_DATA_SHEET_NAMES = [
   "promotions",
   "testimonials",
   "location",
+  "cta",
 ];
 
 const BIRTHDAY_VAULT_PROMO_IMAGE =
@@ -60,12 +63,28 @@ const emptySiteData = {
   },
   games: [],
   whyUs: [],
+  whyUsMeta: {
+    title: "",
+    accent: "",
+    subtitle: "",
+  },
   useCases: [],
   pricing: [],
   pricingCta: {
     text: "",
     button: "",
     bookingType: "ticket",
+  },
+  cta: {
+    pricingText: "",
+    pricingHref: "",
+    articlesText: "",
+    articlesHref: "",
+    findLocationText: "",
+    claimOfferText: "",
+    learnMoreText: "",
+    pricingSecondaryText: "",
+    pricingSecondaryBookingType: "ticket",
   },
   leaderboard: [],
   promotions: [],
@@ -221,8 +240,10 @@ function keyValueDataFromSheet(sheet, fields) {
 function parseSiteDataSheets(sheets) {
   const hero = keyValueSheet(sheets, "hero");
   const howCta = keyValueSheet(sheets, "howItWorksMeta");
+  const whyUsMeta = keyValueSheet(sheets, "whyUsMeta");
   const location = keyValueSheet(sheets, "location");
   const pricingMeta = keyValueSheet(sheets, "pricingMeta");
+  const cta = keyValueSheet(sheets, "cta");
   const heroData = keyValueDataFromSheet(hero, Object.keys(emptySiteData.hero));
   const locationData = keyValueDataFromSheet(location, Object.keys(emptySiteData.location));
 
@@ -252,6 +273,11 @@ function parseSiteDataSheets(sheets) {
       color: String(row.color || ""),
       emoji: String(row.emoji || ""),
     })).filter((row) => row.name || row.tag),
+    whyUsMeta: {
+      title: sheetValue(whyUsMeta, "title"),
+      accent: sheetValue(whyUsMeta, "accent"),
+      subtitle: sheetValue(whyUsMeta, "subtitle"),
+    },
     whyUs: rowsFromSheet(sheets, "whyUs").map((row) => ({
       icon: String(row.icon || ""),
       title: String(row.title || ""),
@@ -278,9 +304,21 @@ function parseSiteDataSheets(sheets) {
       note: String(row.note || ""),
     })).filter((row) => row.name || row.price),
     pricingCta: {
-      text: sheetValue(pricingMeta, "ctaText") || "Can you beat all the rooms in 60 minutes?",
+      text: sheetValue(pricingMeta, "ctaText"),
       button: sheetValue(pricingMeta, "ctaButton"),
       bookingType: sheetValue(pricingMeta, "ctaBookingType") || "ticket",
+    },
+    cta: {
+      pricingText: sheetValue(cta, "pricingText"),
+      pricingHref: sheetValue(cta, "pricingHref"),
+      articlesText: sheetValue(cta, "articlesText"),
+      articlesHref: sheetValue(cta, "articlesHref"),
+      findLocationText: sheetValue(cta, "findLocationText"),
+      claimOfferText: sheetValue(cta, "claimOfferText"),
+      learnMoreText: sheetValue(cta, "learnMoreText"),
+      pricingSecondaryText: sheetValue(cta, "pricingSecondaryText"),
+      pricingSecondaryBookingType:
+        sheetValue(cta, "pricingSecondaryBookingType") || "ticket",
     },
     leaderboard: rowsFromSheet(sheets, "leaderboard").map((row) => ({
       rank: String(row.rank || ""),
@@ -442,10 +480,34 @@ const Home = async () => {
     : [];
   const blogSectionHeading =
     blogsData?.[0]?.headerimagetitle || "Tips before you visit";
+  const configCta = getCtaContent(dataconfig);
+  const ctaContent = {
+    ...siteData.cta,
+    ...Object.fromEntries(
+      Object.entries(configCta).filter(([, value]) => Boolean(value)),
+    ),
+  };
+  const whyUsHeading = {
+    title:
+      siteData.whyUsMeta.title ||
+      getConfigValue(dataconfig, ["whyUsTitle", "whyUsHeadingTitle"]),
+    accent:
+      siteData.whyUsMeta.accent ||
+      getConfigValue(dataconfig, ["whyUsAccent", "whyUsHeadingAccent"]),
+    subtitle:
+      siteData.whyUsMeta.subtitle ||
+      getConfigValue(dataconfig, ["whyUsSubtitle"]),
+  };
+  const pricingHref = ctaContent.pricingHref || "/pricing-promos";
+  const articlesHref = ctaContent.articlesHref || "/blogs";
 
   return (
     <main className="ppp-home">
-      <PromotionModal promotionPopup={promotionPopup} delayMs={5000} />
+      <PromotionModal
+        promotionPopup={promotionPopup}
+        delayMs={5000}
+        claimOfferText={ctaContent.claimOfferText}
+      />
 
       {/* ── Hero ── */}
       <MotionImage pageData={safeHeaderImage} heroData={siteData.hero} waiverLink={waiverLink} />
@@ -530,6 +592,14 @@ const Home = async () => {
       {siteData.whyUs.length > 0 && (
       <section className="ppp-section ppp-why">
         <div className="aero-max-container">
+          {(whyUsHeading.title || whyUsHeading.accent) && (
+            <SectionHeading>
+              {whyUsHeading.title} {whyUsHeading.accent && <span>{whyUsHeading.accent}</span>}
+            </SectionHeading>
+          )}
+          {whyUsHeading.subtitle && (
+            <p className="ppp-section__sub">{whyUsHeading.subtitle}</p>
+          )}
           <ul className="ppp-why__grid">
             {siteData.whyUs.map((r, i) => (
               <li key={i} className="ppp-why__card">
@@ -592,9 +662,11 @@ const Home = async () => {
             {siteData.howItWorks.ctaButton && (
               <BookingButton title={siteData.howItWorks.ctaButton} className="ppp-btn ppp-btn--primary" bookingType="ticket" />
             )}
-            <Link href="/pricing-promos" className="ppp-btn ppp-btn--outline" prefetch>
-              View Pricing
-            </Link>
+            {ctaContent.pricingText && (
+              <Link href={pricingHref} className="ppp-btn ppp-btn--outline" prefetch>
+                {ctaContent.pricingText}
+              </Link>
+            )}
           </div>
         </div>
       </section>
@@ -621,17 +693,17 @@ const Home = async () => {
                       {promo.valid && <time className="promotion-card__validity">{promo.valid}</time>}
                       {promo.code && <span className="promotion-card__code">{promo.code}</span>}
                     </div>
-                    {promo.link && (
+                    {promo.link && (promo.linktext || ctaContent.claimOfferText) && (
                       <Link
                         href={promo.link}
                         className="promotion-card__btn"
                         target={promo.link.startsWith("http") ? "_blank" : undefined}
                         rel={promo.link.startsWith("http") ? "noopener noreferrer" : undefined}
                         title={promo.linktitle || undefined}
-                        aria-label={promo.linktitle || promo.linktext || "Claim offer"}
+                        aria-label={promo.linktitle || promo.linktext || ctaContent.claimOfferText || promo.title}
                         prefetch={!promo.link.startsWith("http")}
                       >
-                        {promo.linktext || "Claim Offer"}
+                        {promo.linktext || ctaContent.claimOfferText}
                       </Link>
                     )}
                   </div>
@@ -665,11 +737,13 @@ const Home = async () => {
                 bookingType={siteData.pricingCta.bookingType}
               />
             )}
-            <BookingButton
-              title="Book 90min Session"
-              className="ppp-btn ppp-btn--primary"
-              bookingType="ticket"
-            />
+            {ctaContent.pricingSecondaryText && (
+              <BookingButton
+                title={ctaContent.pricingSecondaryText}
+                className="ppp-btn ppp-btn--primary"
+                bookingType={ctaContent.pricingSecondaryBookingType}
+              />
+            )}
           </div>
         </div>
       </section>
@@ -757,7 +831,7 @@ const Home = async () => {
                   <h3>{item.title}</h3>
                   {item.sub && <p>{item.sub}</p>}
                   {item.cta && <p>{item.cta}</p>}
-                  {item.link && (
+                  {item.link && (item.linktext || ctaContent.learnMoreText) && (
                     <Link
                       href={item.link}
                       className="ppp-use-case-card__link"
@@ -767,7 +841,7 @@ const Home = async () => {
                       aria-label={item.linktitle || item.linktext || item.cta || item.title}
                       prefetch={!item.link.startsWith("http")}
                     >
-                      {item.linktext || "Learn More"}
+                      {item.linktext || ctaContent.learnMoreText}
                     </Link>
                   )}
                 </article>
@@ -857,11 +931,13 @@ const Home = async () => {
 
             <BlogCard blogsData={blogsData[0]} location_slug={location_slug} />
 
-            <div className="ppp-section__cta-row">
-              <Link href="/blogs" className="ppp-btn ppp-btn--outline" prefetch>
-                View All Articles →
-              </Link>
-            </div>
+            {ctaContent.articlesText && (
+              <div className="ppp-section__cta-row">
+                <Link href={articlesHref} className="ppp-btn ppp-btn--outline" prefetch>
+                  {ctaContent.articlesText}
+                </Link>
+              </div>
+            )}
           </div>
         </section>
       )}
@@ -879,7 +955,7 @@ const Home = async () => {
               {siteData.hero.ctaPrimary && (
                 <BookingButton title={siteData.hero.ctaPrimary} className="ppp-btn ppp-btn--primary" bookingType="ticket" />
               )}
-              {siteData.location.mapsLink && (
+              {siteData.location.mapsLink && ctaContent.findLocationText && (
                 <Link
                   href={siteData.location.mapsLink}
                   className="ppp-btn ppp-btn--outline"
@@ -887,7 +963,7 @@ const Home = async () => {
                   rel="noopener noreferrer"
                   prefetch={false}
                 >
-                  Find Location
+                  {ctaContent.findLocationText}
                 </Link>
               )}
             </div>
