@@ -755,7 +755,7 @@
 
 /* Match birthday CTA strip spacing and alignment to pricing CTA cards. */
 .ppp-party-cta-band {
-  padding: clamp(1.25rem, 2.4vw, 2rem) 0 !important;
+  padding: clamp(1.5rem, 3vw, 2.6rem) 0 clamp(2.25rem, 4vw, 3.5rem) !important;
 }
 
 .ppp-party-cta-band__inner {
@@ -765,15 +765,18 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: clamp(1rem, 2vw, 1.5rem);
+  gap: clamp(1.2rem, 3vw, 2rem);
   text-align: left;
-  padding: clamp(1.3rem, 2.6vw, 2rem);
-  border: 1px solid rgba(164, 207, 95, 0.32);
+  padding: clamp(1.45rem, 3vw, 2.4rem);
+  border: 1px solid rgba(164, 207, 95, 0.38);
   border-radius: 8px;
   background:
-    linear-gradient(135deg, rgba(164, 207, 95, 0.14), transparent 34%),
-    linear-gradient(160deg, rgba(251, 174, 123, 0.12), rgba(17, 24, 39, 0.95) 58%);
-  box-shadow: 0 20px 62px rgba(0, 0, 0, 0.32), 0 0 24px rgba(164, 207, 95, 0.16);
+    linear-gradient(90deg, rgba(164, 207, 95, 0.16), rgba(251, 174, 123, 0.12) 48%, rgba(17, 24, 39, 0.96)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0));
+  box-shadow:
+    0 22px 62px rgba(0, 0, 0, 0.34),
+    0 0 24px rgba(164, 207, 95, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .ppp-party-cta-band__inner::before {
@@ -790,24 +793,66 @@
   z-index: 1;
 }
 
+.ppp-party-cta-band__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  margin: 0;
+  padding: 0.35rem 0.65rem;
+  border: 1px solid rgba(164, 207, 95, 0.32);
+  border-radius: 8px;
+  background: rgba(164, 207, 95, 0.1);
+  color: var(--ppp-lime);
+  font-weight: 800;
+}
+
 .ppp-party-cta-band__inner h3 {
-  margin: 0.4rem 0 0;
-  font-size: clamp(1.15rem, 2.4vw, 1.8rem);
-  line-height: 1.05;
+  max-width: 720px;
+  margin: 0.65rem 0 0;
+  color: var(--white-color);
+  font-family: "Barlow Condensed", Impact, sans-serif;
+  font-size: clamp(1.55rem, 3.4vw, 2.7rem);
+  font-weight: 800;
+  line-height: 0.98;
+  letter-spacing: 0;
+  text-transform: uppercase;
 }
 
 .ppp-party-cta-band__actions {
   flex: 0 0 auto;
   justify-content: flex-end;
+  margin-top: 0;
+}
+
+.ppp-party-cta-band__actions .aero-btn-booknow {
+  display: flex;
+}
+
+.ppp-party-cta-band__actions button {
+  min-width: 160px;
+  min-height: 52px;
+  padding: 0.9rem 1.45rem;
+  font-family: "Barlow Condensed", Impact, sans-serif;
+  font-size: 0.98rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 @media (max-width: 768px) {
   .ppp-party-cta-band__inner {
     flex-direction: column;
     align-items: flex-start;
+    text-align: left;
   }
 
   .ppp-party-cta-band__actions {
+    width: 100%;
     justify-content: flex-start;
+  }
+
+  .ppp-party-cta-band__actions .aero-btn-booknow,
+  .ppp-party-cta-band__actions button {
+    width: 100%;
   }
 }

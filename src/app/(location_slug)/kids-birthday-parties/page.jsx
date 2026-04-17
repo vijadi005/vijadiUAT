@@ -293,6 +293,25 @@ const Page = async ({ params }) => {
 
       <section className="subcategory_main_section-bg gaming_bg">
         <section className="aero-max-container ppp-party-layout">
+          {(partyCtaEyebrow || partyCtaTitle || ctaContent.bookNowText) && (
+            <section className="ppp-party-cta-band">
+              <div className="aero-max-container ppp-party-cta-band__inner">
+                <div>
+                  {partyCtaEyebrow && (
+                    <p className="ppp-party-cta-band__eyebrow">{partyCtaEyebrow}</p>
+                  )}
+                  {partyCtaTitle && <h3>{partyCtaTitle}</h3>}
+                </div>
+                {ctaContent.bookNowText && (
+                  <div className="ppp-party-cta-band__actions">
+                    <div className="aero-btn-booknow">
+                      <BookingButton title={ctaContent.bookNowText} />
+                    </div>
+                  </div>
+                )}
+              </div>
+            </section>
+          )}
          
           <PricingComparison birthdaydata={birthdayPackages} />
 
@@ -306,26 +325,6 @@ const Page = async ({ params }) => {
           )}
         </section>
       </section>
-
-      {(partyCtaEyebrow || partyCtaTitle || ctaContent.bookNowText) && (
-        <section className="ppp-party-cta-band">
-          <div className="aero-max-container ppp-party-cta-band__inner">
-            <div>
-              {partyCtaEyebrow && (
-                <p className="ppp-party-cta-band__eyebrow">{partyCtaEyebrow}</p>
-              )}
-              {partyCtaTitle && <h3>{partyCtaTitle}</h3>}
-            </div>
-            {ctaContent.bookNowText && (
-              <div className="ppp-party-cta-band__actions">
-                <div className="aero-btn-booknow">
-                  <BookingButton title={ctaContent.bookNowText} />
-                </div>
-              </div>
-            )}
-          </div>
-        </section>
-      )}
 
       <script
         type="application/ld+json"

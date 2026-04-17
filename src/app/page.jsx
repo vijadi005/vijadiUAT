@@ -558,6 +558,23 @@ const Home = async () => {
       getConfigValue(dataconfig, ["pricingCtaBookingType"]) ||
       "ticket",
   };
+  const pricingHeading = {
+    title: getConfigValue(dataconfig, ["pricingTitle", "pricingHeadingTitle"]),
+    accent: getConfigValue(dataconfig, ["pricingAccent", "pricingHeadingAccent"]),
+    subtitle: getConfigValue(dataconfig, ["pricingSubtitle"]),
+  };
+  const promotionsHeading = {
+    title: ctaContent.promotionsHeading || getConfigValue(dataconfig, ["promotionsTitle"]),
+    accent:
+      ctaContent.promotionsHeadingAccent ||
+      getConfigValue(dataconfig, ["promotionsAccent"]),
+    subtitle: ctaContent.promotionsIntro,
+  };
+  const useCasesHeading = {
+    title: getConfigValue(dataconfig, ["useCasesTitle", "useCasesHeadingTitle"]),
+    accent: getConfigValue(dataconfig, ["useCasesAccent", "useCasesHeadingAccent"]),
+    subtitle: getConfigValue(dataconfig, ["useCasesSubtitle"]),
+  };
   const whyUsCta = {
     text: getConfigValue(dataconfig, ["whyUsCtaText"]),
     button: getConfigValue(dataconfig, ["whyUsCtaButton"]),
@@ -788,6 +805,14 @@ const Home = async () => {
       {siteData.promotions.length > 0 && (
         <section className="ppp-section ppp-promos">
           <div className="aero-max-container">
+            {(promotionsHeading.title || promotionsHeading.accent) && (
+              <SectionHeading>
+                {promotionsHeading.title} {promotionsHeading.accent && <span>{promotionsHeading.accent}</span>}
+              </SectionHeading>
+            )}
+            {promotionsHeading.subtitle && (
+              <p className="ppp-section__sub">{promotionsHeading.subtitle}</p>
+            )}
             <div className="promotions__grid">
               {siteData.promotions.map((promo, index) => {
                 const promoImage = getPromotionImage(promo, index);
@@ -841,6 +866,14 @@ const Home = async () => {
       {siteData.pricing.length > 0 && (
       <section className="ppp-section ppp-pricing" id="pricing">
         <div className="aero-max-container">
+          {(pricingHeading.title || pricingHeading.accent) && (
+            <SectionHeading>
+              {pricingHeading.title} {pricingHeading.accent && <span>{pricingHeading.accent}</span>}
+            </SectionHeading>
+          )}
+          {pricingHeading.subtitle && (
+            <p className="ppp-section__sub">{pricingHeading.subtitle}</p>
+          )}
           <div className="ppp-pricing__grid">
             {siteData.pricing.map((p, i) => (
               <article
@@ -881,6 +914,14 @@ const Home = async () => {
       {siteData.useCases.length > 0 && (
       <section className="ppp-section ppp-use-cases">
         <div className="aero-max-container">
+          {(useCasesHeading.title || useCasesHeading.accent) && (
+            <SectionHeading>
+              {useCasesHeading.title} {useCasesHeading.accent && <span>{useCasesHeading.accent}</span>}
+            </SectionHeading>
+          )}
+          {useCasesHeading.subtitle && (
+            <p className="ppp-section__sub">{useCasesHeading.subtitle}</p>
+          )}
           <ul className="ppp-use-cases__grid">
             {siteData.useCases.map((item) => {
               const normalizedUseCaseTitle = String(item.title || "").toLowerCase();
