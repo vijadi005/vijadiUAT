@@ -1,0 +1,559 @@
+.ppp-birthday-landing {
+  --birthday-font-body: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --birthday-font-display: "Barlow Condensed", Impact, sans-serif;
+  min-height: 100vh;
+  overflow: hidden;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.024) 0,
+      rgba(255, 255, 255, 0.024) 1px,
+      transparent 1px,
+      transparent 92px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.018) 0,
+      rgba(255, 255, 255, 0.018) 1px,
+      transparent 1px,
+      transparent 92px
+    ),
+    linear-gradient(180deg, #050810 0%, #09111b 46%, #050810 100%);
+  color: #ffffff;
+  font-family: var(--birthday-font-body);
+  text-rendering: geometricPrecision;
+}
+
+.ppp-birthday-landing * {
+  box-sizing: border-box;
+}
+
+.ppp-birthday-shell {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+.ppp-birthday-hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 720px;
+  padding: 56px 0;
+  isolation: isolate;
+}
+
+.ppp-birthday-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 5px;
+  background: linear-gradient(90deg, #a4cf5f, #fbae7b, #ff2d78);
+  z-index: 3;
+}
+
+.ppp-birthday-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgba(5, 8, 16, 0.74) 0%, rgba(5, 8, 16, 0.82) 48%, rgba(5, 8, 16, 0.58) 100%),
+    linear-gradient(180deg, rgba(5, 8, 16, 0.28), rgba(5, 8, 16, 0.88));
+}
+
+.ppp-birthday-hero__background {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center;
+}
+
+.ppp-birthday-hero__grid {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.ppp-birthday-hero__copy {
+  display: grid;
+  justify-items: center;
+  gap: 18px;
+  max-width: 980px;
+  text-align: center;
+}
+
+.ppp-birthday-eyebrow {
+  width: fit-content;
+  margin: 0;
+  padding: 8px 12px;
+  border: 1px solid rgba(164, 207, 95, 0.42);
+  border-radius: 8px;
+  background: rgba(164, 207, 95, 0.1);
+  color: #a4cf5f;
+  font-family: var(--birthday-font-body);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.ppp-birthday-hero h1 {
+  max-width: 15ch;
+  margin: 0;
+  color: #ffffff;
+  font-family: var(--birthday-font-display);
+  font-size: clamp(3.25rem, 6.8vw, 6.35rem);
+  font-weight: 600;
+  line-height: 0.94;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.ppp-birthday-hero__text {
+  max-width: 760px;
+  margin: 0;
+  color: rgba(240, 246, 255, 0.82);
+  font-size: 1.16rem;
+  font-weight: 500;
+  line-height: 1.7;
+}
+
+.ppp-birthday-actions,
+.ppp-birthday-final__inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+}
+
+.ppp-birthday-actions button,
+.ppp-birthday-final__inner button,
+.ppp-birthday-secondary-link {
+  min-height: 56px;
+  border-radius: 8px;
+  font-family: var(--birthday-font-body);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.ppp-birthday-actions button,
+.ppp-birthday-final__inner button {
+  border: 2px solid #a4cf5f;
+  background: #a4cf5f;
+  color: #050810;
+  box-shadow: 0 0 26px rgba(164, 207, 95, 0.24);
+}
+
+.ppp-birthday-secondary-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 22px;
+  border: 2px solid rgba(251, 174, 123, 0.72);
+  color: #ffffff;
+  background: rgba(251, 174, 123, 0.08);
+  text-decoration: none;
+}
+
+.ppp-birthday-urgency {
+  width: fit-content;
+  margin: 0;
+  padding: 9px 12px;
+  border: 1px solid rgba(251, 174, 123, 0.42);
+  border-radius: 8px;
+  background: rgba(251, 174, 123, 0.1);
+  color: #fbae7b;
+  font-size: 0.96rem;
+  font-weight: 600;
+}
+
+.ppp-birthday-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  width: min(760px, 100%);
+}
+
+.ppp-birthday-stats div,
+.ppp-birthday-card-grid article,
+.ppp-birthday-package-grid article,
+.ppp-birthday-final__inner {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(164, 207, 95, 0.28);
+  border-radius: 8px;
+  background:
+    linear-gradient(145deg, rgba(164, 207, 95, 0.12), rgba(251, 174, 123, 0.08) 48%, rgba(17, 24, 39, 0.94)),
+    #111827;
+}
+
+.ppp-birthday-stats div {
+  padding: 16px;
+}
+
+.ppp-birthday-stats strong {
+  display: block;
+  color: #ffffff;
+  font-family: var(--birthday-font-display);
+  font-size: 1.52rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.ppp-birthday-stats span {
+  color: rgba(240, 246, 255, 0.7);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.ppp-birthday-card-grid article::before,
+.ppp-birthday-package-grid article::before,
+.ppp-birthday-final__inner::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 0 0 auto;
+  height: 5px;
+  background: linear-gradient(90deg, #a4cf5f, #fbae7b, #ff2d78);
+}
+
+.ppp-birthday-attractions,
+.ppp-birthday-proof,
+.ppp-birthday-packages,
+.ppp-birthday-final {
+  padding: 54px 0;
+}
+
+.ppp-birthday-section-heading {
+  max-width: 780px;
+  margin-bottom: 24px;
+}
+
+.ppp-birthday-section-heading > p:not(.ppp-birthday-eyebrow) {
+  margin: 14px 0 0;
+  color: rgba(240, 246, 255, 0.74);
+  font-size: 1.06rem;
+  font-weight: 500;
+  line-height: 1.7;
+}
+
+.ppp-birthday-section-heading h2,
+.ppp-birthday-final__inner h2 {
+  margin: 12px 0 0;
+  color: #ffffff;
+  font-family: var(--birthday-font-display);
+  font-size: 2.9rem;
+  font-weight: 700;
+  line-height: 0.98;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.ppp-birthday-card-grid,
+.ppp-birthday-package-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.ppp-birthday-attractions {
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(5, 8, 16, 0.96), rgba(9, 17, 27, 0.92)),
+    linear-gradient(90deg, rgba(164, 207, 95, 0.08), transparent 42%, rgba(251, 174, 123, 0.08));
+}
+
+.ppp-birthday-attraction-carousel {
+  display: grid;
+  grid-auto-columns: minmax(280px, 340px);
+  grid-auto-flow: column;
+  gap: 18px;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scroll-snap-type: inline mandatory;
+  scrollbar-color: rgba(164, 207, 95, 0.72) rgba(255, 255, 255, 0.08);
+  padding: 4px 0 18px;
+}
+
+.ppp-birthday-attraction-card {
+  position: relative;
+  display: grid;
+  min-height: 430px;
+  overflow: hidden;
+  border: 1px solid rgba(164, 207, 95, 0.3);
+  border-radius: 8px;
+  background: #111827;
+  scroll-snap-align: start;
+}
+
+.ppp-birthday-attraction-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(5, 8, 16, 0.08) 0%, rgba(5, 8, 16, 0.3) 42%, rgba(5, 8, 16, 0.94) 100%);
+}
+
+.ppp-birthday-attraction-card img {
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  object-fit: cover;
+}
+
+.ppp-birthday-attraction-card div {
+  position: absolute;
+  z-index: 1;
+  inset: auto 0 0;
+  padding: 22px;
+}
+
+.ppp-birthday-attraction-card h3 {
+  margin: 0 0 8px;
+  color: #ffffff;
+  font-family: var(--birthday-font-display);
+  font-size: 1.78rem;
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.ppp-birthday-attraction-card p {
+  display: -webkit-box;
+  margin: 0;
+  overflow: hidden;
+  color: rgba(240, 246, 255, 0.78);
+  font-size: 0.94rem;
+  font-weight: 500;
+  line-height: 1.55;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.ppp-birthday-attraction-cta {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-top: clamp(1.25rem, 2.4vw, 2rem);
+  padding: clamp(1.3rem, 2.6vw, 2rem);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  background: linear-gradient(90deg, #a4cf5f, #fbae7b);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    0 12px 38px rgba(0, 0, 0, 0.22);
+}
+
+.ppp-birthday-attraction-cta::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  inset: 0 0 auto;
+  height: 5px;
+  background: linear-gradient(90deg, #a4cf5f, #fbae7b, #ff2d78);
+}
+
+.ppp-birthday-attraction-cta p {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  color: #050810;
+  font-family: var(--birthday-font-display);
+  font-size: clamp(1.15rem, 2.4vw, 1.8rem);
+  font-weight: 700;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.ppp-birthday-attraction-cta__actions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.ppp-birthday-attraction-cta button {
+  min-height: 52px;
+  border: 2px solid #050810;
+  border-radius: 8px;
+  background: #050810;
+  color: #ffffff;
+  font-family: var(--birthday-font-body);
+  font-weight: 700;
+  box-shadow: none;
+}
+
+.ppp-birthday-attraction-cta button:hover {
+  border-color: #111827;
+  background: #111827;
+  color: #ffffff;
+  box-shadow: 0 0 22px rgba(5, 8, 16, 0.32);
+}
+
+.ppp-birthday-card-grid article,
+.ppp-birthday-package-grid article {
+  min-height: 220px;
+  padding: 28px;
+}
+
+.ppp-birthday-card-grid span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  background: #a4cf5f;
+  color: #050810;
+  font-family: var(--birthday-font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.ppp-birthday-card-grid h3,
+.ppp-birthday-package-grid h3 {
+  margin: 22px 0 10px;
+  color: #ffffff;
+  font-family: var(--birthday-font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.ppp-birthday-card-grid p,
+.ppp-birthday-package-grid p,
+.ppp-birthday-package-grid span {
+  margin: 0;
+  color: rgba(240, 246, 255, 0.74);
+  line-height: 1.65;
+  font-size: 0.98rem;
+  font-weight: 400;
+}
+
+.ppp-birthday-package-grid article.is-featured {
+  border-color: rgba(251, 174, 123, 0.58);
+  box-shadow: 0 0 28px rgba(251, 174, 123, 0.16);
+}
+
+.ppp-birthday-package-grid p {
+  color: #a4cf5f;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.ppp-birthday-package-grid strong {
+  display: block;
+  margin-bottom: 10px;
+  color: #fbae7b;
+  font-family: var(--birthday-font-display);
+  font-size: 2.25rem;
+  font-weight: 700;
+}
+
+.ppp-birthday-final__inner {
+  justify-content: space-between;
+  padding: 32px;
+}
+
+.ppp-birthday-final__inner > * {
+  position: relative;
+  z-index: 2;
+}
+
+.ppp-birthday-final__inner h2 {
+  max-width: 780px;
+}
+
+@media (max-width: 980px) {
+  .ppp-birthday-card-grid,
+  .ppp-birthday-package-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ppp-birthday-hero {
+    min-height: 680px;
+  }
+
+  .ppp-birthday-hero h1 {
+    font-size: clamp(3rem, 9.2vw, 4.75rem);
+  }
+
+  .ppp-birthday-attraction-cta {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .ppp-birthday-attraction-cta__actions {
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .ppp-birthday-hero {
+    min-height: 760px;
+    padding: 42px 0;
+    align-items: center;
+  }
+
+  .ppp-birthday-hero::after {
+    background:
+      linear-gradient(180deg, rgba(5, 8, 16, 0.18) 0%, rgba(5, 8, 16, 0.66) 38%, rgba(5, 8, 16, 0.95) 100%),
+      linear-gradient(90deg, rgba(5, 8, 16, 0.72), rgba(5, 8, 16, 0.38));
+  }
+
+  .ppp-birthday-hero__background {
+    object-position: 58% center;
+  }
+
+  .ppp-birthday-hero h1 {
+    font-size: 2.65rem;
+    line-height: 0.96;
+  }
+
+  .ppp-birthday-hero__text {
+    font-size: 1rem;
+  }
+
+  .ppp-birthday-actions,
+  .ppp-birthday-actions button,
+  .ppp-birthday-secondary-link,
+  .ppp-birthday-attraction-cta__actions,
+  .ppp-birthday-attraction-cta button,
+  .ppp-birthday-final__inner button {
+    width: 100%;
+  }
+
+  .ppp-birthday-urgency {
+    width: 100%;
+  }
+
+  .ppp-birthday-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .ppp-birthday-section-heading h2,
+  .ppp-birthday-final__inner h2 {
+    font-size: 2.15rem;
+  }
+
+  .ppp-birthday-attraction-carousel {
+    grid-auto-columns: minmax(255px, 82vw);
+  }
+
+  .ppp-birthday-attraction-cta p {
+    font-size: 1.35rem;
+  }
+}

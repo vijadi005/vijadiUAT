@@ -1,6 +1,6 @@
 // lib/sheet.js
-const axios = require('axios');
-const XLSX = require('xlsx');
+import axios from "axios";
+import * as XLSX from "xlsx";
 
 const SHEET_URL = `https://docs.google.com/spreadsheets/d/1NEovNJVBVY4LyXWg3nHFh5-LekMt8GfL4y4eaNz7X1I/export?format=xlsx`;
 const sheetCache = new Map();
@@ -73,7 +73,7 @@ async function ensureSheetCache(cacheKey) {
   return sheetCache.get(cacheKey)?.data || [];
 }
 
-async function fetchsheetdata(sheetName, location) {
+export async function fetchsheetdata(sheetName, location) {
   const cacheKey = `${sheetName}:${location || 'all'}`;
   if(sheetName === 'refresh'){
     console.log('refreshing data');
@@ -95,7 +95,7 @@ async function fetchsheetdata(sheetName, location) {
   }
 }
 
-async function fetchsheetdataNoCache(sheetName) {
+export async function fetchsheetdataNoCache(sheetName) {
   try {
     const response = await axios.get(SHEET_URL, { responseType: 'arraybuffer' });
     const workbook = XLSX.read(response.data, { type: 'buffer' });
@@ -116,7 +116,7 @@ async function fetchsheetdataNoCache(sheetName) {
 /**
  * Builds menu data with nested children from "Data" sheet
  */
-async function fetchMenuData(location) {
+export async function fetchMenuData(location) {
   const jsonData = await fetchsheetdata("Data", location);
   const hierarchy = {};
 
@@ -137,7 +137,7 @@ async function fetchMenuData(location) {
 /**
  * Filter page-specific data
  */
-async function fetchPageData(location, page) {
+export async function fetchPageData(location, page) {
   const jsonData = await fetchsheetdata("Data", location);
   const normalizedPage = typeof page === "string" ? page.toUpperCase() : "";
   if (!normalizedPage) {
@@ -155,7 +155,7 @@ async function fetchPageData(location, page) {
   );
   return partialMatch || null;
 }
-async function fetchFaqData(location, page) {
+export async function fetchFaqData(location, page) {
   const jsonData = await fetchsheetdata("faq", location);
   const normalizedPage = typeof page === "string" ? page.toUpperCase() : "";
   if (!normalizedPage) {
@@ -166,7 +166,7 @@ async function fetchFaqData(location, page) {
   );
 }
 
-async function getWaiverLink(location){
+export async function getWaiverLink(location){
 
   const cacheKey = `waiver:${location}`;
   const cached = waiverLinkCache.get(cacheKey);
@@ -183,7 +183,7 @@ async function getWaiverLink(location){
 }
  
 
-async function generateMetadataLib({ location, category, page }) {
+export async function generateMetadataLib({ location, category, page }) {
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
   const pagefordata = page?page:'home';
   const data = await fetchPageData(location, pagefordata);
@@ -247,7 +247,7 @@ async function generateMetadataLib({ location, category, page }) {
 //   return data;
 // }
    
-async function generateSchema(pagedata, locationData, category, page ) {
+export async function generateSchema(pagedata, locationData, category, page ) {
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
   const metadataItem = pagedata;//?.find((item) => item.path === pagefordata);
@@ -275,16 +275,3 @@ async function generateSchema(pagedata, locationData, category, page ) {
   return     filled;
 
 }
-
-
-module.exports = {
-  fetchsheetdata,
-  fetchMenuData,
-  fetchPageData,
-  generateMetadataLib,
-  fetchFaqData,
-  getWaiverLink,
-  // getReviewsData,
-  generateSchema,
-  fetchsheetdataNoCache
-};

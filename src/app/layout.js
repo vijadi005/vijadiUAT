@@ -6,6 +6,7 @@ import { Suspense } from "react";
 import Loading from "./loading";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import ChromeVisibility from "./components/ChromeVisibility";
 import { fetchMenuData, fetchsheetdata, getWaiverLink } from "./lib/sheets";
 import { cookies } from "next/headers";
 import { Toaster } from "sonner";
@@ -101,15 +102,19 @@ export default async function RootLayout({ children }) {
         <Toaster position="top-right" />
         <GoogleAnalytics />{" "}
         {/* Render the client-side Google Analytics component */}
-        <Header location_slug={location_slug} menudata={menudata} configdata={configdata} token={token} />
-        <Breadcrumbs/>
+        <ChromeVisibility>
+          <Header location_slug={location_slug} menudata={menudata} configdata={configdata} token={token} />
+          <Breadcrumbs/>
+        </ChromeVisibility>
         <Suspense fallback={<Loading />}>{children}</Suspense>
-        <Footer
-          location_slug={location_slug}
-          configdata={configdata}
-          menudata={menudata}
-          // reviewdata={reviewdata}
-        />
+        <ChromeVisibility>
+          <Footer
+            location_slug={location_slug}
+            configdata={configdata}
+            menudata={menudata}
+            // reviewdata={reviewdata}
+          />
+        </ChromeVisibility>
         <div id="modal-root"></div>
       </body>
     </html>

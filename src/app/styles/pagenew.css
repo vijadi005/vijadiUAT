@@ -811,7 +811,7 @@
 .ppp-use-case-card--friends-date::before {
   background-image:
     linear-gradient(180deg, rgba(5, 8, 16, 0.08), rgba(5, 8, 16, 0.28)),
-    url("https://storage.googleapis.com/pixel-pulse-play/web/FundRaiser.png");
+    url("https://storage.googleapis.com/pixel-pulse-play/web/fund-raisers.png");
 }
 
 .ppp-use-case-card--birthday > *,
