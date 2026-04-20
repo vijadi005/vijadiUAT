@@ -6,6 +6,7 @@ import { getDataByParentId } from "@/utils/customFunctions";
 import {
   fetchMenuData,
   fetchsheetdata,
+  fetchsheetdataNoCache,
   generateMetadataLib,
   fetchPageData,
   generateSchema,
@@ -15,6 +16,10 @@ import { notFound } from "next/navigation";
 import SectionHeading from "@/components/home/SectionHeading";
 import BookingButton from "@/components/smallComponents/BookingButton";
 import { getCtaContent } from "@/lib/ctaContent";
+
+const ABOUT_BUILDING_IMAGE_FALLBACK =
+  "https://storage.googleapis.com/pixel-pulse-play/web/pixelmainbuilding.jpg";
+const ABOUT_BUILDING_IMAGE_REDIRECT_SOURCE = "/about-building-image";
 
 function stripHtml(html = "") {
   return html
@@ -85,6 +90,30 @@ function parseHeroTextBlock(content = "") {
   };
 }
 
+function getRedirectDestination(rows = [], source = "") {
+  const normalizedSource = String(source || "").trim().toLowerCase();
+  const matchingRow = rows.find((row) => {
+    const rowSource = String(row?.source || "").trim().toLowerCase();
+    return rowSource === normalizedSource || `/${rowSource}` === normalizedSource;
+  });
+
+  return String(matchingRow?.destination || "").trim();
+}
+
+function addBuildingImageNextToMap(html = "", buildingImageUrl = ABOUT_BUILDING_IMAGE_FALLBACK) {
+  const content = String(html || "");
+  const iframeMatch = content.match(/<iframe\b[\s\S]*?<\/iframe>/i);
+
+  if (!iframeMatch) {
+    return content;
+  }
+
+  return content.replace(
+    iframeMatch[0],
+    `<div class="ppp-about-map-media">${iframeMatch[0]}<figure class="ppp-about-building-media"><img src="${buildingImageUrl}" alt="Pixel Pulse Play building exterior" loading="lazy" /></figure></div>`,
+  );
+}
+
 function looksLikeRenderableImage(url = "") {
   if (!url) return false;
   if (url.startsWith("/")) return true;
@@ -123,10 +152,11 @@ const Category = async ({ params }) => {
   }
 
   // 1️⃣ Fetch data
-  const [data, pageData, configData] = await Promise.all([
+  const [data, pageData, configData, redirectData] = await Promise.all([
     fetchMenuData(location_slug),
     fetchPageData(location_slug, category_slug),
     fetchsheetdata("config", location_slug),
+    fetchsheetdataNoCache("redirects"),
   ]);
 
   // 2️⃣ Derived data
@@ -140,7 +170,13 @@ const Category = async ({ params }) => {
     stripHtml(pageData?.seosection || "") ||
     stripHtml(pageData?.section1 || "") ||
     "Step into immersive digital game rooms built for movement, reaction, teamwork, and all-out fun.";
-  const aboutContentHtml = pageData?.seosection || "";
+  const aboutBuildingImage =
+    getRedirectDestination(redirectData, ABOUT_BUILDING_IMAGE_REDIRECT_SOURCE) ||
+    ABOUT_BUILDING_IMAGE_FALLBACK;
+  const aboutContentHtml = addBuildingImageNextToMap(
+    pageData?.seosection || "",
+    aboutBuildingImage,
+  );
   const attractionHeroContent = parseHeroTextBlock(pageData?.section2 || "");
   const attractionHeroLabelHtml = pageData?.section3 || "";
   const attractionHeroHeading = attractionHeroContent.heading;
