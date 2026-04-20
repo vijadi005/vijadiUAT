@@ -546,6 +546,17 @@ const Home = async () => {
       getConfigValue(dataconfig, ["howItWorksCtaButton", "howItWorksButton"]),
     bookingType: getConfigValue(dataconfig, ["howItWorksCtaBookingType"]) || "ticket",
   };
+  const howItWorksHeading = {
+    title:
+      siteData.howItWorks.title ||
+      getConfigValue(dataconfig, ["howItWorksTitle", "howItWorksHeadingTitle"]),
+    accent:
+      siteData.howItWorks.accent ||
+      getConfigValue(dataconfig, ["howItWorksAccent", "howItWorksHeadingAccent"]),
+    subtitle:
+      siteData.howItWorks.subtitle ||
+      getConfigValue(dataconfig, ["howItWorksSubtitle", "howItWorksSubheading"]),
+  };
   const pricingCta = {
     text:
       siteData.pricingCta.text ||
@@ -617,13 +628,13 @@ const Home = async () => {
       {siteData.howItWorks.steps.length > 0 && (
       <section className="ppp-section ppp-how">
         <div className="aero-max-container">
-          {(siteData.howItWorks.title || siteData.howItWorks.accent) && (
+          {(howItWorksHeading.title || howItWorksHeading.accent) && (
             <SectionHeading>
-              {siteData.howItWorks.title} {siteData.howItWorks.accent && <span>{siteData.howItWorks.accent}</span>}
+              {howItWorksHeading.title} {howItWorksHeading.accent && <span>{howItWorksHeading.accent}</span>}
             </SectionHeading>
           )}
-          {siteData.howItWorks.subtitle && (
-            <p className="ppp-section__sub">{siteData.howItWorks.subtitle}</p>
+          {howItWorksHeading.subtitle && (
+            <p className="ppp-section__sub">{howItWorksHeading.subtitle}</p>
           )}
 
           <ol className="ppp-how__grid">

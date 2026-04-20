@@ -572,21 +572,6 @@
   background: rgba(5, 8, 16, 0.46);
 }
 
-.aero-header-phone-btn {
-  border: 1px solid rgba(251, 174, 123, 0.5);
-  color: rgba(255, 238, 222, 0.94);
-  font-weight: 800;
-  letter-spacing: 0;
-  text-decoration: none;
-  white-space: nowrap;
-}
-
-.aero-header-phone-btn:hover {
-  border-color: #fbae7b;
-  background: rgba(251, 174, 123, 0.14);
-  color: var(--white-color);
-}
-
 .aero-header-actions .aero-header-booking button,
 .aero-header-mobile-actions .aero-header-booking button {
   border-color: rgb(164, 207, 95);
@@ -1541,6 +1526,73 @@
   margin-top: 0;
   padding-top: 0;
   border-top: 0;
+}
+
+.aero_footer_phone_link {
+  display: inline-flex;
+  width: 100%;
+  max-width: 185px;
+  min-height: 42px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.75rem;
+  padding: 0.42rem 0.65rem;
+  border: 2px solid #fbae7b;
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(251, 174, 123, 0.22), rgba(164, 207, 95, 0.1));
+  color: #fff5e8;
+  line-height: 1;
+  text-decoration: none;
+  box-shadow: 0 0 22px rgba(251, 174, 123, 0.24);
+}
+
+.aero_footer_phone_link span {
+  color: #a4cf5f;
+  font-size: 0.58rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.aero_footer_phone_link strong {
+  margin-top: 0.18rem;
+  color: inherit;
+  font-size: 0.86rem;
+  font-weight: 950;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+.aero_footer_phone_link:hover {
+  border-color: #fbae7b;
+  background: #fbae7b;
+  color: #050810;
+  transform: translateY(-1px);
+  box-shadow: 0 0 28px rgba(251, 174, 123, 0.4);
+}
+
+.aero_footer_phone_link:hover span,
+.aero_footer_phone_link:hover strong {
+  color: #050810;
+}
+
+.aero_footer_email_link {
+  max-width: 230px;
+  margin-top: 0.5rem;
+  border-color: rgba(164, 207, 95, 0.72);
+  background: linear-gradient(135deg, rgba(164, 207, 95, 0.18), rgba(251, 174, 123, 0.1));
+  box-shadow: 0 0 22px rgba(164, 207, 95, 0.18);
+}
+
+.aero_footer_email_link strong {
+  font-size: 0.78rem;
+}
+
+.aero_footer_email_link:hover {
+  border-color: #a4cf5f;
+  background: #a4cf5f;
+  box-shadow: 0 0 28px rgba(164, 207, 95, 0.34);
 }
 
 @media (max-width: 1100px) {
