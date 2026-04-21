@@ -399,10 +399,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1.25rem;
+  gap: 1rem;
   margin-top: 2rem;
-  min-height: 116px;
-  padding: 18px 32px;
+  min-height: 0;
+  padding: 20px 32px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 8px;
@@ -420,34 +420,16 @@
   background: var(--ppp-brand-line);
 }
 
-.ppp-attractions-final-cta__content {
+.ppp-attractions-final-cta__text {
   position: relative;
   z-index: 1;
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  gap: 0.45rem;
   flex: 1 1 auto;
-}
-
-.ppp-attractions-final-cta__content h2 {
   margin: 0;
   color: #050810;
   font-family: "Barlow Condensed", Impact, sans-serif;
-  font-size: clamp(1.85rem, 2.55vw, 2.55rem);
+  font-size: clamp(1.35rem, 3vw, 2.2rem);
   font-weight: 800;
-  line-height: 0.9;
-  letter-spacing: 0;
-  text-transform: uppercase;
-}
-
-.ppp-attractions-final-cta__content p {
-  margin: 0;
-  color: #050810;
-  font-family: "Barlow Condensed", Impact, sans-serif;
-  font-size: clamp(1.85rem, 2.55vw, 2.55rem);
-  font-weight: 800;
-  line-height: 0.9;
+  line-height: 1;
   letter-spacing: 0;
   text-transform: uppercase;
 }
@@ -462,28 +444,36 @@
   justify-content: flex-end;
 }
 
-.ppp-attractions-final-cta .ppp-attractions-hero__book-btn,
-.ppp-attractions-final-cta .ppp-attractions-hero__link {
+.ppp-attractions-final-cta__btn,
+.ppp-attractions-final-cta button.ppp-attractions-final-cta__btn {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-height: 52px;
   min-width: 122px;
   padding: 13px 24px;
-  border: 2px solid var(--ppp-black);
+  border: 2px solid var(--ppp-black) !important;
   border-radius: 8px;
-  background: var(--ppp-black);
-  color: var(--ppp-white);
-  box-shadow: none;
+  background: var(--ppp-black) !important;
+  color: var(--ppp-white) !important;
+  font-family: "Barlow Condensed", Impact, sans-serif;
+  font-size: 0.98rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-transform: uppercase;
+  text-decoration: none;
+  box-shadow: none !important;
+  cursor: pointer;
 }
 
-.ppp-attractions-final-cta .ppp-attractions-hero__book-btn::after {
-  display: none;
-}
-
-.ppp-attractions-final-cta .ppp-attractions-hero__book-btn:hover,
-.ppp-attractions-final-cta .ppp-attractions-hero__link:hover {
+.ppp-attractions-final-cta__btn:hover,
+.ppp-attractions-final-cta button.ppp-attractions-final-cta__btn:hover {
   transform: translateY(-2px);
-  border-color: #111827;
-  background: #111827;
-  color: var(--ppp-white);
+  border-color: #111827 !important;
+  background: #111827 !important;
+  color: var(--ppp-white) !important;
   box-shadow: 0 0 22px rgba(5, 8, 16, 0.32);
 }
 
@@ -1660,8 +1650,8 @@
     justify-content: stretch;
   }
 
-  .ppp-attractions-final-cta__content {
-    flex-wrap: wrap;
+  .ppp-attractions-final-cta__actions > * {
+    width: 100%;
   }
 
   .ppp-dynamic-hero__copy,
@@ -1998,4 +1988,37 @@
   letter-spacing: 0 !important;
   line-height: 1.18 !important;
   text-transform: none !important;
+}
+
+.ppp-attractions-final-cta .ppp-attractions-final-cta__btn,
+.ppp-attractions-final-cta button.ppp-attractions-final-cta__btn {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 52px !important;
+  min-width: 122px !important;
+  padding: 13px 24px !important;
+  border: 2px solid #050810 !important;
+  border-radius: 8px !important;
+  background: #050810 !important;
+  background-color: #050810 !important;
+  color: #ffffff !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+  font-family: "Barlow Condensed", Impact, sans-serif !important;
+  font-size: 0.98rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.08em !important;
+  line-height: 1 !important;
+  text-transform: uppercase !important;
+}
+
+.ppp-attractions-final-cta .ppp-attractions-final-cta__btn:hover,
+.ppp-attractions-final-cta button.ppp-attractions-final-cta__btn:hover {
+  background: #111827 !important;
+  background-color: #111827 !important;
+  border-color: #111827 !important;
+  color: #ffffff !important;
 }

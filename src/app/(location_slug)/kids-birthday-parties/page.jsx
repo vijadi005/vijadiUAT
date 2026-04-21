@@ -289,16 +289,17 @@ const Page = async ({ params }) => {
         <section className="aero-max-container ppp-party-layout">
           <section className="ppp-party-cta-band">
             <div className="aero-max-container ppp-party-cta-band__inner">
-              <div>
-                <h3>{ctaContent.birthdayFinalCtaTitle || "Weekday Special: Save $50 on Birthday Parties (Mon-Thu)"}</h3>
-              </div>
+              <p className="ppp-party-cta-band__text">
+                {ctaContent.birthdayFinalCtaTitle || "Weekday Special: Save $50 on Birthday Parties (Mon-Thu)"}
+              </p>
               <div className="ppp-party-cta-band__actions">
-                <Link href="#party-packages" className="ppp-party-hero__link" prefetch={false}>
+                <Link href="#party-packages" className="ppp-party-cta-band__btn" prefetch={false}>
                   {ctaContent.birthdayFinalCtaPrimaryText || "Check Packages"}
                 </Link>
                 <div className="aero-btn-booknow">
                   <BookingButton
                     title={ctaContent.birthdayFinalCtaSecondaryText || "Book Your Date"}
+                    className="ppp-party-cta-band__btn"
                     bookingType={ctaContent.birthdayFinalCtaSecondaryBookingType || "party"}
                   />
                 </div>

@@ -299,19 +299,23 @@ const Category = async ({ params }) => {
                   </section>
 
                   <section className="ppp-attractions-final-cta">
-                    <div className="ppp-attractions-final-cta__content">
-                      <h2>{ctaContent.attractionsFinalCtaTitle || "One place. Multiple challenges."}</h2>
-                      <p>{ctaContent.attractionsFinalCtaSubtitle || "Who are you bringing?"}</p>
-                    </div>
+                    <p className="ppp-attractions-final-cta__text">
+                      {[
+                        ctaContent.attractionsFinalCtaTitle || "One place. Multiple challenges.",
+                        ctaContent.attractionsFinalCtaSubtitle || "Who are you bringing?",
+                      ]
+                        .filter(Boolean)
+                        .join(" ")}
+                    </p>
                     <div className="ppp-attractions-final-cta__actions">
                       <BookingButton
                         title={ctaContent.attractionsFinalCtaPrimaryText || "Book Now"}
-                        className="ppp-attractions-hero__book-btn"
+                        className="ppp-attractions-final-cta__btn"
                         bookingType={ctaContent.attractionsFinalCtaPrimaryBookingType || "ticket"}
                       />
                       <BookingButton
                         title={ctaContent.attractionsFinalCtaSecondaryText || "Plan a Party"}
-                        className="ppp-attractions-hero__link"
+                        className="ppp-attractions-final-cta__btn"
                         bookingType={ctaContent.attractionsFinalCtaSecondaryBookingType || "party"}
                       />
                     </div>

@@ -765,10 +765,10 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 1.25rem;
+  gap: 1rem;
   text-align: left;
   min-height: 116px;
-  padding: 18px 32px;
+  padding: 20px 32px;
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 8px;
   background: linear-gradient(90deg, #b2d55d 0%, #ffb184 100%);
@@ -802,14 +802,14 @@
   font-weight: 800;
 }
 
-.ppp-party-cta-band__inner h3 {
-  max-width: 720px;
+.ppp-party-cta-band__text {
+  flex: 1 1 auto;
   margin: 0;
   color: #050810;
   font-family: "Barlow Condensed", Impact, sans-serif;
-  font-size: clamp(1.85rem, 2.55vw, 2.55rem);
+  font-size: clamp(1.35rem, 3vw, 2.2rem);
   font-weight: 800;
-  line-height: 0.9;
+  line-height: 1;
   letter-spacing: 0;
   text-transform: uppercase;
 }
@@ -824,31 +824,37 @@
   display: flex;
 }
 
-.ppp-party-cta-band__actions .ppp-party-hero__link,
-.ppp-party-cta-band__actions button {
+.ppp-party-cta-band__btn,
+.ppp-party-cta-band__actions button,
+.ppp-party-cta-band__actions button.ppp-party-cta-band__btn {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-height: 52px;
   min-width: 122px;
   padding: 13px 24px;
-  justify-content: center;
+  border: 2px solid var(--ppp-black) !important;
+  background: var(--ppp-black) !important;
+  color: var(--ppp-white) !important;
   font-family: "Barlow Condensed", Impact, sans-serif;
   font-size: 0.98rem;
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   border-radius: 8px;
+  line-height: 1;
+  text-decoration: none;
+  box-shadow: none !important;
 }
 
-.ppp-party-cta-band__actions .ppp-party-hero__link {
-  border-color: var(--ppp-black);
-  background: var(--ppp-black);
-  color: var(--ppp-white);
-  box-shadow: none;
-}
-
-.ppp-party-cta-band__actions .ppp-party-hero__link:hover {
-  background: #111827;
-  border-color: #111827;
-  color: var(--ppp-white);
+.ppp-party-cta-band__btn:hover,
+.ppp-party-cta-band__actions button:hover,
+.ppp-party-cta-band__actions button.ppp-party-cta-band__btn:hover {
+  background: #111827 !important;
+  border-color: #111827 !important;
+  color: var(--ppp-white) !important;
+  transform: translateY(-2px);
   box-shadow: 0 0 22px rgba(5, 8, 16, 0.32);
 }
 
@@ -866,9 +872,44 @@
     justify-content: flex-start;
   }
 
-  .ppp-party-cta-band__actions .ppp-party-hero__link,
+  .ppp-party-cta-band__btn,
   .ppp-party-cta-band__actions .aero-btn-booknow,
   .ppp-party-cta-band__actions button {
     width: 100%;
   }
+}
+
+.ppp-party-cta-band .ppp-party-cta-band__btn,
+.ppp-party-cta-band .ppp-party-cta-band__actions button,
+.ppp-party-cta-band .ppp-party-cta-band__actions button.ppp-party-cta-band__btn {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 52px !important;
+  min-width: 122px !important;
+  padding: 13px 24px !important;
+  border: 2px solid #050810 !important;
+  border-radius: 8px !important;
+  background: #050810 !important;
+  background-color: #050810 !important;
+  color: #ffffff !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+  font-family: "Barlow Condensed", Impact, sans-serif !important;
+  font-size: 0.98rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.08em !important;
+  line-height: 1 !important;
+  text-transform: uppercase !important;
+}
+
+.ppp-party-cta-band .ppp-party-cta-band__btn:hover,
+.ppp-party-cta-band .ppp-party-cta-band__actions button:hover,
+.ppp-party-cta-band .ppp-party-cta-band__actions button.ppp-party-cta-band__btn:hover {
+  background: #111827 !important;
+  background-color: #111827 !important;
+  border-color: #111827 !important;
+  color: #ffffff !important;
 }
