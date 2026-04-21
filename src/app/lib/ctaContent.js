@@ -90,6 +90,49 @@ export function getCtaContent(configData = {}) {
     pricingSecondaryBookingType:
       getValue(["pricingCtaSecondaryBookingType", "pricingSecondaryBookingType"]) ||
       "ticket",
+    attractionsFinalCtaTitle: getValue([
+      "attractionsFinalCtaTitle",
+      "attractionFinalCtaTitle",
+    ]),
+    attractionsFinalCtaSubtitle: getValue([
+      "attractionsFinalCtaSubtitle",
+      "attractionFinalCtaSubtitle",
+    ]),
+    attractionsFinalCtaPrimaryText: getValue([
+      "attractionsFinalCtaPrimaryText",
+      "attractionFinalCtaPrimaryText",
+    ]),
+    attractionsFinalCtaPrimaryBookingType:
+      getValue([
+        "attractionsFinalCtaPrimaryBookingType",
+        "attractionFinalCtaPrimaryBookingType",
+      ]) || "ticket",
+    attractionsFinalCtaSecondaryText: getValue([
+      "attractionsFinalCtaSecondaryText",
+      "attractionFinalCtaSecondaryText",
+    ]),
+    attractionsFinalCtaSecondaryBookingType:
+      getValue([
+        "attractionsFinalCtaSecondaryBookingType",
+        "attractionFinalCtaSecondaryBookingType",
+      ]) || "party",
+    birthdayFinalCtaTitle: getValue([
+      "birthdayFinalCtaTitle",
+      "partyFinalCtaTitle",
+    ]),
+    birthdayFinalCtaPrimaryText: getValue([
+      "birthdayFinalCtaPrimaryText",
+      "partyFinalCtaPrimaryText",
+    ]),
+    birthdayFinalCtaSecondaryText: getValue([
+      "birthdayFinalCtaSecondaryText",
+      "partyFinalCtaSecondaryText",
+    ]),
+    birthdayFinalCtaSecondaryBookingType:
+      getValue([
+        "birthdayFinalCtaSecondaryBookingType",
+        "partyFinalCtaSecondaryBookingType",
+      ]) || "party",
     backHomeText: getValue(["cta_back_home", "backHomeText"]),
     sendAnotherText: getValue(["cta_send_another", "sendAnotherText"]),
     promotionsHeading: getValue(["promotionsHeading", "promoHeading"]),

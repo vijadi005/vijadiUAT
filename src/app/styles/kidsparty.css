@@ -765,18 +765,14 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: clamp(1.2rem, 3vw, 2rem);
+  gap: 1.25rem;
   text-align: left;
-  padding: clamp(1.45rem, 3vw, 2.4rem);
-  border: 1px solid rgba(164, 207, 95, 0.38);
+  min-height: 116px;
+  padding: 18px 32px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 8px;
-  background:
-    linear-gradient(90deg, rgba(164, 207, 95, 0.16), rgba(251, 174, 123, 0.12) 48%, rgba(17, 24, 39, 0.96)),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0));
-  box-shadow:
-    0 22px 62px rgba(0, 0, 0, 0.34),
-    0 0 24px rgba(164, 207, 95, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  background: linear-gradient(90deg, #b2d55d 0%, #ffb184 100%);
+  box-shadow: none;
 }
 
 .ppp-party-cta-band__inner::before {
@@ -808,12 +804,12 @@
 
 .ppp-party-cta-band__inner h3 {
   max-width: 720px;
-  margin: 0.65rem 0 0;
-  color: var(--white-color);
+  margin: 0;
+  color: #050810;
   font-family: "Barlow Condensed", Impact, sans-serif;
-  font-size: clamp(1.55rem, 3.4vw, 2.7rem);
+  font-size: clamp(1.85rem, 2.55vw, 2.55rem);
   font-weight: 800;
-  line-height: 0.98;
+  line-height: 0.9;
   letter-spacing: 0;
   text-transform: uppercase;
 }
@@ -828,15 +824,32 @@
   display: flex;
 }
 
+.ppp-party-cta-band__actions .ppp-party-hero__link,
 .ppp-party-cta-band__actions button {
-  min-width: 160px;
   min-height: 52px;
-  padding: 0.9rem 1.45rem;
+  min-width: 122px;
+  padding: 13px 24px;
+  justify-content: center;
   font-family: "Barlow Condensed", Impact, sans-serif;
   font-size: 0.98rem;
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  border-radius: 8px;
+}
+
+.ppp-party-cta-band__actions .ppp-party-hero__link {
+  border-color: var(--ppp-black);
+  background: var(--ppp-black);
+  color: var(--ppp-white);
+  box-shadow: none;
+}
+
+.ppp-party-cta-band__actions .ppp-party-hero__link:hover {
+  background: #111827;
+  border-color: #111827;
+  color: var(--ppp-white);
+  box-shadow: 0 0 22px rgba(5, 8, 16, 0.32);
 }
 
 @media (max-width: 768px) {
@@ -844,6 +857,8 @@
     flex-direction: column;
     align-items: flex-start;
     text-align: left;
+    min-height: 0;
+    padding: 18px 20px;
   }
 
   .ppp-party-cta-band__actions {
@@ -851,6 +866,7 @@
     justify-content: flex-start;
   }
 
+  .ppp-party-cta-band__actions .ppp-party-hero__link,
   .ppp-party-cta-band__actions .aero-btn-booknow,
   .ppp-party-cta-band__actions button {
     width: 100%;

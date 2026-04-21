@@ -237,15 +237,16 @@ const Category = async ({ params }) => {
 	                        ))}
 	                      </ul>
 	                    )}
-	                    {ctaContent.bookNowText && (
-	                      <div className="ppp-attractions-hero__actions">
-	                        <BookingButton
-	                          title={ctaContent.bookNowText}
-	                          className="ppp-attractions-hero__book-btn"
-	                          bookingType="ticket"
-	                        />
-	                      </div>
-	                    )}
+                    <div className="ppp-attractions-hero__actions">
+                      <BookingButton
+                        title="Book Your Game"
+                        className="ppp-attractions-hero__book-btn"
+                        bookingType="ticket"
+                      />
+                      <Link href="#all-challenges" className="ppp-attractions-hero__link" prefetch={false}>
+                        Explore All Challenges
+                      </Link>
+                    </div>
 	                  </div>
 	                </div>
 	              </div>
@@ -266,9 +267,7 @@ const Category = async ({ params }) => {
                 )}
 
                 <section className="ppp-attractions-grid-wrap">
-                 
-
-                  <section className="ppp-attractions-grid">
+                  <section className="ppp-attractions-grid" id="all-challenges">
                     {attractionItems.map((item, i) => (
                       <article className="ppp-attraction-card-modern" key={item.pageid || i}>
                         <Link
@@ -287,18 +286,35 @@ const Category = async ({ params }) => {
                             <h2>{item.desc}</h2>
                             <p>{item.metatitle}</p>
                           </Link>
-                          {ctaContent.readMoreText && (
-                            <Link
-                              href={`${category_slug}/${item?.path}`}
-                              prefetch
-                              className="ppp-attraction-card-modern__link"
-                            >
-                              {ctaContent.readMoreText}
-                            </Link>
-                          )}
+                          <Link
+                            href={`${category_slug}/${item?.path}`}
+                            prefetch
+                            className="ppp-attraction-card-modern__link"
+                          >
+                            Play This Room
+                          </Link>
                         </div>
                       </article>
                     ))}
+                  </section>
+
+                  <section className="ppp-attractions-final-cta">
+                    <div className="ppp-attractions-final-cta__content">
+                      <h2>{ctaContent.attractionsFinalCtaTitle || "One place. Multiple challenges."}</h2>
+                      <p>{ctaContent.attractionsFinalCtaSubtitle || "Who are you bringing?"}</p>
+                    </div>
+                    <div className="ppp-attractions-final-cta__actions">
+                      <BookingButton
+                        title={ctaContent.attractionsFinalCtaPrimaryText || "Book Now"}
+                        className="ppp-attractions-hero__book-btn"
+                        bookingType={ctaContent.attractionsFinalCtaPrimaryBookingType || "ticket"}
+                      />
+                      <BookingButton
+                        title={ctaContent.attractionsFinalCtaSecondaryText || "Plan a Party"}
+                        className="ppp-attractions-hero__link"
+                        bookingType={ctaContent.attractionsFinalCtaSecondaryBookingType || "party"}
+                      />
+                    </div>
                   </section>
                 </section>
               </section>

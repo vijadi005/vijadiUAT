@@ -128,7 +128,7 @@ const PricingComparison = ({ birthdaydata }) => {
   const spotlightIndex = packages.length > 1 ? 1 : 0;
 
   return (
-    <section className="ppp-party-pricing">
+    <section className="ppp-party-pricing" id="party-packages">
       
 
       <div className="ppp-party-table-wrap">
@@ -262,12 +262,6 @@ const Page = async ({ params }) => {
       Object.entries(pageCta).filter(([, value]) => Boolean(value)),
     ),
   };
-  const partyCtaEyebrow =
-    getRowValue(data || {}, ["ctaEyebrow", "partyCtaEyebrow"]) ||
-    getConfigValue(dataconfig, ["birthdayCtaEyebrow", "partyCtaEyebrow"]);
-  const partyCtaTitle =
-    getRowValue(data || {}, ["ctaTitle", "partyCtaTitle"]) ||
-    getConfigValue(dataconfig, ["birthdayCtaTitle", "partyCtaTitle"]);
 
   return (
     <main className="ppp-party-page">
@@ -293,26 +287,25 @@ const Page = async ({ params }) => {
 
       <section className="subcategory_main_section-bg gaming_bg">
         <section className="aero-max-container ppp-party-layout">
-          {(partyCtaEyebrow || partyCtaTitle || ctaContent.bookNowText) && (
-            <section className="ppp-party-cta-band">
-              <div className="aero-max-container ppp-party-cta-band__inner">
-                <div>
-                  {partyCtaEyebrow && (
-                    <p className="ppp-party-cta-band__eyebrow">{partyCtaEyebrow}</p>
-                  )}
-                  {partyCtaTitle && <h3>{partyCtaTitle}</h3>}
-                </div>
-                {ctaContent.bookNowText && (
-                  <div className="ppp-party-cta-band__actions">
-                    <div className="aero-btn-booknow">
-                      <BookingButton title={ctaContent.bookNowText} />
-                    </div>
-                  </div>
-                )}
+          <section className="ppp-party-cta-band">
+            <div className="aero-max-container ppp-party-cta-band__inner">
+              <div>
+                <h3>{ctaContent.birthdayFinalCtaTitle || "Weekday Special: Save $50 on Birthday Parties (Mon-Thu)"}</h3>
               </div>
-            </section>
-          )}
-         
+              <div className="ppp-party-cta-band__actions">
+                <Link href="#party-packages" className="ppp-party-hero__link" prefetch={false}>
+                  {ctaContent.birthdayFinalCtaPrimaryText || "Check Packages"}
+                </Link>
+                <div className="aero-btn-booknow">
+                  <BookingButton
+                    title={ctaContent.birthdayFinalCtaSecondaryText || "Book Your Date"}
+                    bookingType={ctaContent.birthdayFinalCtaSecondaryBookingType || "party"}
+                  />
+                </div>
+              </div>
+            </div>
+          </section>
+
           <PricingComparison birthdaydata={birthdayPackages} />
 
           {data?.seosection && (
