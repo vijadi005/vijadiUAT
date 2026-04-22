@@ -189,6 +189,14 @@
   .ppp-promo-card {
     border-radius: 8px;
   }
+
+  .ppp-cta-band__actions {
+    width: 100%;
+  }
+
+  .ppp-cta-band__actions > * {
+    width: 100%;
+  }
 }
 
 /* Final route-scoped override for group-event inner hero layout. This file loads after subcategory.css. */
@@ -571,6 +579,19 @@
   .ppp-promo-card {
     border-radius: 8px;
   }
+
+  .ppp-cta-band--compact .ppp-cta-band__inner {
+    grid-template-columns: 1fr;
+  }
+
+  .ppp-cta-band__actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .ppp-cta-band__actions > * {
+    width: 100%;
+  }
 }
 
 .aero_pricingpromo_card {
@@ -895,6 +916,23 @@
   box-shadow: 0 0 18px rgba(251, 174, 123, 0.35);
 }
 
+.ppp-pricing-hero__trust {
+  margin: 1rem 0 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.8rem 1.1rem;
+  border: 1px solid rgba(164, 207, 95, 0.32);
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(164, 207, 95, 0.14), rgba(251, 174, 123, 0.12));
+  color: #f7fbff;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.4;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+}
+
 .ppp-pricing-hero__highlights {
   grid-area: highlights;
   display: grid;
@@ -1216,6 +1254,110 @@
   font-size: clamp(1.35rem, 3vw, 2rem);
   text-transform: none;
   color: var(--white-color);
+}
+
+.ppp-inline-cta .ppp-section__sub {
+  margin: 0.45rem 0 0;
+  color: rgba(240, 246, 255, 0.8);
+  line-height: 1.6;
+}
+
+.ppp-cta-band {
+  padding: clamp(1.35rem, 2.5vw, 2rem) 0 0;
+}
+
+.ppp-cta-band--compact .ppp-cta-band__inner {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) auto;
+  align-items: center;
+  gap: clamp(1rem, 2.4vw, 2rem);
+  padding: clamp(1.35rem, 2.6vw, 2.2rem);
+  border: 1px solid rgba(164, 207, 95, 0.42);
+  border-radius: 8px;
+  background: linear-gradient(90deg, rgba(181, 220, 88, 0.98) 0%, rgba(255, 181, 130, 0.98) 100%);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.2);
+}
+
+.ppp-cta-band--compact .ppp-cta-band__inner::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 5px;
+  background: linear-gradient(90deg, var(--ppp-lime, #a4cf5f), var(--ppp-peach, #fbae7b), #ff2d78);
+}
+
+.ppp-cta-band__content {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.7rem;
+}
+
+.ppp-cta-band__sub {
+  margin: 0;
+  color: rgba(5, 8, 16, 0.78);
+  font-size: clamp(1rem, 1.5vw, 1.15rem);
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.ppp-cta-band__highlight {
+  margin: 0;
+  color: #050810;
+  font-family: "Barlow Condensed", Impact, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.72;
+}
+
+.ppp-cta-band__actions {
+  display: flex;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 0;
+}
+
+.ppp-cta-band__actions .aero-btn-booknow button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 14px 28px;
+  border: 2px solid #050810;
+  border-radius: 8px;
+  background: #050810;
+  color: #fff;
+  font-family: "Barlow Condensed", Impact, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.ppp-cta-band__actions .aero-btn-booknow button:hover {
+  transform: translateY(-2px);
+  background: #111827;
+  box-shadow: 0 0 22px rgba(5, 8, 16, 0.32);
+}
+
+.ppp-cta-band--compact .section-heading,
+.ppp-cta-band--compact .section-heading span {
+  color: #050810 !important;
+}
+
+.ppp-cta-band--compact .section-heading {
+  margin: 0;
+  font-size: clamp(2rem, 3.6vw, 3.4rem);
+  line-height: 0.96;
 }
 
 .ppp-promotions-block {
@@ -1616,6 +1758,31 @@
   border-color: var(--ppp-peach);
   color: #050810;
   box-shadow: 0 0 24px rgba(164, 207, 95, 0.28);
+}
+
+.ppp-pricing-hero__actions .aero-btn-booknow button {
+  border-color: transparent;
+  background: linear-gradient(90deg, var(--ppp-lime) 0%, var(--ppp-peach) 100%);
+  color: #050810;
+  box-shadow: 0 12px 24px rgba(251, 174, 123, 0.2);
+}
+
+.ppp-pricing-hero__actions .aero-btn-booknow button:hover {
+  background: linear-gradient(90deg, #b4db68 0%, #ffb88c 100%);
+  border-color: transparent;
+  color: #050810;
+}
+
+.ppp-pricing-hero__link {
+  border-color: var(--ppp-peach);
+  color: var(--ppp-peach);
+  background: rgba(10, 14, 22, 0.82);
+  box-shadow: inset 0 0 0 1px rgba(251, 174, 123, 0.12);
+}
+
+.ppp-pricing-hero__link:hover {
+  background: rgba(251, 174, 123, 0.12);
+  box-shadow: 0 0 18px rgba(251, 174, 123, 0.24);
 }
 
 @media (max-width: 768px) {

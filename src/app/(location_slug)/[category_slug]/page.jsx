@@ -66,6 +66,23 @@ function extractHeroHeading(html = "") {
   return firstLine;
 }
 
+function splitHeroHtml(content = "") {
+  const html = String(content || "").trim();
+  if (!html) {
+    return { headingHtml: "", bodyHtml: "" };
+  }
+
+  const headingMatch = html.match(/<h[1-6][^>]*>[\s\S]*?<\/h[1-6]>/i);
+  if (!headingMatch) {
+    return { headingHtml: "", bodyHtml: html };
+  }
+
+  return {
+    headingHtml: headingMatch[0],
+    bodyHtml: html.replace(headingMatch[0], "").trim(),
+  };
+}
+
 function parseHeroTextBlock(content = "") {
   const normalizedContent = typeof content === "string" ? content.trim() : "";
   if (!normalizedContent) {
@@ -179,10 +196,13 @@ const Category = async ({ params }) => {
   );
   const attractionHeroContent = parseHeroTextBlock(pageData?.section2 || "");
   const attractionHeroLabelHtml = pageData?.section3 || "";
+  const attractionHeroHtml = pageData?.section2 || "";
   const attractionHeroHeading = attractionHeroContent.heading;
   const attractionHeroBullets = attractionHeroContent.bullets;
   const groupsHeroContent = parseHeroTextBlock(pageData?.section2 || "");
   const groupsHeroLabelHtml = pageData?.section3 || "";
+  const groupsHeroHtml = pageData?.section2 || "";
+  const groupsHeroSplit = splitHeroHtml(groupsHeroHtml);
   const groupsHeroHeading = groupsHeroContent.heading;
   const groupsHeroBullets = groupsHeroContent.bullets;
   const aboutHeroContent = parseHeroTextBlock(pageData?.section2 || "");
@@ -229,14 +249,23 @@ const Category = async ({ params }) => {
                     {attractionHeroLabelHtml && (
                       <div dangerouslySetInnerHTML={{ __html: attractionHeroLabelHtml }} />
                     )}
-                    {attractionHeroHeading && <h2>{attractionHeroHeading}</h2>}
-	                    {attractionHeroBullets.length > 0 && (
-	                      <ul>
-	                        {attractionHeroBullets.map((item, index) => (
-	                          <li key={`${item}-${index}`}>{item}</li>
-	                        ))}
-	                      </ul>
-	                    )}
+                    {attractionHeroHtml ? (
+                      <div
+                        className="ppp-attractions-hero__body"
+                        dangerouslySetInnerHTML={{ __html: attractionHeroHtml }}
+                      />
+                    ) : (
+                      <>
+                        {attractionHeroHeading && <h2>{attractionHeroHeading}</h2>}
+                        {attractionHeroBullets.length > 0 && (
+                          <ul>
+                            {attractionHeroBullets.map((item, index) => (
+                              <li key={`${item}-${index}`}>{item}</li>
+                            ))}
+                          </ul>
+                        )}
+                      </>
+                    )}
                     <div className="ppp-attractions-hero__actions">
                       <BookingButton
                         title="Book Your Game"
@@ -333,13 +362,58 @@ const Category = async ({ params }) => {
                     {groupsHeroLabelHtml && (
                       <div dangerouslySetInnerHTML={{ __html: groupsHeroLabelHtml }} />
                     )}
-                    {groupsHeroHeading && <h2>{groupsHeroHeading}</h2>}
-                    {groupsHeroBullets.length > 0 && (
-                      <ul>
-                        {groupsHeroBullets.map((item, index) => (
-                          <li key={`${item}-${index}`}>{item}</li>
-                        ))}
-                      </ul>
+                    {groupsHeroHtml ? (
+                      <>
+                        {groupsHeroSplit.headingHtml && (
+                          <div
+                            className="ppp-groups-hero__heading"
+                            dangerouslySetInnerHTML={{ __html: groupsHeroSplit.headingHtml }}
+                          />
+                        )}
+                        {ctaContent.groupsHeroSubtitle && (
+                          <p className="ppp-groups-hero__text">{ctaContent.groupsHeroSubtitle}</p>
+                        )}
+                        {groupsHeroSplit.bodyHtml && (
+                          <div
+                            className="ppp-groups-hero__body"
+                            dangerouslySetInnerHTML={{ __html: groupsHeroSplit.bodyHtml }}
+                          />
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        {groupsHeroHeading && <h2>{groupsHeroHeading}</h2>}
+                        {ctaContent.groupsHeroSubtitle && (
+                          <p className="ppp-groups-hero__text">{ctaContent.groupsHeroSubtitle}</p>
+                        )}
+                        {groupsHeroBullets.length > 0 && (
+                          <ul>
+                            {groupsHeroBullets.map((item, index) => (
+                              <li key={`${item}-${index}`}>{item}</li>
+                            ))}
+                          </ul>
+                        )}
+                      </>
+                    )}
+                    {(ctaContent.groupsHeroPrimaryText || ctaContent.groupsHeroSecondaryText) && (
+                      <div className="ppp-groups-hero__actions">
+                        {ctaContent.groupsHeroPrimaryText && (
+                          <BookingButton
+                            title={ctaContent.groupsHeroPrimaryText}
+                            className="ppp-groups-hero__book-btn"
+                            bookingType={ctaContent.groupsHeroPrimaryBookingType}
+                          />
+                        )}
+                        {ctaContent.groupsHeroSecondaryText && (
+                          <Link
+                            href={ctaContent.groupsHeroSecondaryHref || ctaContent.contactHref || "/contactus"}
+                            className="ppp-groups-hero__link"
+                            prefetch
+                          >
+                            {ctaContent.groupsHeroSecondaryText}
+                          </Link>
+                        )}
+                      </div>
                     )}
                   </div>
                 </div>
@@ -361,7 +435,11 @@ const Category = async ({ params }) => {
                 )}
 
                 <section className="ppp-groups-grid-wrap">
-                  
+                  <div className="ppp-groups-section-intro">
+                    <SectionHeading className="section-heading-white">
+                      {ctaContent.groupsCardsHeading || "What Are You Planning?"}
+                    </SectionHeading>
+                  </div>
 
                   <section className="ppp-groups-grid">
                     {attractionItems.map((item, i) => (
@@ -384,8 +462,8 @@ const Category = async ({ params }) => {
                           </Link>
                           {ctaContent.exploreOptionText && (
                             <Link
-                              href={`${category_slug}/${item?.path}`}
-                              prefetch
+                              href={contactHref}
+                              prefetch={contactHref.startsWith("/")}
                               className="ppp-group-card-modern__link"
                             >
                               {ctaContent.exploreOptionText}
@@ -397,6 +475,31 @@ const Category = async ({ params }) => {
                   </section>
                 </section>
               </section>
+
+              <div className="aero-max-container">
+                <section className="ppp-groups-final-cta">
+                  <p className="ppp-groups-final-cta__text">
+                    {ctaContent.groupsFinalCtaTitle || "Let’s Plan Something Your Group Will Actually Enjoy"}
+                  </p>
+                  <p className="ppp-groups-final-cta__subtext">
+                    {ctaContent.groupsFinalCtaSubtitle || "Tell us your group size and we’ll handle the rest."}
+                  </p>
+                  <div className="ppp-groups-final-cta__actions">
+                    <BookingButton
+                      title={ctaContent.groupsFinalCtaPrimaryText || "Plan Your Event"}
+                      className="ppp-groups-final-cta__btn"
+                      bookingType={ctaContent.groupsFinalCtaPrimaryBookingType || "party"}
+                    />
+                    <Link
+                      href={ctaContent.groupsFinalCtaSecondaryHref || contactHref}
+                      className="ppp-groups-final-cta__btn"
+                      prefetch={(ctaContent.groupsFinalCtaSecondaryHref || contactHref).startsWith("/")}
+                    >
+                      {ctaContent.groupsFinalCtaSecondaryText || "Talk To Us"}
+                    </Link>
+                  </div>
+                </section>
+              </div>
             </section>
           </section>
         ) : isAboutPage ? (

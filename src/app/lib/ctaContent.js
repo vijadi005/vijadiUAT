@@ -116,6 +116,56 @@ export function getCtaContent(configData = {}) {
         "attractionsFinalCtaSecondaryBookingType",
         "attractionFinalCtaSecondaryBookingType",
       ]) || "party",
+    groupsHeroSubtitle: getValue([
+      "groupsHeroSubtitle",
+      "groupHeroSubtitle",
+    ]),
+    groupsHeroPrimaryText: getValue([
+      "groupsHeroPrimaryText",
+      "groupHeroPrimaryText",
+    ]),
+    groupsHeroPrimaryBookingType:
+      getValue([
+        "groupsHeroPrimaryBookingType",
+        "groupHeroPrimaryBookingType",
+      ]) || "party",
+    groupsHeroSecondaryText: getValue([
+      "groupsHeroSecondaryText",
+      "groupHeroSecondaryText",
+    ]),
+    groupsHeroSecondaryHref: getValue([
+      "groupsHeroSecondaryHref",
+      "groupHeroSecondaryHref",
+    ]),
+    groupsCardsHeading: getValue([
+      "groupsCardsHeading",
+      "groupCardsHeading",
+    ]),
+    groupsFinalCtaTitle: getValue([
+      "groupsFinalCtaTitle",
+      "groupFinalCtaTitle",
+    ]),
+    groupsFinalCtaSubtitle: getValue([
+      "groupsFinalCtaSubtitle",
+      "groupFinalCtaSubtitle",
+    ]),
+    groupsFinalCtaPrimaryText: getValue([
+      "groupsFinalCtaPrimaryText",
+      "groupFinalCtaPrimaryText",
+    ]),
+    groupsFinalCtaPrimaryBookingType:
+      getValue([
+        "groupsFinalCtaPrimaryBookingType",
+        "groupFinalCtaPrimaryBookingType",
+      ]) || "party",
+    groupsFinalCtaSecondaryText: getValue([
+      "groupsFinalCtaSecondaryText",
+      "groupFinalCtaSecondaryText",
+    ]),
+    groupsFinalCtaSecondaryHref: getValue([
+      "groupsFinalCtaSecondaryHref",
+      "groupFinalCtaSecondaryHref",
+    ]),
     birthdayFinalCtaTitle: getValue([
       "birthdayFinalCtaTitle",
       "partyFinalCtaTitle",
@@ -137,6 +187,57 @@ export function getCtaContent(configData = {}) {
         "birthdayFinalCtaSecondaryBookingType",
         "partyFinalCtaSecondaryBookingType",
       ]) || "party",
+    pricingPromoInlineCtaTitle: getValue([
+      "pricingPromoInlineCtaTitle",
+      "pricingPromosInlineCtaTitle",
+    ]),
+    pricingPromoInlineCtaSubtitle: getValue([
+      "pricingPromoInlineCtaSubtitle",
+      "pricingPromosInlineCtaSubtitle",
+    ]),
+    pricingPromoInlineCtaButtonText: getValue([
+      "pricingPromoInlineCtaButtonText",
+      "pricingPromosInlineCtaButtonText",
+    ]),
+    pricingPromoInlineCtaBookingType:
+      getValue([
+        "pricingPromoInlineCtaBookingType",
+        "pricingPromosInlineCtaBookingType",
+      ]) || "party",
+    pricingPromoFinalCtaTitle: getValue([
+      "pricingPromoFinalCtaTitle",
+      "pricingPromosFinalCtaTitle",
+    ]),
+    pricingPromoFinalCtaAccent: getValue([
+      "pricingPromoFinalCtaAccent",
+      "pricingPromosFinalCtaAccent",
+    ]),
+    pricingPromoFinalCtaSubtitle: getValue([
+      "pricingPromoFinalCtaSubtitle",
+      "pricingPromosFinalCtaSubtitle",
+    ]),
+    pricingPromoFinalCtaHighlight: getValue([
+      "pricingPromoFinalCtaHighlight",
+      "pricingPromosFinalCtaHighlight",
+    ]),
+    pricingPromoFinalCtaPrimaryText: getValue([
+      "pricingPromoFinalCtaPrimaryText",
+      "pricingPromosFinalCtaPrimaryText",
+    ]),
+    pricingPromoFinalCtaPrimaryBookingType:
+      getValue([
+        "pricingPromoFinalCtaPrimaryBookingType",
+        "pricingPromosFinalCtaPrimaryBookingType",
+      ]) || "ticket",
+    pricingPromoFinalCtaSecondaryText: getValue([
+      "pricingPromoFinalCtaSecondaryText",
+      "pricingPromosFinalCtaSecondaryText",
+    ]),
+    pricingPromoFinalCtaSecondaryBookingType:
+      getValue([
+        "pricingPromoFinalCtaSecondaryBookingType",
+        "pricingPromosFinalCtaSecondaryBookingType",
+      ]) || "ticket",
     backHomeText: getValue(["cta_back_home", "backHomeText"]),
     sendAnotherText: getValue(["cta_send_another", "sendAnotherText"]),
     promotionsHeading: getValue(["promotionsHeading", "promoHeading"]),

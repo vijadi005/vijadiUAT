@@ -499,6 +499,20 @@ const PricingPromosPage = async ({ params }) => {
                   ))}
                 </ul>
               )}
+              <div className="ppp-pricing-hero__actions">
+                <div className="aero-btn-booknow">
+                  <BookingButton
+                    title="Book Your Session"
+                    bookingType="ticket"
+                  />
+                </div>
+                <Link className="ppp-pricing-hero__link" href="#deals-and-savings">
+                  View Deals &amp; Save
+                </Link>
+              </div>
+              <p className="ppp-pricing-hero__trust">
+                Most players choose 60 minutes for the full experience
+              </p>
             </div>
           </div>
         </div>
@@ -556,82 +570,89 @@ const PricingPromosPage = async ({ params }) => {
                   )}
                 </div>
               )}
+              {hasPromotions && (
+                <article className="ppp-promotions-block ppp-promos" id="deals-and-savings">
+                  <SectionHeading className="section-heading-white">
+                    Current <span>Promotions</span>
+                  </SectionHeading>
+                  <p className="ppp-section__sub">
+                    Don&apos;t miss out on these amazing deals! Save big on your next visit.
+                  </p>
+
+                  <div className="promotions__grid">
+                    {promotions.map((promo, index) => {
+                      const promoImage = getPromotionImage(promo, index);
+
+                      return (
+                        <article
+                          key={`${promo.title}-${index}`}
+                          className={`promotion-card${promoImage ? " promotion-card--with-image" : ""}`}
+                        >
+                          <div className="promotion-card__content">
+                            {promo.badge && <span className="promotion-card__badge">{promo.badge}</span>}
+                            <h3 className="promotion-card__title">{promo.title}</h3>
+                            <p className="promotion-card__description">{promo.description}</p>
+                            <div className="promotion-card__details">
+                              {promo.validity && (
+                                <time className="promotion-card__validity">{promo.validity}</time>
+                              )}
+                              {promo.code && (
+                                <span className="promotion-card__code">Code: {promo.code}</span>
+                              )}
+                            </div>
+                            {promo.link && (promo.linktext || ctaContent.claimOfferText) && (
+                              <Link
+                                href={promo.link}
+                                className="promotion-card__btn"
+                                target={promo.link.startsWith("http") ? "_blank" : undefined}
+                                rel={promo.link.startsWith("http") ? "noopener noreferrer" : undefined}
+                                title={promo.linktitle || undefined}
+                                aria-label={
+                                  promo.linktitle ||
+                                  promo.linktext ||
+                                  ctaContent.claimOfferText ||
+                                  promo.title
+                                }
+                                prefetch={!promo.link.startsWith("http")}
+                              >
+                                {promo.linktext || ctaContent.claimOfferText}
+                              </Link>
+                            )}
+                          </div>
+
+                          {promoImage && (
+                            <div className="promotion-card__image-wrap">
+                              <img
+                                src={promoImage.src}
+                                alt={promoImage.alt}
+                                className="promotion-card__image"
+                              />
+                            </div>
+                          )}
+                        </article>
+                      );
+                    })}
+                  </div>
+                </article>
+              )}
             </article>
 
-            {hasPromotions && (
-              <article className="ppp-promotions-block">
-                {(promotionsTitle || promotionsAccent || ctaContent.promotionsIntro) && (
-                  <div className="ppp-section-intro">
-                    {(promotionsTitle || promotionsAccent) && (
-                      <SectionHeading className="section-heading-white">
-                        {promotionsTitle} {promotionsAccent && <span>{promotionsAccent}</span>}
-                      </SectionHeading>
-                    )}
-                    {ctaContent.promotionsIntro && <p>{ctaContent.promotionsIntro}</p>}
-                  </div>
-                )}
-
-                <div className="ppp-promotions-grid">
-                  {promotions.map((promo, index) => {
-                    const promoImage = getPromotionImage(promo, index);
-
-                    return (
-                    <article
-                      className={`ppp-promo-card${promoImage ? " ppp-promo-card--with-image" : ""}`}
-                      key={`${promo.title}-${index}`}
-                    >
-                      <div className="ppp-promo-card__content">
-                        {promo.badge && <span className="ppp-promo-card__badge">{promo.badge}</span>}
-
-                        <div className="ppp-promo-card__body">
-                          <h3>{promo.title}</h3>
-                          <p>{promo.description}</p>
-                        </div>
-
-                        <div className="ppp-promo-card__meta">
-                          {promo.validity && (
-                            <div>
-                              <span>Valid</span>
-                              <strong>{promo.validity}</strong>
-                            </div>
-                          )}
-                          {promo.code && (
-                            <div>
-                              <span>Code</span>
-                              <strong>{promo.code}</strong>
-                            </div>
-                          )}
-                        </div>
-
-                        {promo.link && (promo.linktext || ctaContent.learnMoreText) && (
-                          <Link
-                            href={promo.link}
-                            className="ppp-promo-card__link"
-                            target={promo.link.startsWith("http") ? "_blank" : undefined}
-                            rel={promo.link.startsWith("http") ? "noopener noreferrer" : undefined}
-                            title={promo.linktitle || undefined}
-                            aria-label={promo.linktitle || promo.linktext || ctaContent.learnMoreText || promo.title}
-                          >
-                            {promo.linktext || ctaContent.learnMoreText}
-                          </Link>
-                        )}
-                      </div>
-
-                      {promoImage && (
-                        <div className="ppp-promo-card__image-wrap">
-                          <img
-                            src={promoImage.src}
-                            alt={promoImage.alt}
-                            className="ppp-promo-card__image"
-                          />
-                        </div>
-                      )}
-                    </article>
-                  );
-                  })}
+            <article className="ppp-inline-cta">
+              <div>
+                <h3>{ctaContent.pricingPromoInlineCtaTitle || "Weekday Birthday Deal"}</h3>
+                <p className="ppp-section__sub">
+                  {ctaContent.pricingPromoInlineCtaSubtitle || "Save $50 when you book Mon-Thu"}
+                </p>
+              </div>
+              <div className="ppp-inline-cta__actions">
+                <div className="aero-btn-booknow">
+                  <BookingButton
+                    title={ctaContent.pricingPromoInlineCtaButtonText || "Apply This Offer"}
+                    bookingType={ctaContent.pricingPromoInlineCtaBookingType || "party"}
+                  />
                 </div>
-              </article>
-            )}
+              </div>
+            </article>
 
             {(helpfulDetailsHtml || extraText) && (
               <article className="ppp-content-card pricing_promo_main_section">
@@ -644,6 +665,39 @@ const PricingPromosPage = async ({ params }) => {
                 />
               </article>
             )}
+
+            <section className="ppp-cta-band ppp-cta-band--compact">
+              <div className="ppp-cta-band__inner">
+                <div className="ppp-cta-band__content">
+                  <SectionHeading className="section-heading-white">
+                    {ctaContent.pricingPromoFinalCtaTitle || "Don’t Just Plan It."}{" "}
+                    <span>{ctaContent.pricingPromoFinalCtaAccent || "Lock It In."}</span>
+                  </SectionHeading>
+                  <p className="ppp-cta-band__sub">
+                    {ctaContent.pricingPromoFinalCtaSubtitle || "Your slot won’t stay open forever."}
+                  </p>
+                  {(ctaContent.pricingPromoFinalCtaHighlight || "Weekends sell out early") && (
+                    <p className="ppp-cta-band__highlight">
+                      {ctaContent.pricingPromoFinalCtaHighlight || "Weekends sell out early"}
+                    </p>
+                  )}
+                  <div className="ppp-cta-band__actions">
+                    <div className="aero-btn-booknow">
+                      <BookingButton
+                        title={ctaContent.pricingPromoFinalCtaPrimaryText || "Book Your Session"}
+                        bookingType={ctaContent.pricingPromoFinalCtaPrimaryBookingType || "ticket"}
+                      />
+                    </div>
+                    <div className="aero-btn-booknow">
+                      <BookingButton
+                        title={ctaContent.pricingPromoFinalCtaSecondaryText || "Book With Offer"}
+                        bookingType={ctaContent.pricingPromoFinalCtaSecondaryBookingType || "ticket"}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
           </section>
         </div>
       </section>
