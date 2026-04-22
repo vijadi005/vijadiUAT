@@ -95,7 +95,7 @@ export async function generateMetadata({ params }) {
   return metadata;
 }
 
-const PricingComparison = ({ birthdaydata }) => {
+const PricingComparison = ({ birthdaydata, ctaContent }) => {
   const parsedData = (() => {
     try {
       if (birthdaydata?.packages) return birthdaydata;
@@ -201,6 +201,31 @@ const PricingComparison = ({ birthdaydata }) => {
       </div>
 
       {parsedData.standard_rules?.length > 0 && (
+        <>
+        <section className="ppp-party-cta-band">
+          <div className="aero-max-container ppp-party-cta-band__inner">
+            <div className="ppp-party-cta-band__content">
+              <p className="ppp-party-cta-band__text">
+                {ctaContent?.birthdayFinalCtaTitle || "Weekday Special: Save $50 on Birthday Parties (Mon-Thu)"}
+              </p>
+              {ctaContent?.birthdayFinalCtaSubtitle && (
+                <p className="ppp-party-cta-band__subtext">{ctaContent.birthdayFinalCtaSubtitle}</p>
+              )}
+            </div>
+            <div className="ppp-party-cta-band__actions">
+              <Link href="#party-packages" className="ppp-party-cta-band__btn" prefetch={false}>
+                {ctaContent?.birthdayFinalCtaPrimaryText || "Check Packages"}
+              </Link>
+              <div className="aero-btn-booknow">
+                <BookingButton
+                  title={ctaContent?.birthdayFinalCtaSecondaryText || "Book Your Date"}
+                  className="ppp-party-cta-band__btn"
+                  bookingType={ctaContent?.birthdayFinalCtaSecondaryBookingType || "party"}
+                />
+              </div>
+            </div>
+          </div>
+        </section>
         <div className="ppp-party-rules">
           <h3>Standard rules for every package</h3>
           <ul>
@@ -209,6 +234,7 @@ const PricingComparison = ({ birthdaydata }) => {
             ))}
           </ul>
         </div>
+        </>
       )}
     </section>
   );
@@ -287,27 +313,7 @@ const Page = async ({ params }) => {
 
       <section className="subcategory_main_section-bg gaming_bg">
         <section className="aero-max-container ppp-party-layout">
-          <section className="ppp-party-cta-band">
-            <div className="aero-max-container ppp-party-cta-band__inner">
-              <p className="ppp-party-cta-band__text">
-                {ctaContent.birthdayFinalCtaTitle || "Weekday Special: Save $50 on Birthday Parties (Mon-Thu)"}
-              </p>
-              <div className="ppp-party-cta-band__actions">
-                <Link href="#party-packages" className="ppp-party-cta-band__btn" prefetch={false}>
-                  {ctaContent.birthdayFinalCtaPrimaryText || "Check Packages"}
-                </Link>
-                <div className="aero-btn-booknow">
-                  <BookingButton
-                    title={ctaContent.birthdayFinalCtaSecondaryText || "Book Your Date"}
-                    className="ppp-party-cta-band__btn"
-                    bookingType={ctaContent.birthdayFinalCtaSecondaryBookingType || "party"}
-                  />
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <PricingComparison birthdaydata={birthdayPackages} />
+          <PricingComparison birthdaydata={birthdayPackages} ctaContent={ctaContent} />
 
           {data?.seosection && (
             <article className="ppp-party-content">

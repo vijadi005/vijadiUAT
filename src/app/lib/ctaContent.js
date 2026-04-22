@@ -120,6 +120,10 @@ export function getCtaContent(configData = {}) {
       "birthdayFinalCtaTitle",
       "partyFinalCtaTitle",
     ]),
+    birthdayFinalCtaSubtitle: getValue([
+      "birthdayFinalCtaSubtitle",
+      "partyFinalCtaSubtitle",
+    ]),
     birthdayFinalCtaPrimaryText: getValue([
       "birthdayFinalCtaPrimaryText",
       "partyFinalCtaPrimaryText",

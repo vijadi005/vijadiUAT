@@ -803,7 +803,6 @@
 }
 
 .ppp-party-cta-band__text {
-  flex: 1 1 auto;
   margin: 0;
   color: #050810;
   font-family: "Barlow Condensed", Impact, sans-serif;
@@ -812,6 +811,19 @@
   line-height: 1;
   letter-spacing: 0;
   text-transform: uppercase;
+}
+
+.ppp-party-cta-band__content {
+  flex: 1 1 auto;
+}
+
+.ppp-party-cta-band__subtext {
+  margin: 0.4rem 0 0;
+  color: rgba(5, 8, 16, 0.8);
+  font-family: var(--font-body, "DM Sans", "Segoe UI", sans-serif);
+  font-size: 0.98rem;
+  font-weight: 600;
+  line-height: 1.35;
 }
 
 .ppp-party-cta-band__actions {
