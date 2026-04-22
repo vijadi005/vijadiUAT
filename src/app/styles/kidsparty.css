@@ -662,6 +662,7 @@
 
 .ppp-party-hero .ppp-about-hero-card h2 {
   font-size: clamp(2rem, 4.6vw, 4rem);
+  text-transform: capitalize;
 }
 
 .ppp-party-hero .ppp-about-hero-card li,
