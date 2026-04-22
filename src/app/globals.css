@@ -20,6 +20,38 @@ body {
     Roboto, sans-serif;
 }
 
+.ppp-subcategory-hero__text,
+.ppp-groupdetail-hero__text,
+.ppp-party-hero__text,
+.ppp-contact-hero__text,
+.ppp-blogs-hero__text,
+.ppp-pricing-hero__text,
+.ppp-attractions-hero__text,
+.ppp-groups-hero__text,
+.ppp-about-hero__text,
+.ppp-dynamic-hero__text,
+.ppp-birthday-hero__text {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.ppp-groups-hero__text {
+  text-align: left;
+}
+
+.ppp-subcategory-hero__title,
+.ppp-party-hero__title,
+.aero_contact-mainheading,
+.ppp-about-hero-card h2,
+.ppp-attractions-hero__body :is(h1, h2, h3, h4, h5, h6),
+.ppp-groups-hero__body :is(h1, h2, h3, h4, h5, h6) {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  text-transform: none;
+}
+
 :root {
   --primary-color: #fbae7b;
   --secondary-color: #a4cf5f;
@@ -280,7 +312,7 @@ header:first-child + * {
   text-align: center !important;
   margin-bottom: 0.5em;
   line-height: 1.1;
-  text-transform: capitalize;
+  
   letter-spacing: -0.03em;
   user-select: none;
 }
