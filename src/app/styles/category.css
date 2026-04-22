@@ -706,6 +706,9 @@
   color: var(--text-muted);
   font-size: 1.02rem;
   line-height: 1.75;
+  margin-left: 0;
+  margin-right: 0;
+  text-align: left !important;
 }
 
 .ppp-groups-hero__actions {
@@ -808,7 +811,7 @@
   margin: 0.8rem 0 1rem;
   font-size: clamp(1.45rem, 3vw, 2.1rem);
   line-height: 1.08;
-  text-transform: none;
+  text-transform: uppercase;
 }
 
 .ppp-groups-hero__body {
@@ -821,11 +824,12 @@
   margin: 0.8rem 0 1rem;
   color: var(--white-color);
   font-family: "Barlow Condensed", Impact, sans-serif;
-  font-size: clamp(1.45rem, 3vw, 2.1rem);
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
   font-weight: 800;
-  line-height: 1.08;
+  line-height: 1.5;
   letter-spacing: 0;
-  text-transform: none;
+  text-transform: uppercase;
+  text-align: center;
 }
 
 .ppp-groups-hero__body ul {
@@ -2073,11 +2077,12 @@
 .ppp-dynamic-hero .section-heading {
   color: var(--white-color);
   font-family: "Barlow Condensed", Impact, sans-serif;
-  font-size: clamp(2rem, 4.6vw, 4rem);
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
   font-weight: 800;
   letter-spacing: 0;
-  line-height: 0.98;
-  text-transform: uppercase;
+  line-height: 1.5;
+  text-transform: none;
+  text-align: center;
 }
 
 .ppp-groups-hero .ppp-about-hero-card li,
@@ -2213,6 +2218,14 @@
   font-weight: 500 !important;
   letter-spacing: 0 !important;
   line-height: 1.16 !important;
+}
+
+.ppp-groups-hero__heading :is(h1, h2, h3, h4, h5, h6) {
+  font-size: clamp(1.15rem, 2.1vw, 1.75rem) !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+  line-height: 1.16 !important;
+  text-transform: uppercase !important;
 }
 
 :is(

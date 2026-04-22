@@ -312,13 +312,14 @@ header:first-child + * {
   text-align: center !important;
   margin-bottom: 0.5em;
   line-height: 1.1;
-  
+  text-transform: uppercase !important;
   letter-spacing: -0.03em;
   user-select: none;
 }
 
 .section-heading span {
   color: #a4cf5f;
+  text-transform: uppercase !important;
 }
 
 .section-heading-white {
