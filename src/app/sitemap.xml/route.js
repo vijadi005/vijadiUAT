@@ -2,9 +2,11 @@ export const dynamic = "force-dynamic";
 import { format } from 'date-fns';
 import { fetchsheetdataNoCache } from "@/lib/sheets";
 import { fetchBlogs } from "@/lib/blogs";
+import { LOCATION_NAME } from "@/lib/constant";
 export async function GET() {
   const siteUrl = (process.env.SITE_URL || "https://www.pixelpulseplay.ca").replace(/\/$/, "");
   const dynamicPaths = new Set();
+  const locationName = (LOCATION_NAME || "vaughan").toLowerCase();
 
   try {
     const rows = await fetchsheetdataNoCache("Data");
@@ -14,25 +16,28 @@ export async function GET() {
       const location = typeof row?.location === "string" ? row.location : "";
       const parentid = typeof row?.parentid === "string" ? row.parentid.trim().toLowerCase() : "";
       const path = typeof row?.path === "string" ? row.path.trim().toLowerCase() : "";
+      const isActive = String(row?.isactive ?? "1").trim();
       const locations = location?.split(',').map(l => l.trim().toLowerCase()) || [];
 
-      if (!path) {
+      if (
+        !path ||
+        isActive !== "1" ||
+        path === "home" ||
+        path.startsWith("_") ||
+        path === "thank-you" ||
+        parentid.startsWith("_")
+      ) {
         return;
       }
 
-      dynamicPaths.add(`${siteUrl}`);
       locations.forEach(loc => {
         // Homepage for location
         dynamicPaths.add(`${siteUrl}/${loc}`);
-        if (path != 'home') {
-          // Construct path
-          const basePath = (!parentid || parentid === path)
-            ? `/${loc}/${path}`
-            : `/${loc}/${parentid}/${path}`;
+        const basePath = (!parentid || parentid === path)
+          ? `/${loc}/${path}`
+          : `/${loc}/${parentid}/${path}`;
 
-
-          dynamicPaths.add(`${siteUrl}${basePath}`);
-        }
+        dynamicPaths.add(`${siteUrl}${basePath}`);
       });
     });
 
@@ -46,10 +51,12 @@ export async function GET() {
           .replace(/[^\w\s-]/g, "")
           .replace(/\s+/g, "-");
 
-        dynamicPaths.add(`${siteUrl}/blogs/${slug}?uid=${blog.id}`); 
+        dynamicPaths.add(`${siteUrl}/${locationName}/blogs/${slug}?uid=${blog.id}`);
       }
     });
 
+    dynamicPaths.add(`${siteUrl}/${locationName}/waiver`);
+    dynamicPaths.add(`${siteUrl}/birthday-party-landing`);
 
   } catch (error) {
     console.error("Sitemap generation error:", error);

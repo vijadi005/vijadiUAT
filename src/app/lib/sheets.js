@@ -208,6 +208,10 @@ export async function generateMetadataLib({ location, category, page }) {
   return {
     title: metadataItem?.metatitle || "pixelpulseplay Trampoline Park",
     description: metadataItem?.metadescription || "Fun for all ages at pixelpulseplay!",
+    robots: {
+      index: true,
+      follow: true,
+    },
     alternates: {
       canonical: fullUrl,
     },

@@ -5,6 +5,7 @@ import {
   fetchMenuData,
   generateMetadataLib,
 } from "@/lib/sheets";
+import { LOCATION_NAME } from "@/lib/constant";
 import { db } from "@/lib/firestore";
 import { notFound } from "next/navigation";
 
@@ -35,7 +36,8 @@ export async function generateMetadata({ params, searchParams }) {
     data?.featuredImage ||
     "https://storage.googleapis.com/pixel-pulse-play/web/h-Logo.png";
 
-  const url = `${BASE_URL}/blogs/${slug}?uid=${id}`;
+  const locationSlug = LOCATION_NAME || "vaughan";
+  const url = `${BASE_URL}/${locationSlug}/blogs/${slug}?uid=${id}`;
 
   return {
     title,

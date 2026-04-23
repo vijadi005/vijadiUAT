@@ -21,7 +21,12 @@ export async function generateMetadata() {
     const configdata = await fetchsheetdata("config", location_slug);
     const dynamicMeta = Object.fromEntries(
       configdata
-        .filter((item) => typeof item.key === "string" && item.key.startsWith("meta_"))
+        .filter(
+          (item) =>
+            typeof item.key === "string" &&
+            item.key.startsWith("meta_") &&
+            !["meta_robots", "meta_googlebot"].includes(item.key)
+        )
         .map((item) => [item.key.replace("meta_", ""), item.value || ""])
     );
     const siteUrl = BASE_URL || "https://www.pixelpulseplay.ca";
@@ -32,9 +37,7 @@ export async function generateMetadata() {
         "Visit Pixel Pulse Play in Vaughan, Ontario – an exciting indoor entertainment destination featuring interactive challenge rooms, arcade games, and fun activities for families, kids, and groups.",
       robots: {
         index: true,
-      },
-      alternates: {
-        canonical: siteUrl + "/",
+        follow: true,
       },
       other: {
         ...dynamicMeta,
