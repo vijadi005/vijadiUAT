@@ -481,9 +481,7 @@
   min-height: 92px;
   display: grid;
   grid-template-columns: auto 1fr auto;
-  grid-template-areas:
-    "brand . actions"
-    "nav nav nav";
+  grid-template-areas: "brand nav actions";
   align-items: center;
   column-gap: 1rem;
   row-gap: 0.3rem;
@@ -526,6 +524,7 @@
   gap: 0.2rem;
   min-width: 0;
   width: 100%;
+  overflow-x: auto;
 }
 
 .aero-header-actions {
