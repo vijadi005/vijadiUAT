@@ -44,6 +44,55 @@ const BIRTHDAY_VAULT_PROMO_IMAGE =
 const SCHOOL_TRIPS_PROMO_IMAGE =
   "https://storage.googleapis.com/pixel-pulse-play/web/SchoolTrips.png";
 
+function looksLikeRenderableImage(url = "") {
+  if (!url) return false;
+  if (url.startsWith("/")) return true;
+
+  const normalized = url.split("?")[0].toLowerCase();
+  return [".jpg", ".jpeg", ".png", ".webp", ".gif", ".avif", ".svg"].some((ext) =>
+    normalized.endsWith(ext),
+  );
+}
+
+function getPreferredImage(pageData) {
+  if (looksLikeRenderableImage(pageData?.smallimage)) return pageData.smallimage;
+  if (looksLikeRenderableImage(pageData?.headerimage)) return pageData.headerimage;
+  return pageData?.smallimage || pageData?.headerimage || "/assets/images/logo.png";
+}
+
+function normalizeAttractionKey(value = "") {
+  return String(value || "")
+    .trim()
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function findHomepageAttractionItem(game, attractionChildren = []) {
+  const gameKeys = [
+    game?.id,
+    game?.name,
+  ]
+    .map(normalizeAttractionKey)
+    .filter(Boolean);
+
+  return (
+    attractionChildren.find((item) => {
+      const itemKeys = [
+        item?.path,
+        item?.pageid,
+        item?.metatitle,
+        item?.desc,
+      ]
+        .map(normalizeAttractionKey)
+        .filter(Boolean);
+
+      return gameKeys.some((key) => itemKeys.includes(key));
+    }) || null
+  );
+}
+
 const emptySiteData = {
   hero: {
     headline: "",
@@ -486,6 +535,8 @@ const Home = async () => {
   const attractionsData = Array.isArray(data)
     ? getDataByParentId(data, "attractions") || []
     : [];
+  const attractionChildren =
+    attractionsData?.[0]?.children?.filter((item) => item?.isactive == 1) || [];
 
   const blogsData = Array.isArray(data)
     ? getDataByParentId(data, "blogs") || []
@@ -722,15 +773,16 @@ const Home = async () => {
             )}
             <ul className="ppp-attractions__grid">
               {siteData.games.map((game, i) => {
-                const item = attractionsData?.[0]?.children?.[i] || {};
+                const item = findHomepageAttractionItem(game, attractionChildren) || attractionChildren[i] || {};
+                const attractionImage = getPreferredImage(item);
                 return (
                 <li key={i} className="ppp-attractions__item">
                   <Link href={item?.parentid && item?.path ? `/${item.parentid}/${item.path}` : "#"} prefetch>
                     <article className="ppp-attraction-card">
                       <figure className="ppp-attraction-card__fig">
-                        {item?.smallimage && (
+                        {attractionImage && (
                           <Image
-                            src={item.smallimage}
+                            src={attractionImage}
                             width={400}
                             height={260}
                             alt={item?.iconalttextforhomepage || game.name}
