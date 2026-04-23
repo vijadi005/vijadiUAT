@@ -107,6 +107,14 @@ export default async function RootLayout({ children }) {
           <Breadcrumbs/>
         </ChromeVisibility>
         <Suspense fallback={<Loading />}>{children}</Suspense>
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-5GQ99ZBR"
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          />
+        </noscript>
         <ChromeVisibility>
           <Footer
             location_slug={location_slug}
