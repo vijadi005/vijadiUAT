@@ -179,7 +179,7 @@ const schema = {
                       prefetch
                       className="ppp-blog-card__link"
                     >
-                      {ctaContent.readMoreText}
+                      Read More
                     </Link>
                   )}
                 </div>

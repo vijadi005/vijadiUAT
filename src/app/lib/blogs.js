@@ -126,8 +126,16 @@ function normalizeBlog(doc) {
   };
 }
 
+function isPublishedBlog(blog) {
+  const status = String(blog?.status || "").trim().toLowerCase();
+  return status === "published" || status === "";
+}
+
 export async function fetchBlogs() {
   if (!db) {
+    console.warn(
+      "Firestore blog feed unavailable: missing GCP_PROJECT_ID, GCP_CLIENT_EMAIL, or GCP_PRIVATE_KEY. Falling back to static blog cards."
+    );
     return [];
   }
 
@@ -139,7 +147,7 @@ export async function fetchBlogs() {
 
     return orderedSnapshot.docs
       .map(normalizeBlog)
-      .filter((blog) => blog.createdAt || blog.updatedAt);
+      .filter((blog) => isPublishedBlog(blog));
   } catch (error) {
     console.error("Firestore ordered blog query failed:", error);
   }
@@ -157,7 +165,7 @@ export async function fetchBlogs() {
         const bTime = getTimestampValue(b.createdAt) || getTimestampValue(b.updatedAt);
         return bTime - aTime;
       })
-      .filter((blog) => blog.createdAt || blog.updatedAt);
+      .filter((blog) => isPublishedBlog(blog));
   } catch (error) {
     console.error("Firestore fallback blog query failed:", error);
     return [];
