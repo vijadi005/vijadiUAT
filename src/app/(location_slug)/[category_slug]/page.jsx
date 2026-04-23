@@ -247,7 +247,10 @@ const Category = async ({ params }) => {
                 <div className="ppp-attractions-hero__panel">
                   <div className="ppp-about-hero-card">
                     {attractionHeroLabelHtml && (
-                      <div dangerouslySetInnerHTML={{ __html: attractionHeroLabelHtml }} />
+                      <div
+                        className="ppp-hero-kicker"
+                        dangerouslySetInnerHTML={{ __html: attractionHeroLabelHtml }}
+                      />
                     )}
                     {attractionHeroHtml ? (
                       <div
@@ -360,16 +363,14 @@ const Category = async ({ params }) => {
                 <div className="ppp-groups-hero__panel">
                   <div className="ppp-about-hero-card">
                     {groupsHeroLabelHtml && (
-                      <div dangerouslySetInnerHTML={{ __html: groupsHeroLabelHtml }} />
+                      <div
+                        className="ppp-hero-kicker"
+                        dangerouslySetInnerHTML={{ __html: groupsHeroLabelHtml }}
+                      />
                     )}
                     {groupsHeroHtml ? (
                       <>
-                        {groupsHeroSplit.headingHtml && (
-                          <div
-                            className="ppp-groups-hero__heading"
-                            dangerouslySetInnerHTML={{ __html: groupsHeroSplit.headingHtml }}
-                          />
-                        )}
+                        {groupsHeroHeading && <h2>{groupsHeroHeading}</h2>}
                         {ctaContent.groupsHeroSubtitle && (
                           <p className="ppp-groups-hero__text">{ctaContent.groupsHeroSubtitle}</p>
                         )}
@@ -509,7 +510,10 @@ const Category = async ({ params }) => {
                 <div className="ppp-about-hero__panel">
                   <div className="ppp-about-hero-card">
                     {aboutHeroLabelHtml && (
-                      <div dangerouslySetInnerHTML={{ __html: aboutHeroLabelHtml }} />
+                      <div
+                        className="ppp-hero-kicker"
+                        dangerouslySetInnerHTML={{ __html: aboutHeroLabelHtml }}
+                      />
                     )}
                     {aboutHeroHeading && <h2>{aboutHeroHeading}</h2>}
                     {aboutHeroBullets.length > 0 && (
