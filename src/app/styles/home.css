@@ -770,8 +770,8 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 1rem;
-  margin-bottom: 1rem;
+  gap: 1.2rem;
+  margin-bottom: 2rem;
 }
 
 .ppp-hero-copy__actions .ppp-btn,
@@ -827,6 +827,7 @@
   justify-content: center;
   flex-wrap: wrap;
   gap: 0.7rem;
+  margin-top: 0.35rem;
   padding: 0.7rem;
   border: 1px solid rgba(164, 207, 95, 0.42);
   border-radius: 18px;
@@ -932,7 +933,7 @@
 
   .ppp-hero-copy__actions {
     width: 100%;
-    margin-bottom: 0.85rem;
+    margin-bottom: 1.5rem;
   }
 
   .ppp-hero-copy__trust {
