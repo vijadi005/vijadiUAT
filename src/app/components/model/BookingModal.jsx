@@ -1,6 +1,7 @@
 "use client";
 
 import { LOCATION_NAME } from "@/lib/constant";
+import { getConfigValue } from "@/lib/ctaContent";
 import { fetchsheetdata } from "@/lib/sheets";
 import Loading from "@/loading";
 import { usePathname } from "next/navigation";
@@ -86,8 +87,8 @@ const BookingModal = ({ isOpen, onClose, bookingType }) => {
     };
   }, [isOpen, onClose]);
 
-  const lilypadposParty = dataconfig.find((item) => item.key === "lilypadpos_party")?.value;
-  const lilypadposTicket = dataconfig.find((item) => item.key === "lilypadpos_ticket")?.value;
+  const lilypadposParty = getConfigValue(dataconfig, ["lilypadpos_party"]);
+  const lilypadposTicket = getConfigValue(dataconfig, ["lilypadpos_ticket"]);
 
   const isPartyPath = selectedBookingMode === "party";
   const iframeUrl = isPartyPath ? lilypadposParty : lilypadposTicket;

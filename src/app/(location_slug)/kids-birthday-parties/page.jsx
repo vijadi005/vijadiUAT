@@ -15,7 +15,7 @@ import {
 import SectionHeading from "@/components/home/SectionHeading";
 import BookingButton from "@/components/smallComponents/BookingButton";
 import Loading from "@/loading";
-import { getConfigValue, getCtaContent, getRowValue } from "@/lib/ctaContent";
+import { getConfigValue, getCtaContent, getRowValue, hasConfiguredKey, resolveConfiguredValue } from "@/lib/ctaContent";
 
 function stripHtml(html = "") {
   return html
@@ -105,7 +105,13 @@ export async function generateMetadata({ params }) {
   return metadata;
 }
 
-const PricingComparison = ({ birthdaydata, ctaContent }) => {
+const PricingComparison = ({
+  birthdaydata,
+  ctaContent,
+  hidePrimaryCta = false,
+  birthdayFinalCtaTitle = "",
+  birthdayFinalCtaSecondaryText = "",
+}) => {
   const parsedData = (() => {
     try {
       if (birthdaydata?.packages) return birthdaydata;
@@ -215,20 +221,20 @@ const PricingComparison = ({ birthdaydata, ctaContent }) => {
         <section className="ppp-party-cta-band">
           <div className="aero-max-container ppp-party-cta-band__inner">
             <div className="ppp-party-cta-band__content">
-              <p className="ppp-party-cta-band__text">
-                {ctaContent?.birthdayFinalCtaTitle || "Weekday Special: Save $50 on Birthday Parties (Mon-Thu)"}
-              </p>
+              <p className="ppp-party-cta-band__text">{birthdayFinalCtaTitle}</p>
               {ctaContent?.birthdayFinalCtaSubtitle && (
                 <p className="ppp-party-cta-band__subtext">{ctaContent.birthdayFinalCtaSubtitle}</p>
               )}
             </div>
             <div className="ppp-party-cta-band__actions">
-              <Link href="#party-packages" className="ppp-party-cta-band__btn" prefetch={false}>
-                {ctaContent?.birthdayFinalCtaPrimaryText || "Check Packages"}
-              </Link>
+              {!hidePrimaryCta && (
+                <Link href="#party-packages" className="ppp-party-cta-band__btn" prefetch={false}>
+                  {ctaContent?.birthdayFinalCtaPrimaryText || "Check Packages"}
+                </Link>
+              )}
               <div className="aero-btn-booknow">
                 <BookingButton
-                  title={ctaContent?.birthdayFinalCtaSecondaryText || "Book Your Date"}
+                  title={birthdayFinalCtaSecondaryText}
                   className="ppp-party-cta-band__btn"
                   bookingType={ctaContent?.birthdayFinalCtaSecondaryBookingType || "party"}
                 />
@@ -293,12 +299,35 @@ const Page = async ({ params }) => {
   const partyHeroBullets = partyHeroContent.bullets;
   const configCta = getCtaContent(dataconfig);
   const pageCta = getCtaContent(data || {});
+  const birthdayPrimaryCtaConfigured =
+    hasConfiguredKey(dataconfig, [
+      "birthdayFinalCtaPrimaryText",
+      "partyFinalCtaPrimaryText",
+    ]) ||
+    hasConfiguredKey(data || {}, [
+      "birthdayFinalCtaPrimaryText",
+      "partyFinalCtaPrimaryText",
+    ]);
   const ctaContent = {
     ...configCta,
     ...Object.fromEntries(
       Object.entries(pageCta).filter(([, value]) => Boolean(value)),
     ),
   };
+  const hideBirthdayPrimaryCta =
+    birthdayPrimaryCtaConfigured && !ctaContent?.birthdayFinalCtaPrimaryText;
+  const birthdayFinalCtaTitle = resolveConfiguredValue({
+    sources: [dataconfig, data || {}],
+    keys: ["birthdayFinalCtaTitle", "partyFinalCtaTitle"],
+    value: ctaContent.birthdayFinalCtaTitle,
+    fallback: "Weekday Special: Save $50 on Birthday Parties (Mon-Thu)",
+  });
+  const birthdayFinalCtaSecondaryText = resolveConfiguredValue({
+    sources: [dataconfig, data || {}],
+    keys: ["birthdayFinalCtaSecondaryText", "partyFinalCtaSecondaryText"],
+    value: ctaContent.birthdayFinalCtaSecondaryText,
+    fallback: "Book Your Date",
+  });
   
 
   return (
@@ -336,7 +365,13 @@ const Page = async ({ params }) => {
 
       <section className="subcategory_main_section-bg gaming_bg">
         <section className="aero-max-container ppp-party-layout">
-          <PricingComparison birthdaydata={birthdayPackages} ctaContent={ctaContent} />
+          <PricingComparison
+            birthdaydata={birthdayPackages}
+            ctaContent={ctaContent}
+            hidePrimaryCta={hideBirthdayPrimaryCta}
+            birthdayFinalCtaTitle={birthdayFinalCtaTitle}
+            birthdayFinalCtaSecondaryText={birthdayFinalCtaSecondaryText}
+          />
 
           {data?.seosection && (
             <article className="ppp-party-content">

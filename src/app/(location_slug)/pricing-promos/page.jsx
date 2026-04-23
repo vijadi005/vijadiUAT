@@ -13,7 +13,7 @@ import {
   generateMetadataLib,
 } from "@/lib/sheets";
 import { LOCATION_NAME } from "@/lib/constant";
-import { getCtaContent } from "@/lib/ctaContent";
+import { getCtaContent, hasConfiguredKey, resolveConfiguredValue } from "@/lib/ctaContent";
 
 const BIRTHDAY_VAULT_PROMO_IMAGE =
   "https://storage.googleapis.com/pixel-pulse-play/web/PrivateParty.png";
@@ -479,6 +479,72 @@ const PricingPromosPage = async ({ params }) => {
       Object.entries(pageCta).filter(([, value]) => Boolean(value)),
     ),
   };
+  const pricingPromoHeroLinkText = resolveConfiguredValue({
+    sources: [configData, pageData || {}],
+    keys: [
+      "pricingPromoHeroLinkText",
+      "pricingPromosHeroLinkText",
+      "pricingPromoHeroSecondaryText",
+      "pricingPromosHeroSecondaryText",
+    ],
+    value: ctaContent.pricingPromoHeroLinkText,
+    fallback: "View Deals & Save",
+  });
+  const hidePricingHeroLink = pricingPromoHeroLinkText === "";
+  const pricingPromoInlineCtaTitle = resolveConfiguredValue({
+    sources: [configData, pageData || {}],
+    keys: ["pricingPromoInlineCtaTitle", "pricingPromosInlineCtaTitle"],
+    value: ctaContent.pricingPromoInlineCtaTitle,
+    fallback: "Weekday Birthday Deal",
+  });
+  const pricingPromoInlineCtaSubtitle = resolveConfiguredValue({
+    sources: [configData, pageData || {}],
+    keys: ["pricingPromoInlineCtaSubtitle", "pricingPromosInlineCtaSubtitle"],
+    value: ctaContent.pricingPromoInlineCtaSubtitle,
+    fallback: "Save $50 when you book Mon-Thu",
+  });
+  const pricingPromoInlineCtaButtonText = resolveConfiguredValue({
+    sources: [configData, pageData || {}],
+    keys: ["pricingPromoInlineCtaButtonText", "pricingPromosInlineCtaButtonText"],
+    value: ctaContent.pricingPromoInlineCtaButtonText,
+    fallback: "Apply This Offer",
+  });
+  const pricingPromoFinalCtaTitle = resolveConfiguredValue({
+    sources: [configData, pageData || {}],
+    keys: ["pricingPromoFinalCtaTitle", "pricingPromosFinalCtaTitle"],
+    value: ctaContent.pricingPromoFinalCtaTitle,
+    fallback: "Don’t Just Plan It.",
+  });
+  const pricingPromoFinalCtaAccent = resolveConfiguredValue({
+    sources: [configData, pageData || {}],
+    keys: ["pricingPromoFinalCtaAccent", "pricingPromosFinalCtaAccent"],
+    value: ctaContent.pricingPromoFinalCtaAccent,
+    fallback: "Lock It In.",
+  });
+  const pricingPromoFinalCtaSubtitle = resolveConfiguredValue({
+    sources: [configData, pageData || {}],
+    keys: ["pricingPromoFinalCtaSubtitle", "pricingPromosFinalCtaSubtitle"],
+    value: ctaContent.pricingPromoFinalCtaSubtitle,
+    fallback: "Your slot won’t stay open forever.",
+  });
+  const pricingPromoFinalCtaHighlight = resolveConfiguredValue({
+    sources: [configData, pageData || {}],
+    keys: ["pricingPromoFinalCtaHighlight", "pricingPromosFinalCtaHighlight"],
+    value: ctaContent.pricingPromoFinalCtaHighlight,
+    fallback: "Weekends sell out early",
+  });
+  const pricingPromoFinalCtaPrimaryText = resolveConfiguredValue({
+    sources: [configData, pageData || {}],
+    keys: ["pricingPromoFinalCtaPrimaryText", "pricingPromosFinalCtaPrimaryText"],
+    value: ctaContent.pricingPromoFinalCtaPrimaryText,
+    fallback: "Book Your Session",
+  });
+  const pricingPromoFinalCtaSecondaryText = resolveConfiguredValue({
+    sources: [configData, pageData || {}],
+    keys: ["pricingPromoFinalCtaSecondaryText", "pricingPromosFinalCtaSecondaryText"],
+    value: ctaContent.pricingPromoFinalCtaSecondaryText,
+    fallback: "Book With Offer",
+  });
   const promotionsTitle = ctaContent.promotionsHeading || "";
   const promotionsAccent = ctaContent.promotionsHeadingAccent || "";
 
@@ -506,9 +572,11 @@ const PricingPromosPage = async ({ params }) => {
                     bookingType="ticket"
                   />
                 </div>
-                <Link className="ppp-pricing-hero__link" href="#deals-and-savings">
-                  View Deals &amp; Save
-                </Link>
+                {!hidePricingHeroLink && (
+                  <Link className="ppp-pricing-hero__link" href="#weekly-birthday-deal">
+                    {pricingPromoHeroLinkText}
+                  </Link>
+                )}
               </div>
               <p className="ppp-pricing-hero__trust">
                 Most players choose 60 minutes for the full experience
@@ -639,15 +707,15 @@ const PricingPromosPage = async ({ params }) => {
 
             <article className="ppp-inline-cta">
               <div>
-                <h3>{ctaContent.pricingPromoInlineCtaTitle || "Weekday Birthday Deal"}</h3>
+                <h3>{pricingPromoInlineCtaTitle}</h3>
                 <p className="ppp-section__sub">
-                  {ctaContent.pricingPromoInlineCtaSubtitle || "Save $50 when you book Mon-Thu"}
+                  {pricingPromoInlineCtaSubtitle}
                 </p>
               </div>
               <div className="ppp-inline-cta__actions">
                 <div className="aero-btn-booknow">
                   <BookingButton
-                    title={ctaContent.pricingPromoInlineCtaButtonText || "Apply This Offer"}
+                    title={pricingPromoInlineCtaButtonText}
                     bookingType={ctaContent.pricingPromoInlineCtaBookingType || "party"}
                   />
                 </div>
@@ -670,27 +738,27 @@ const PricingPromosPage = async ({ params }) => {
               <div className="ppp-cta-band__inner">
                 <div className="ppp-cta-band__content">
                   <SectionHeading className="section-heading-white">
-                    {ctaContent.pricingPromoFinalCtaTitle || "Don’t Just Plan It."}{" "}
-                    <span>{ctaContent.pricingPromoFinalCtaAccent || "Lock It In."}</span>
+                    {pricingPromoFinalCtaTitle}{" "}
+                    <span>{pricingPromoFinalCtaAccent}</span>
                   </SectionHeading>
                   <p className="ppp-cta-band__sub">
-                    {ctaContent.pricingPromoFinalCtaSubtitle || "Your slot won’t stay open forever."}
+                    {pricingPromoFinalCtaSubtitle}
                   </p>
-                  {(ctaContent.pricingPromoFinalCtaHighlight || "Weekends sell out early") && (
+                  {pricingPromoFinalCtaHighlight && (
                     <p className="ppp-cta-band__highlight">
-                      {ctaContent.pricingPromoFinalCtaHighlight || "Weekends sell out early"}
+                      {pricingPromoFinalCtaHighlight}
                     </p>
                   )}
                   <div className="ppp-cta-band__actions">
                     <div className="aero-btn-booknow">
                       <BookingButton
-                        title={ctaContent.pricingPromoFinalCtaPrimaryText || "Book Your Session"}
+                        title={pricingPromoFinalCtaPrimaryText}
                         bookingType={ctaContent.pricingPromoFinalCtaPrimaryBookingType || "ticket"}
                       />
                     </div>
                     <div className="aero-btn-booknow">
                       <BookingButton
-                        title={ctaContent.pricingPromoFinalCtaSecondaryText || "Book With Offer"}
+                        title={pricingPromoFinalCtaSecondaryText}
                         bookingType={ctaContent.pricingPromoFinalCtaSecondaryBookingType || "ticket"}
                       />
                     </div>

@@ -293,9 +293,7 @@ function parseVisibleFlag(value, fallback = true) {
 }
 
 function configValue(configData, key) {
-  return Array.isArray(configData)
-    ? configData.find((item) => item.key === key)?.value ?? ""
-    : "";
+  return getConfigValue(configData, [key]);
 }
 
 function hasSheetField(sheet, field) {

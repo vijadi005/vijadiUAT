@@ -1,5 +1,48 @@
-function normalizeKey(value = "") {
-  return String(value || "").trim().toLowerCase();
+export function normalizeKey(value = "") {
+  return String(value || "")
+    .trim()
+    .replace(/^_+/, "")
+    .toLowerCase();
+}
+
+export function normalizeValue(value = "") {
+  const trimmed = String(value ?? "").trim();
+  return trimmed === "_" ? "" : trimmed;
+}
+
+export function hasConfiguredKey(data = [], keys = []) {
+  const normalizedKeys = (Array.isArray(keys) ? keys : [keys])
+    .map(normalizeKey)
+    .filter(Boolean);
+
+  if (normalizedKeys.length === 0) {
+    return false;
+  }
+
+  if (Array.isArray(data)) {
+    return data.some((item) => normalizedKeys.includes(normalizeKey(item?.key)));
+  }
+
+  return Object.keys(data || {}).some((key) =>
+    normalizedKeys.includes(normalizeKey(key)),
+  );
+}
+
+export function resolveConfiguredValue({
+  sources = [],
+  keys = [],
+  value = "",
+  fallback = "",
+}) {
+  const configured = (Array.isArray(sources) ? sources : [sources]).some((source) =>
+    hasConfiguredKey(source, keys),
+  );
+
+  if (configured) {
+    return value || "";
+  }
+
+  return value || fallback;
 }
 
 export function getConfigValue(configData = [], keys = []) {
@@ -15,7 +58,9 @@ export function getConfigValue(configData = [], keys = []) {
     normalizedKeys.includes(normalizeKey(item?.key)),
   );
 
-  return row?.value ? String(row.value).trim() : "";
+  return row?.value !== undefined && row?.value !== null
+    ? normalizeValue(row.value)
+    : "";
 }
 
 export function getRowValue(row = {}, keys = []) {
@@ -28,7 +73,7 @@ export function getRowValue(row = {}, keys = []) {
   );
 
   return matchingKey && row[matchingKey] !== undefined && row[matchingKey] !== null
-    ? String(row[matchingKey]).trim()
+    ? normalizeValue(row[matchingKey])
     : "";
 }
 
@@ -198,6 +243,12 @@ export function getCtaContent(configData = {}) {
     pricingPromoInlineCtaButtonText: getValue([
       "pricingPromoInlineCtaButtonText",
       "pricingPromosInlineCtaButtonText",
+    ]),
+    pricingPromoHeroLinkText: getValue([
+      "pricingPromoHeroLinkText",
+      "pricingPromosHeroLinkText",
+      "pricingPromoHeroSecondaryText",
+      "pricingPromosHeroSecondaryText",
     ]),
     pricingPromoInlineCtaBookingType:
       getValue([

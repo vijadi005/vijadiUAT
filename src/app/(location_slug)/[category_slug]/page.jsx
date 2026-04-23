@@ -15,7 +15,7 @@ import { LOCATION_NAME } from "@/lib/constant";
 import { notFound } from "next/navigation";
 import SectionHeading from "@/components/home/SectionHeading";
 import BookingButton from "@/components/smallComponents/BookingButton";
-import { getCtaContent } from "@/lib/ctaContent";
+import { getCtaContent, resolveConfiguredValue } from "@/lib/ctaContent";
 
 const ABOUT_BUILDING_IMAGE_FALLBACK =
   "https://storage.googleapis.com/pixel-pulse-play/web/pixelmainbuilding.jpg";
@@ -224,6 +224,60 @@ const Category = async ({ params }) => {
     ),
   };
   const contactHref = ctaContent.contactHref || "/contactus";
+  const attractionsFinalCtaTitle = resolveConfiguredValue({
+    sources: [configData, pageData || {}],
+    keys: ["attractionsFinalCtaTitle", "attractionFinalCtaTitle"],
+    value: ctaContent.attractionsFinalCtaTitle,
+    fallback: "One place. Multiple challenges.",
+  });
+  const attractionsFinalCtaSubtitle = resolveConfiguredValue({
+    sources: [configData, pageData || {}],
+    keys: ["attractionsFinalCtaSubtitle", "attractionFinalCtaSubtitle"],
+    value: ctaContent.attractionsFinalCtaSubtitle,
+    fallback: "Who are you bringing?",
+  });
+  const attractionsFinalCtaPrimaryText = resolveConfiguredValue({
+    sources: [configData, pageData || {}],
+    keys: ["attractionsFinalCtaPrimaryText", "attractionFinalCtaPrimaryText"],
+    value: ctaContent.attractionsFinalCtaPrimaryText,
+    fallback: "Book Now",
+  });
+  const attractionsFinalCtaSecondaryText = resolveConfiguredValue({
+    sources: [configData, pageData || {}],
+    keys: ["attractionsFinalCtaSecondaryText", "attractionFinalCtaSecondaryText"],
+    value: ctaContent.attractionsFinalCtaSecondaryText,
+    fallback: "Plan a Party",
+  });
+  const groupsCardsHeading = resolveConfiguredValue({
+    sources: [configData, pageData || {}],
+    keys: ["groupsCardsHeading", "groupCardsHeading"],
+    value: ctaContent.groupsCardsHeading,
+    fallback: "What Are You Planning?",
+  });
+  const groupsFinalCtaTitle = resolveConfiguredValue({
+    sources: [configData, pageData || {}],
+    keys: ["groupsFinalCtaTitle", "groupFinalCtaTitle"],
+    value: ctaContent.groupsFinalCtaTitle,
+    fallback: "Let’s Plan Something Your Group Will Actually Enjoy",
+  });
+  const groupsFinalCtaSubtitle = resolveConfiguredValue({
+    sources: [configData, pageData || {}],
+    keys: ["groupsFinalCtaSubtitle", "groupFinalCtaSubtitle"],
+    value: ctaContent.groupsFinalCtaSubtitle,
+    fallback: "Tell us your group size and we’ll handle the rest.",
+  });
+  const groupsFinalCtaPrimaryText = resolveConfiguredValue({
+    sources: [configData, pageData || {}],
+    keys: ["groupsFinalCtaPrimaryText", "groupFinalCtaPrimaryText"],
+    value: ctaContent.groupsFinalCtaPrimaryText,
+    fallback: "Plan Your Event",
+  });
+  const groupsFinalCtaSecondaryText = resolveConfiguredValue({
+    sources: [configData, pageData || {}],
+    keys: ["groupsFinalCtaSecondaryText", "groupFinalCtaSecondaryText"],
+    value: ctaContent.groupsFinalCtaSecondaryText,
+    fallback: "Talk To Us",
+  });
 
   const jsonLDschema = await generateSchema(
     pageData,
@@ -332,20 +386,20 @@ const Category = async ({ params }) => {
                   <section className="ppp-attractions-final-cta">
                     <p className="ppp-attractions-final-cta__text">
                       {[
-                        ctaContent.attractionsFinalCtaTitle || "One place. Multiple challenges.",
-                        ctaContent.attractionsFinalCtaSubtitle || "Who are you bringing?",
+                        attractionsFinalCtaTitle,
+                        attractionsFinalCtaSubtitle,
                       ]
                         .filter(Boolean)
                         .join(" ")}
                     </p>
                     <div className="ppp-attractions-final-cta__actions">
                       <BookingButton
-                        title={ctaContent.attractionsFinalCtaPrimaryText || "Book Now"}
+                        title={attractionsFinalCtaPrimaryText}
                         className="ppp-attractions-final-cta__btn"
                         bookingType={ctaContent.attractionsFinalCtaPrimaryBookingType || "ticket"}
                       />
                       <BookingButton
-                        title={ctaContent.attractionsFinalCtaSecondaryText || "Plan a Party"}
+                        title={attractionsFinalCtaSecondaryText}
                         className="ppp-attractions-final-cta__btn"
                         bookingType={ctaContent.attractionsFinalCtaSecondaryBookingType || "party"}
                       />
@@ -434,7 +488,7 @@ const Category = async ({ params }) => {
                 <section className="ppp-groups-grid-wrap">
                   <div className="ppp-groups-section-intro">
                     <SectionHeading className="section-heading-white">
-                      {ctaContent.groupsCardsHeading || "What Are You Planning?"}
+                      {groupsCardsHeading}
                     </SectionHeading>
                   </div>
 
@@ -476,14 +530,14 @@ const Category = async ({ params }) => {
               <div className="aero-max-container">
                 <section className="ppp-groups-final-cta">
                   <p className="ppp-groups-final-cta__text">
-                    {ctaContent.groupsFinalCtaTitle || "Let’s Plan Something Your Group Will Actually Enjoy"}
+                    {groupsFinalCtaTitle}
                   </p>
                   <p className="ppp-groups-final-cta__subtext">
-                    {ctaContent.groupsFinalCtaSubtitle || "Tell us your group size and we’ll handle the rest."}
+                    {groupsFinalCtaSubtitle}
                   </p>
                   <div className="ppp-groups-final-cta__actions">
                     <BookingButton
-                      title={ctaContent.groupsFinalCtaPrimaryText || "Plan Your Event"}
+                      title={groupsFinalCtaPrimaryText}
                       className="ppp-groups-final-cta__btn"
                       bookingType={ctaContent.groupsFinalCtaPrimaryBookingType || "party"}
                     />
@@ -492,7 +546,7 @@ const Category = async ({ params }) => {
                       className="ppp-groups-final-cta__btn"
                       prefetch={(ctaContent.groupsFinalCtaSecondaryHref || contactHref).startsWith("/")}
                     >
-                      {ctaContent.groupsFinalCtaSecondaryText || "Talk To Us"}
+                      {groupsFinalCtaSecondaryText}
                     </Link>
                   </div>
                 </section>

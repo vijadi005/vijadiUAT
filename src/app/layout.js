@@ -11,6 +11,7 @@ import { fetchMenuData, fetchsheetdata, getWaiverLink } from "./lib/sheets";
 import { cookies } from "next/headers";
 import { Toaster } from "sonner";
 import { LOCATION_NAME } from "./lib/constant";
+import { normalizeValue } from "./lib/ctaContent";
 import Breadcrumbs from "./components/Breadcrumb";
 
 
@@ -27,7 +28,7 @@ export async function generateMetadata() {
             item.key.startsWith("meta_") &&
             !["meta_robots", "meta_googlebot"].includes(item.key)
         )
-        .map((item) => [item.key.replace("meta_", ""), item.value || ""])
+        .map((item) => [item.key.replace("meta_", ""), normalizeValue(item.value)])
     );
     const siteUrl = BASE_URL || "https://www.pixelpulseplay.ca";
 

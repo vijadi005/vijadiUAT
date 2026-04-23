@@ -1,6 +1,7 @@
 // lib/sheet.js
 import axios from "axios";
 import * as XLSX from "xlsx";
+import { getConfigValue } from "@/lib/ctaContent";
 
 const SHEET_URL = `https://docs.google.com/spreadsheets/d/1NEovNJVBVY4LyXWg3nHFh5-LekMt8GfL4y4eaNz7X1I/export?format=xlsx`;
 const sheetCache = new Map();
@@ -176,8 +177,7 @@ export async function getWaiverLink(location){
        return cached;
   }
   const dataconfig = await fetchsheetdata('config', location);  
-  const waiver1 = Array.isArray(dataconfig) ? dataconfig.find((item) => item.key === "waiver") : null;
-  const waiver=waiver1?.value;
+  const waiver = getConfigValue(dataconfig, ["waiver"]);
   waiverLinkCache.set(cacheKey,waiver);
   return waiver;
 }
