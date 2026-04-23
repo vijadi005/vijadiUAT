@@ -93,6 +93,27 @@ function findHomepageAttractionItem(game, attractionChildren = []) {
   );
 }
 
+function findMatchingGameSheetRow(item, games = []) {
+  const itemKeys = [
+    item?.path,
+    item?.pageid,
+    item?.metatitle,
+    item?.desc,
+  ]
+    .map(normalizeAttractionKey)
+    .filter(Boolean);
+
+  return (
+    games.find((game) => {
+      const gameKeys = [game?.id, game?.name]
+        .map(normalizeAttractionKey)
+        .filter(Boolean);
+
+      return gameKeys.some((key) => itemKeys.includes(key));
+    }) || null
+  );
+}
+
 const emptySiteData = {
   hero: {
     headline: "",
@@ -653,6 +674,16 @@ const Home = async () => {
   };
   const pricingHref = ctaContent.pricingHref || "/pricing-promos";
   const articlesHref = ctaContent.articlesHref || "/blogs";
+  const homepageGames = attractionChildren.map((item) => {
+    const matchedGame = findMatchingGameSheetRow(item, siteData.games);
+
+    return {
+      item,
+      title: matchedGame?.name || item?.desc || "Game Room",
+      body: matchedGame?.tag || item?.metatitle || "",
+      meta: matchedGame?.bestFor || "",
+    };
+  });
 
   return (
     <main className="ppp-home">
@@ -760,7 +791,7 @@ const Home = async () => {
       )}
 
       {/* ── Attractions grid ── */}
-      {siteData.games.length > 0 && (
+      {homepageGames.length > 0 && (
         <section className="ppp-section ppp-attractions">
           <div className="aero-max-container">
             {(gamesHeading.title || gamesHeading.accent) && (
@@ -771,9 +802,8 @@ const Home = async () => {
             {gamesHeading.subtitle && (
               <p className="ppp-section__sub">{gamesHeading.subtitle}</p>
             )}
-            <ul className="ppp-attractions__grid">
-              {siteData.games.map((game, i) => {
-                const item = findHomepageAttractionItem(game, attractionChildren) || attractionChildren[i] || {};
+            <ul className="ppp-attractions__grid ppp-attractions__carousel" aria-label="All game rooms">
+              {homepageGames.map(({ item, title, body, meta }, i) => {
                 const attractionImage = getPreferredImage(item);
                 return (
                 <li key={i} className="ppp-attractions__item">
@@ -785,17 +815,17 @@ const Home = async () => {
                             src={attractionImage}
                             width={400}
                             height={260}
-                            alt={item?.iconalttextforhomepage || game.name}
+                            alt={item?.iconalttextforhomepage || title}
                             unoptimized
                             className="ppp-attraction-card__img"
                           />
                         )}
                         <div className="ppp-attraction-card__overlay">
                           <h3 className="ppp-attraction-card__title">
-                            {game.name}
+                            {title}
                           </h3>
-                          {game.tag && <p className="ppp-attraction-card__body">{game.tag}</p>}
-                          {game.bestFor && <span className="ppp-attraction-card__meta">{game.bestFor}</span>}
+                          {body && <p className="ppp-attraction-card__body">{body}</p>}
+                          {meta && <span className="ppp-attraction-card__meta">{meta}</span>}
                         </div>
                       </figure>
                     </article>

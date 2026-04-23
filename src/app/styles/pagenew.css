@@ -508,6 +508,41 @@
   margin: 0;
 }
 
+.ppp-attractions__carousel {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(280px, 340px);
+  grid-template-columns: none;
+  gap: 20px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  scroll-padding-inline: 8px;
+  padding: 6px 4px 14px;
+  margin: 0 -4px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(164, 207, 95, 0.5) rgba(255, 255, 255, 0.06);
+}
+
+.ppp-attractions__carousel::-webkit-scrollbar {
+  height: 10px;
+}
+
+.ppp-attractions__carousel::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+}
+
+.ppp-attractions__carousel::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, rgba(164, 207, 95, 0.8), rgba(251, 174, 123, 0.8));
+  border-radius: 999px;
+}
+
+.ppp-attractions__carousel .ppp-attractions__item {
+  min-width: 0;
+  scroll-snap-align: start;
+}
+
 .ppp-attraction-card {
   position: relative;
   border-radius: var(--ppp-radius-md);
@@ -1491,8 +1526,9 @@
   .ppp-mini-cta__inner {
     padding: var(--ppp-cta-y-mobile) 0;
   }
-  .ppp-attractions__grid {
-    grid-template-columns: 1fr 1fr;
+
+  .ppp-attractions__carousel {
+    grid-auto-columns: minmax(260px, 82vw);
   }
 
   .ppp-how__card,
@@ -1522,8 +1558,8 @@
 }
 
 @media (max-width: 420px) {
-  .ppp-attractions__grid {
-    grid-template-columns: 1fr;
+  .ppp-attractions__carousel {
+    grid-auto-columns: minmax(240px, 88vw);
   }
 }
 
