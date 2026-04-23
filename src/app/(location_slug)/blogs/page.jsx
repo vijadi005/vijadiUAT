@@ -9,7 +9,6 @@ import { fetchBlogs, getFallbackBlogs } from "@/lib/blogs";
 import { LOCATION_NAME } from "@/lib/constant";
 import { slugify } from "@/utils/slugify";
 import SectionHeading from "@/components/home/SectionHeading";
-import BookingButton from "@/components/smallComponents/BookingButton";
 import { getCtaContent } from "@/lib/ctaContent";
 
 export async function generateMetadata({ params }) {
@@ -187,11 +186,6 @@ const schema = {
           })}
         </section>
       </section>
-      {ctaContent.bookNowText && (
-        <div className="d-flex-center aero-btn-booknow ppp-blogs-booking-cta">
-          <BookingButton title={ctaContent.bookNowText} />
-        </div>
-      )}
     </main>
   );
 };
