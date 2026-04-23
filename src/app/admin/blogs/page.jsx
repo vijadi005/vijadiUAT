@@ -68,10 +68,16 @@ export default function AllBlogs() {
       <div className="table-header">
         <h2>Blogs</h2>
         <div>
-        <button className="delete-btn" style={{fontSize:"16px", marginRight:"10px", padding:"8px 16px", color: "white", backgroundColor: "var(--primary-color)"}}>
-          <Link href="/admin/blog">Add New Blog</Link>
-        </button>
+        <Link
+          href="/admin/blog"
+          className="delete-btn"
+          style={{fontSize:"16px", marginRight:"10px", padding:"8px 16px", color: "white", backgroundColor: "var(--primary-color)", display: "inline-block"}}
+        >
+          Add New Blog
+        </Link>
+        <label htmlFor="blog-search" className="sr-only">Search blogs</label>
         <input
+          id="blog-search"
           type="text"
           placeholder="Search blog..."
           value={search}
@@ -151,7 +157,7 @@ export default function AllBlogs() {
                   </td>
 
                   <td>
-                    <button onClick={(e) => handleDelete(blog.id)} className="delete-btn">Delete</button>
+                    <button type="button" onClick={() => handleDelete(blog.id)} className="delete-btn">Delete</button>
                   </td>
                 </tr>
               )

@@ -105,11 +105,18 @@ export default async function RootLayout({ children }) {
         <Toaster position="top-right" />
         <GoogleAnalytics />{" "}
         {/* Render the client-side Google Analytics component */}
+        <a href="#main-content" className="skip-link">
+          Skip to main content
+        </a>
         <ChromeVisibility>
           <Header location_slug={location_slug} menudata={menudata} configdata={configdata} token={token} />
-          <Breadcrumbs/>
         </ChromeVisibility>
-        <Suspense fallback={<Loading />}>{children}</Suspense>
+        <main id="main-content" tabIndex="-1">
+          <ChromeVisibility>
+            <Breadcrumbs />
+          </ChromeVisibility>
+          <Suspense fallback={<Loading />}>{children}</Suspense>
+        </main>
         <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-5GQ99ZBR"

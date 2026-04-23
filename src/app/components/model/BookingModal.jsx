@@ -4,7 +4,7 @@ import { LOCATION_NAME } from "@/lib/constant";
 import { fetchsheetdata } from "@/lib/sheets";
 import Loading from "@/loading";
 import { usePathname } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 
 const BookingModal = ({ isOpen, onClose, bookingType }) => {
@@ -15,6 +15,9 @@ const BookingModal = ({ isOpen, onClose, bookingType }) => {
   const [loading, setLoading] = useState(true);
   const [modalRoot, setModalRoot] = useState(null);
   const [selectedBookingMode, setSelectedBookingMode] = useState("ticket");
+  const closeButtonRef = useRef(null);
+  const headingId = "booking-modal-title";
+  const descriptionId = "booking-modal-description";
 
   const initialPartyMode =
     bookingType === "party" ||
@@ -65,12 +68,23 @@ const BookingModal = ({ isOpen, onClose, bookingType }) => {
     if (!isOpen) return undefined;
 
     const previousOverflow = document.body.style.overflow;
+    const previousActiveElement = document.activeElement;
+    const handleEscape = (event) => {
+      if (event.key === "Escape") {
+        onClose();
+      }
+    };
+
     document.body.style.overflow = "hidden";
+    document.addEventListener("keydown", handleEscape);
+    closeButtonRef.current?.focus();
 
     return () => {
       document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", handleEscape);
+      previousActiveElement?.focus?.();
     };
-  }, [isOpen]);
+  }, [isOpen, onClose]);
 
   const lilypadposParty = dataconfig.find((item) => item.key === "lilypadpos_party")?.value;
   const lilypadposTicket = dataconfig.find((item) => item.key === "lilypadpos_ticket")?.value;
@@ -85,24 +99,35 @@ const BookingModal = ({ isOpen, onClose, bookingType }) => {
       <div
         className={`booking-overlay ${isOpen ? "booking-overlayShow" : ""}`}
         onClick={onClose}
+        aria-hidden="true"
       />
 
       <div
         className={`booking-sidebar ${isOpen ? "booking-sidebarOpen" : ""}`}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={headingId}
+        aria-describedby={descriptionId}
         onClick={(event) => event.stopPropagation()}
       >
         <div className="booking-sidebarContent">
           <div className="booking-shell">
             <div className="booking-shell__topbar">
               <div className="booking-shell__eyebrow">Pixel Pulse Play</div>
-              <button className="booking-closeBtn" onClick={onClose} aria-label="Close booking">
+              <button
+                ref={closeButtonRef}
+                type="button"
+                className="booking-closeBtn"
+                onClick={onClose}
+                aria-label="Close booking"
+              >
                 ✕
               </button>
             </div>
 
             <div className="booking-shell__header">
-              <h2>{isPartyPath ? "Book A Party" : "Book Your Visit"}</h2>
-              <div className="booking-shell__header-copy">
+              <h2 id={headingId}>{isPartyPath ? "Book A Party" : "Book Your Visit"}</h2>
+              <div className="booking-shell__header-copy" id={descriptionId}>
                 <p>
                   Reserve your spot in a few clicks. Pick a time, confirm your details,
                   and get ready for high-energy play.

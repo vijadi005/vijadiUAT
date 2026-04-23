@@ -139,6 +139,7 @@ export default function EditBlog() {
       {/* Buttons */}
       <div style={{ display: "flex", gap: 16, marginTop: 20 }}>
         <button
+          type="button"
           onClick={updateBlog}
           disabled={loading}
           style={{
@@ -155,6 +156,7 @@ export default function EditBlog() {
         </button>
 
         <button
+          type="button"
           onClick={() => console.log("Preview clicked")}
           style={{
             padding: "10px 24px",

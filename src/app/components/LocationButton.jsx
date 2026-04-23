@@ -11,7 +11,7 @@ const LocationButton = ({ location }) => {
     router.push(`/${location}`);
   };
   return (
-    <button onClick={handleClick}>
+    <button type="button" onClick={handleClick}>
       <span>SELECT THIS PARK</span>
     </button>
   );

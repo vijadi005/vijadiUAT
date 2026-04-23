@@ -66,7 +66,12 @@ const PromotionModal = ({
   }
 
   return (
-    <Modal isOpen={isModalOpen} onClose={closeModal}>
+    <Modal
+      isOpen={isModalOpen}
+      onClose={closeModal}
+      titleId="promotion-modal-title"
+      ariaLabel="Current promotions"
+    >
       <section className="aero_promotion_shell">
         <div className="aero_promotion_backdrop" aria-hidden="true">
           <span className="aero_promotion_backdrop__orb aero_promotion_backdrop__orb--one" />
@@ -78,12 +83,16 @@ const PromotionModal = ({
         
 
         {sanitizedHTML ? (
-          <div
-            dangerouslySetInnerHTML={{ __html: sanitizedHTML }}
-            className="aero_promotion_popup"
-          />
+          <>
+            <h2 id="promotion-modal-title" className="sr-only">Current promotions</h2>
+            <div
+              dangerouslySetInnerHTML={{ __html: sanitizedHTML }}
+              className="aero_promotion_popup"
+            />
+          </>
         ) : visiblePromotions?.length ? (
           <div className="aero_promotion_popup_grid">
+            <h2 id="promotion-modal-title" className="sr-only">Current promotions</h2>
             {visiblePromotions.map((promotion, index) => (
               <article
                 key={`${promotion.title || "promotion"}-${index}`}

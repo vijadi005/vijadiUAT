@@ -173,12 +173,13 @@ const Footer = async ({ location_slug, configdata, menudata, reviewdata }) => {
           <ul>
             <li>Follow Us</li>
             <li>
-              <div className="aero_footer_social_bar" aria-label="Social media links">
+              <nav className="aero_footer_social_bar" aria-label="Social media links">
                 {socialLinks.map((item) => (
                   <Link
                     key={item.label}
                     href={item.href}
                     target="_blank"
+                    rel="noopener noreferrer"
                     prefetch={false}
                     className="aero_social_icon"
                     aria-label={item.label}
@@ -186,7 +187,7 @@ const Footer = async ({ location_slug, configdata, menudata, reviewdata }) => {
                     <Image src={item.icon} alt="" height={50} width={50} unoptimized />
                   </Link>
                 ))}
-              </div>
+              </nav>
               {footerPhone && (
                 <a href={`tel:${footerPhoneHref}`} className="aero_footer_phone_link">
                   <span>Call Now</span>

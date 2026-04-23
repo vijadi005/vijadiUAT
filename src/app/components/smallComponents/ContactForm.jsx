@@ -12,6 +12,7 @@ function ContactForm() {
   const router = useRouter();
   const [currentLocation, setCurrentLocation] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState("");
   const [formData, setFormData] = useState({
     from: LOCATION_NAME,
     firstName: "",
@@ -38,6 +39,7 @@ function ContactForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
+    setSubmitStatus("Sending your inquiry...");
     try {
       const payload = {
         ...formData,
@@ -60,10 +62,12 @@ function ContactForm() {
       }
 
       toast.success("Your message has been sent successfully.");
+      setSubmitStatus("Your inquiry was sent successfully.");
       window.sessionStorage.setItem("pppContactEmail", formData.email);
       router.push("/contactus/thank-you");
     } catch (error) {
       toast.error("We could not send your inquiry. Please try again later.");
+      setSubmitStatus("We could not send your inquiry. Please try again later.");
     } finally {
       setSubmitting(false);
     }
@@ -71,7 +75,8 @@ function ContactForm() {
 
   return (
     <div className="ppp-contact-form-shell">
-      <form className="contact-form" onSubmit={handleSubmit}>
+      <form className="contact-form" onSubmit={handleSubmit} aria-busy={submitting}>
+        <p className="sr-only" aria-live="polite">{submitStatus}</p>
         <div className="ppp-contact-form__grid">
           <div className="form-group">
             <label htmlFor="firstName">First Name <span>*</span></label>
@@ -81,6 +86,7 @@ function ContactForm() {
               name="firstName"
               value={formData.firstName}
               onChange={handleChange}
+              autoComplete="given-name"
               required
             />
           </div>
@@ -93,6 +99,7 @@ function ContactForm() {
               name="lastName"
               value={formData.lastName}
               onChange={handleChange}
+              autoComplete="family-name"
               required
             />
           </div>
@@ -105,6 +112,8 @@ function ContactForm() {
               name="email"
               value={formData.email}
               onChange={handleChange}
+              autoComplete="email"
+              inputMode="email"
               required
             />
           </div>
@@ -117,6 +126,8 @@ function ContactForm() {
               name="phone"
               value={formData.phone}
               onChange={handleChange}
+              autoComplete="tel"
+              inputMode="tel"
             />
           </div>
 
@@ -168,6 +179,7 @@ function ContactForm() {
               name="message"
               value={formData.message}
               onChange={handleChange}
+              autoComplete="off"
               required
             />
           </div>

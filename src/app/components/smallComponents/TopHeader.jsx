@@ -22,7 +22,7 @@ const TopHeader = ({topheader}) => {
     isModalOpen && (
       <>
         <div className="aero_topheader_wrapper">
-          <button className="modal-close" onClick={closeModal}>
+          <button type="button" className="modal-close" onClick={closeModal} aria-label="Close announcement">
             <IoCloseCircleSharp />
           </button>
          <div dangerouslySetInnerHTML={{__html: topheader[0]?.value || ''}}></div>

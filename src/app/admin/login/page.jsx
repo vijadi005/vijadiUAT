@@ -47,21 +47,30 @@ export default function AdminLogin() {
         </div>
 
         <div className="form-group">
-          <label>Email</label>
-          <input name="email" placeholder="admin@example.com" required />
+          <label htmlFor="admin-email">Email</label>
+          <input
+            id="admin-email"
+            name="email"
+            type="email"
+            autoComplete="email"
+            placeholder="admin@example.com"
+            required
+          />
         </div>
 
         <div className="form-group">
-          <label>Password</label>
+          <label htmlFor="admin-password">Password</label>
           <input
+            id="admin-password"
             name="password"
             type="password"
+            autoComplete="current-password"
             placeholder="••••••••"
             required
           />
         </div>
 
-        <button className="login-btn" disabled={loading}>
+        <button type="submit" className="login-btn" disabled={loading}>
           {loading ? "Logging in..." : "Login"}
         </button>
 

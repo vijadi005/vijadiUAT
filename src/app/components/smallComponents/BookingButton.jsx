@@ -12,7 +12,7 @@ const BookingButton = ({ title = "", className = "", bookingType }) => {
 
     return (
         <>
-            <button className={className} onClick={() => setIsSidebarOpen(true)}>{title}</button>
+            <button type="button" className={className} onClick={() => setIsSidebarOpen(true)}>{title}</button>
             {
                 isSidebarOpen && (
                   <BookingModal

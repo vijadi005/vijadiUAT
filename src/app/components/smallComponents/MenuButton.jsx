@@ -13,6 +13,7 @@ function normalizePath(path = "/") {
 const MenuButton = ({ navList, location_slug }) => {
   const [mobile_nav, setMobile_nav] = useState(false);
   const pathname = usePathname();
+  const menuId = `mobile-nav-${location_slug || "site"}`;
 
   return (
     <>
@@ -20,13 +21,18 @@ const MenuButton = ({ navList, location_slug }) => {
         type="button"
         className="aero-mobile-menu-btn"
         aria-expanded={mobile_nav}
+        aria-controls={menuId}
         aria-label={mobile_nav ? "Close menu" : "Open menu"}
         onClick={() => setMobile_nav(!mobile_nav)}
       >
-        {mobile_nav ? <IoClose fontSize={30} color="#fff" /> : <IoMenu fontSize={30} color="#fff" />}
+        {mobile_nav ? <IoClose fontSize={30} color="#fff" aria-hidden="true" /> : <IoMenu fontSize={30} color="#fff" aria-hidden="true" />}
       </button>
       {mobile_nav && (
-        <nav className="d-flex-center aero-list-7-1 navbar">
+        <nav
+          id={menuId}
+          className="d-flex-center aero-list-7-1 navbar"
+          aria-label="Mobile menu"
+        >
           {navList &&
             navList.map((item) => {
               const href =
@@ -45,7 +51,7 @@ const MenuButton = ({ navList, location_slug }) => {
                   href={href}
                   key={item.navName}
                   className={`aero-app-changelocation nav-link ${isActive ? "active" : ""}`}
-                  onClick={() => setMobile_nav(!mobile_nav)}
+                  onClick={() => setMobile_nav(false)}
                 >
                   {item.navName}
                 </Link>
