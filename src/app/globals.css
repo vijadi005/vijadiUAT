@@ -20,6 +20,86 @@ body {
     Roboto, sans-serif;
 }
 
+/* Shared internal hero content baseline */
+:is(
+  .ppp-attractions-hero,
+  .ppp-groups-hero,
+  .ppp-about-hero,
+  .ppp-party-hero,
+  .ppp-pricing-hero,
+  .ppp-blogs-hero,
+  .ppp-contact-hero
+) .ppp-about-hero-card h2,
+.ppp-attractions-hero__body :is(h1, h2, h3, h4, h5, h6),
+.ppp-groups-hero__heading :is(h1, h2, h3, h4, h5, h6),
+.ppp-groups-hero__body :is(h1, h2, h3, h4, h5, h6) {
+  margin: 0.8rem 0 1rem !important;
+  color: var(--white-color) !important;
+  font-family: "Barlow Condensed", Impact, sans-serif !important;
+  font-size: clamp(1.15rem, 2.1vw, 1.75rem) !important;
+  font-weight: 500 !important;
+  line-height: 1.16 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  text-align: center !important;
+}
+
+:is(
+  .ppp-attractions-hero,
+  .ppp-groups-hero,
+  .ppp-about-hero,
+  .ppp-party-hero,
+  .ppp-pricing-hero,
+  .ppp-blogs-hero,
+  .ppp-contact-hero
+) .ppp-about-hero-card ul,
+.ppp-attractions-hero__body ul,
+.ppp-groups-hero__body ul {
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+}
+
+:is(
+  .ppp-attractions-hero,
+  .ppp-groups-hero,
+  .ppp-about-hero,
+  .ppp-party-hero,
+  .ppp-pricing-hero,
+  .ppp-blogs-hero,
+  .ppp-contact-hero
+) .ppp-about-hero-card li,
+.ppp-attractions-hero__body li,
+.ppp-groups-hero__body li {
+  position: relative !important;
+  padding-left: 1.2rem !important;
+  margin-bottom: 0.9rem !important;
+  color: var(--text-muted) !important;
+  line-height: 1.7 !important;
+}
+
+:is(
+  .ppp-attractions-hero,
+  .ppp-groups-hero,
+  .ppp-about-hero,
+  .ppp-party-hero,
+  .ppp-pricing-hero,
+  .ppp-blogs-hero,
+  .ppp-contact-hero
+) .ppp-about-hero-card li::before,
+.ppp-attractions-hero__body li::before,
+.ppp-groups-hero__body li::before {
+  content: "" !important;
+  position: absolute !important;
+  top: 0.75rem !important;
+  left: 0 !important;
+  width: 8px !important;
+  height: 8px !important;
+  border-radius: 50% !important;
+  background: linear-gradient(135deg, var(--secondary-color), var(--primary-color)) !important;
+  box-shadow: none !important;
+}
+
 .ppp-subcategory-hero__text,
 .ppp-groupdetail-hero__text,
 .ppp-party-hero__text,

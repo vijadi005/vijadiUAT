@@ -247,10 +247,7 @@ const Category = async ({ params }) => {
                 <div className="ppp-attractions-hero__panel">
                   <div className="ppp-about-hero-card">
                     {attractionHeroLabelHtml && (
-                      <div
-                        className="ppp-hero-kicker"
-                        dangerouslySetInnerHTML={{ __html: attractionHeroLabelHtml }}
-                      />
+                      <div dangerouslySetInnerHTML={{ __html: attractionHeroLabelHtml }} />
                     )}
                     {attractionHeroHtml ? (
                       <div
@@ -363,10 +360,7 @@ const Category = async ({ params }) => {
                 <div className="ppp-groups-hero__panel">
                   <div className="ppp-about-hero-card">
                     {groupsHeroLabelHtml && (
-                      <div
-                        className="ppp-hero-kicker"
-                        dangerouslySetInnerHTML={{ __html: groupsHeroLabelHtml }}
-                      />
+                      <div dangerouslySetInnerHTML={{ __html: groupsHeroLabelHtml }} />
                     )}
                     {groupsHeroHtml ? (
                       <>
@@ -510,10 +504,7 @@ const Category = async ({ params }) => {
                 <div className="ppp-about-hero__panel">
                   <div className="ppp-about-hero-card">
                     {aboutHeroLabelHtml && (
-                      <div
-                        className="ppp-hero-kicker"
-                        dangerouslySetInnerHTML={{ __html: aboutHeroLabelHtml }}
-                      />
+                      <div dangerouslySetInnerHTML={{ __html: aboutHeroLabelHtml }} />
                     )}
                     {aboutHeroHeading && <h2>{aboutHeroHeading}</h2>}
                     {aboutHeroBullets.length > 0 && (

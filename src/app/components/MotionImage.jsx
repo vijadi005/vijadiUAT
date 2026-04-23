@@ -13,7 +13,9 @@ const MotionImage = ({ pageData, heroData = {} }) => {
   const hasVideo = Boolean(item?.video);
   const heroTitle = [heroData.headline, heroData.headlineSub].filter(Boolean).join(" ");
   const heroText = heroData.subheadline || "";
-  const heroTrust = Array.isArray(heroData.trust) ? heroData.trust.join(" | ") : "";
+  const heroTrustItems = Array.isArray(heroData.trust)
+    ? heroData.trust.filter(Boolean)
+    : [];
 
   const heroCopy = (
     <div className="ppp-hero-copy">
@@ -33,7 +35,15 @@ const MotionImage = ({ pageData, heroData = {} }) => {
           </Link>
         )}
       </div>
-      {heroTrust && <p className="ppp-hero-copy__trust">{heroTrust}</p>}
+      {heroTrustItems.length > 0 && (
+        <div className="ppp-hero-copy__trust" aria-label="Hero highlights">
+          {heroTrustItems.map((item, index) => (
+            <span className="ppp-hero-copy__trust-item" key={`${item}-${index}`}>
+              {item}
+            </span>
+          ))}
+        </div>
+      )}
     </div>
   );
 
