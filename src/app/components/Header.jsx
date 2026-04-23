@@ -60,8 +60,8 @@ const Header = ({ location_slug, menudata, configdata, token }) => {
                 <source media="(max-width:768px)" srcSet={logo_mobile.src} />
                 <Image
                   src={logo_desktop.src}
-                  width={140}
-                  height={140}
+                  width={104}
+                  height={104}
                   alt="Pixel Pulse Play"
                   unoptimized
                 />
