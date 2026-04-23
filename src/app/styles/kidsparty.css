@@ -636,6 +636,15 @@
   backdrop-filter: blur(12px);
 }
 
+.ppp-party-hero .ppp-about-hero-card {
+  min-height: clamp(320px, 32vw, 460px);
+  background:
+    linear-gradient(90deg, rgba(5, 8, 16, 0.94) 0%, rgba(5, 8, 16, 0.8) 42%, rgba(5, 8, 16, 0.38) 100%),
+    radial-gradient(circle at 18% 28%, rgba(164, 207, 95, 0.18), transparent 36%),
+    url("https://storage.googleapis.com/pixel-pulse-play/web/birthdaypartyherobg.jpg") center / cover no-repeat,
+    var(--ppp-card);
+}
+
 .ppp-party-hero .ppp-about-hero-card::before,
 .ppp-party-pricing::before,
 .ppp-party-content::before,
@@ -665,6 +674,45 @@
   text-transform: capitalize;
 }
 
+.ppp-party-hero__offer {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+  align-self: center;
+  width: fit-content;
+  margin: 2rem auto 0;
+  padding: 0.75rem 1.1rem;
+  border: 1px solid rgba(164, 207, 95, 0.46);
+  border-radius: 999px;
+  background:
+    linear-gradient(145deg, rgba(164, 207, 95, 0.18), rgba(251, 174, 123, 0.12) 46%, rgba(5, 8, 16, 0.88));
+  color: #f8fafc;
+  font-family: "Barlow Condensed", Impact, sans-serif;
+  font-size: clamp(0.92rem, 1.55vw, 1.1rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1.1;
+  text-align: center;
+  text-transform: uppercase;
+  box-shadow: 0 0 24px rgba(164, 207, 95, 0.14), 0 14px 28px rgba(0, 0, 0, 0.22);
+}
+
+.ppp-party-hero .ppp-about-hero-card .ppp-party-hero__offer {
+  display: flex !important;
+  width: max-content !important;
+  max-width: 100%;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  text-align: center !important;
+}
+
+.ppp-party-hero__text {
+  margin: 0 0 1rem;
+  color: rgba(240, 246, 255, 0.84);
+  text-align: center;
+}
+
 .ppp-party-hero .ppp-about-hero-card li,
 .ppp-party-content p,
 .ppp-party-content li,
@@ -672,11 +720,29 @@
   color: rgba(240, 246, 255, 0.8);
 }
 
+.ppp-party-hero .ppp-about-hero-card ul {
+  justify-self: center;
+  width: fit-content;
+  max-width: 100%;
+}
+
+.ppp-party-hero .ppp-about-hero-card li {
+  text-align: left;
+  padding-left: 1.2rem;
+}
+
 .ppp-party-hero .ppp-about-hero-card li::before,
 .ppp-party-content ul li::before,
 .ppp-party-rules li::before {
   background: linear-gradient(135deg, var(--ppp-lime), var(--ppp-peach));
   box-shadow: 0 0 16px rgba(164, 207, 95, 0.28);
+}
+
+.ppp-party-hero .ppp-about-hero-card li::before {
+  position: absolute;
+  display: block;
+  margin-right: 0;
+  vertical-align: baseline;
 }
 
 .ppp-party-layout {

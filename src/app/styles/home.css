@@ -749,7 +749,7 @@
   max-width: 1100px;
   color: var(--white-color);
   font-family: "Barlow Condensed", Impact, sans-serif;
-  font-size: clamp(2.5rem, 5.6vw, 5.5rem);
+  font-size: clamp(2.0rem, 4.5vw, 4.5rem);
   font-weight: 500;
   line-height: 0.82;
   letter-spacing: 0;

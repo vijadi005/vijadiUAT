@@ -76,6 +76,20 @@
   backdrop-filter: blur(12px);
 }
 
+.ppp-pricing-hero .ppp-about-hero-card {
+  min-height: clamp(320px, 32vw, 460px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background:
+    linear-gradient(90deg, rgba(5, 8, 16, 0.94) 0%, rgba(5, 8, 16, 0.8) 42%, rgba(5, 8, 16, 0.38) 100%),
+    radial-gradient(circle at 18% 28%, rgba(164, 207, 95, 0.18), transparent 36%),
+    url("https://storage.googleapis.com/pixel-pulse-play/web/pricingherobg.jpg") center / cover no-repeat,
+    var(--ppp-card);
+}
+
 .ppp-pricing-hero .ppp-about-hero-card::before,
 .ppp-pricing-block::before,
 .ppp-promotions-block::before,
@@ -487,6 +501,11 @@
   font-size: clamp(2rem, 4.6vw, 4rem);
 }
 
+.ppp-pricing-hero .ppp-about-hero-card > div,
+.ppp-pricing-hero .ppp-about-hero-card > p {
+  text-align: center;
+}
+
 .ppp-pricing-hero .ppp-about-hero-card li,
 .ppp-pricing-card__subhead,
 .ppp-section-intro p,
@@ -502,6 +521,17 @@
   height: 9px;
   background: linear-gradient(135deg, var(--ppp-lime), var(--ppp-peach));
   box-shadow: 0 0 16px rgba(164, 207, 95, 0.28);
+}
+
+.ppp-pricing-hero .ppp-about-hero-card ul {
+  width: fit-content;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ppp-pricing-hero .ppp-about-hero-card li {
+  text-align: center;
 }
 
 .ppp-pricing-layout {
@@ -1301,7 +1331,7 @@
   color: rgba(5, 8, 16, 0.78);
   font-size: clamp(1rem, 1.5vw, 1.15rem);
   font-weight: 600;
-  line-height: 1.45;
+  line-height: 1.45;color: var(--ppp-white);
 }
 
 .ppp-cta-band__highlight {
@@ -1785,6 +1815,12 @@
   box-shadow: 0 0 18px rgba(251, 174, 123, 0.24);
 }
 
+.ppp-pricing-hero__actions,
+.ppp-pricing-hero__trust {
+  justify-content: center;
+  text-align: center;
+}
+
 @media (max-width: 768px) {
   .ppp-pricing-hero {
     padding-top: 1.5rem;
@@ -1799,4 +1835,38 @@
   .ppp-promo-card {
     border-radius: 8px;
   }
+}
+
+/* Final override: pricing hero background image + birthday-style list alignment */
+.ppp-pricing-hero .ppp-about-hero-card {
+  min-height: clamp(320px, 32vw, 460px) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  background:
+    linear-gradient(90deg, rgba(5, 8, 16, 0.94) 0%, rgba(5, 8, 16, 0.8) 42%, rgba(5, 8, 16, 0.38) 100%),
+    radial-gradient(circle at 18% 28%, rgba(164, 207, 95, 0.18), transparent 36%),
+    url("https://storage.googleapis.com/pixel-pulse-play/web/pricingherobg.jpg") center / cover no-repeat,
+    var(--ppp-card) !important;
+}
+
+.ppp-pricing-hero .ppp-about-hero-card ul {
+  justify-self: center !important;
+  width: fit-content !important;
+  max-width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.ppp-pricing-hero .ppp-about-hero-card li {
+  text-align: left !important;
+}
+
+.ppp-pricing-hero .ppp-about-hero-card li::before {
+  position: absolute !important;
+  display: block !important;
+  margin-right: 0 !important;
+  vertical-align: baseline !important;
 }

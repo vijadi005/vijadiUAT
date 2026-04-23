@@ -62,16 +62,25 @@ function extractHeroHeading(html = "") {
   return firstLine;
 }
 
+function extractParagraphItems(html = "") {
+  return [...html.matchAll(/<p[^>]*>(.*?)<\/p>/gis)]
+    .map((match) => decodeHtmlEntities(stripHtml(match[1])))
+    .filter(Boolean);
+}
+
 function parseHeroTextBlock(content = "") {
   const normalizedContent = typeof content === "string" ? content.trim() : "";
   if (!normalizedContent) {
-    return { heading: "", bullets: [] };
+    return { heading: "", paragraphs: [], bullets: [] };
   }
 
   const htmlBullets = extractListItems(normalizedContent);
   const htmlHeading = extractHeroHeading(normalizedContent);
-  if (htmlHeading || htmlBullets.length > 0) {
-    return { heading: htmlHeading, bullets: htmlBullets };
+  const htmlParagraphs = extractParagraphItems(normalizedContent).filter(
+    (item) => item !== htmlHeading
+  );
+  if (htmlHeading || htmlParagraphs.length > 0 || htmlBullets.length > 0) {
+    return { heading: htmlHeading, paragraphs: htmlParagraphs, bullets: htmlBullets };
   }
 
   const lines = decodeHtmlEntities(normalizedContent)
@@ -82,6 +91,7 @@ function parseHeroTextBlock(content = "") {
 
   return {
     heading: lines[0] || "",
+    paragraphs: [],
     bullets: lines.slice(1),
   };
 }
@@ -279,6 +289,7 @@ const Page = async ({ params }) => {
   const partyHeroContent = parseHeroTextBlock(data?.section2 || "");
   const partyHeroLabelHtml = data?.section3 || "";
   const partyHeroHeading = partyHeroContent.heading;
+  const partyHeroParagraphs = partyHeroContent.paragraphs || [];
   const partyHeroBullets = partyHeroContent.bullets;
   const configCta = getCtaContent(dataconfig);
   const pageCta = getCtaContent(data || {});
@@ -288,6 +299,7 @@ const Page = async ({ params }) => {
       Object.entries(pageCta).filter(([, value]) => Boolean(value)),
     ),
   };
+  
 
   return (
     <main className="ppp-party-page">
@@ -299,12 +311,23 @@ const Page = async ({ params }) => {
                 <div dangerouslySetInnerHTML={{ __html: partyHeroLabelHtml }} />
               )}
               {partyHeroHeading && <h2>{partyHeroHeading}</h2>}
+              {partyHeroParagraphs.length > 0 &&
+                partyHeroParagraphs.map((item, index) => (
+                  <p className="ppp-party-hero__text" key={`${item}-${index}`}>
+                    {item}
+                  </p>
+                ))}
               {partyHeroBullets.length > 0 && (
                 <ul>
                   {partyHeroBullets.map((item, index) => (
                     <li key={`${item}-${index}`}>{item}</li>
                   ))}
                 </ul>
+              )}
+              {ctaContent?.birthdayFinalCtaTitle && (
+                <p className="ppp-party-hero__offer">
+                  {ctaContent.birthdayFinalCtaTitle}
+                </p>
               )}
             </div>
           </div>

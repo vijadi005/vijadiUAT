@@ -1360,7 +1360,7 @@
 }
 
 .ppp-cta-band__sub {
-  color: var(--ppp-muted);
+  color: var(--ppp-white);
   font-size: 1rem;
   line-height: 1.6;
   max-width: 520px;

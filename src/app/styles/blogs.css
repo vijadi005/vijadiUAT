@@ -48,8 +48,9 @@
   grid-template-columns: 1fr;
   gap: 1.75rem;
   align-items: stretch;
-  max-width: 960px;
-  margin: 0 auto;
+  width: min(var(--max-width), calc(100% - 32px));
+  max-width: var(--max-width);
+  margin-inline: auto;
 }
 
 .ppp-blogs-hero__copy,
@@ -73,6 +74,21 @@
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.68);
+}
+
+.ppp-blogs-hero__label {
+  margin: 0 0 0.9rem !important;
+  color: var(--white-color) !important;
+  font-family: "Barlow Condensed", Impact, sans-serif !important;
+  font-size: clamp(2rem, 4.6vw, 4rem) !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em !important;
+  line-height: 0.95 !important;
+  text-transform: uppercase !important;
+}
+
+.ppp-blogs-hero__label span {
+  color: var(--ppp-lime, #a4cf5f) !important;
 }
 
 .ppp-blogs-hero__title {
@@ -719,4 +735,34 @@
   letter-spacing: 0 !important;
   line-height: 1.18 !important;
   text-transform: none !important;
+}
+
+/* Final override: blogs hero background image treatment */
+.ppp-blogs-hero .ppp-about-hero-card {
+  min-height: clamp(320px, 32vw, 460px) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  background:
+    linear-gradient(90deg, rgba(5, 8, 16, 0.94) 0%, rgba(5, 8, 16, 0.8) 42%, rgba(5, 8, 16, 0.38) 100%),
+    radial-gradient(circle at 18% 28%, rgba(164, 207, 95, 0.18), transparent 36%),
+    url("https://storage.googleapis.com/pixel-pulse-play/web/blogherobg.jpg") center / cover no-repeat,
+    #111827 !important;
+}
+
+.ppp-blogs-hero .ppp-about-hero-card > * {
+  text-align: center !important;
+}
+
+.ppp-blogs-hero .ppp-about-hero-card ul {
+  width: fit-content;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ppp-blogs-hero .ppp-about-hero-card li {
+  text-align: left !important;
 }

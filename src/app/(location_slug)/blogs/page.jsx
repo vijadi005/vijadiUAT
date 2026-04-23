@@ -127,7 +127,9 @@ const schema = {
         <div className="aero-max-container ppp-blogs-hero__inner">
           <div className="ppp-blogs-hero__panel">
             <div className="ppp-about-hero-card">
-              <span className="ppp-about-hero-card__label">What you'll find</span>
+              <h2 className="ppp-blogs-hero__label">
+                What You&apos;ll <span>Find</span>
+              </h2>
               <h2>Helpful reads for planning visits, discovering attractions, and making group play even better.</h2>
               <ul>
                 <li>Planning tips for families, parties, and group outings</li>

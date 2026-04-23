@@ -246,35 +246,37 @@ const Category = async ({ params }) => {
               <div className="aero-max-container ppp-attractions-hero__inner">
                 <div className="ppp-attractions-hero__panel">
                   <div className="ppp-about-hero-card">
-                    {attractionHeroLabelHtml && (
-                      <div dangerouslySetInnerHTML={{ __html: attractionHeroLabelHtml }} />
-                    )}
-                    {attractionHeroHtml ? (
-                      <div
-                        className="ppp-attractions-hero__body"
-                        dangerouslySetInnerHTML={{ __html: attractionHeroHtml }}
-                      />
-                    ) : (
-                      <>
-                        {attractionHeroHeading && <h2>{attractionHeroHeading}</h2>}
-                        {attractionHeroBullets.length > 0 && (
-                          <ul>
-                            {attractionHeroBullets.map((item, index) => (
-                              <li key={`${item}-${index}`}>{item}</li>
-                            ))}
-                          </ul>
-                        )}
-                      </>
-                    )}
-                    <div className="ppp-attractions-hero__actions">
-                      <BookingButton
-                        title="Book Your Game"
-                        className="ppp-attractions-hero__book-btn"
-                        bookingType="ticket"
-                      />
-                      <Link href="#all-challenges" className="ppp-attractions-hero__link" prefetch={false}>
-                        Explore All Challenges
-                      </Link>
+                    <div className="ppp-attractions-hero__copy-block">
+                      {attractionHeroLabelHtml && (
+                        <div dangerouslySetInnerHTML={{ __html: attractionHeroLabelHtml }} />
+                      )}
+                      {attractionHeroHtml ? (
+                        <div
+                          className="ppp-attractions-hero__body"
+                          dangerouslySetInnerHTML={{ __html: attractionHeroHtml }}
+                        />
+                      ) : (
+                        <>
+                          {attractionHeroHeading && <h2>{attractionHeroHeading}</h2>}
+                          {attractionHeroBullets.length > 0 && (
+                            <ul>
+                              {attractionHeroBullets.map((item, index) => (
+                                <li key={`${item}-${index}`}>{item}</li>
+                              ))}
+                            </ul>
+                          )}
+                        </>
+                      )}
+                      <div className="ppp-attractions-hero__actions">
+                        <BookingButton
+                          title="Book Your Game"
+                          className="ppp-attractions-hero__book-btn"
+                          bookingType="ticket"
+                        />
+                        <Link href="/kids-birthday-parties" className="ppp-attractions-hero__link" prefetch>
+                          Book a Party
+                        </Link>
+                      </div>
                     </div>
 	                  </div>
 	                </div>
