@@ -302,9 +302,6 @@ const Page = async ({ params }) => {
         <div className="aero-max-container ppp-party-hero__inner">
           <div className="ppp-party-hero__panel">
             <div className="ppp-about-hero-card">
-              <p className="ppp-party-hero__offer">
-                Weekday Special: Save $50 on Birthday Parties (Mon-Thu)
-              </p>
               {partyHeroLabelHtml && (
                 <div dangerouslySetInnerHTML={{ __html: partyHeroLabelHtml }} />
               )}
@@ -316,6 +313,9 @@ const Page = async ({ params }) => {
                   ))}
                 </ul>
               )}
+              <p className="ppp-party-hero__offer">
+                Weekday Special: Save $50 on Birthday Parties (Mon-Thu)
+              </p>
             </div>
           </div>
         </div>

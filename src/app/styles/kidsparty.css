@@ -639,6 +639,40 @@
   backdrop-filter: blur(12px);
 }
 
+.ppp-party-hero .ppp-about-hero-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-inline: clamp(1.25rem, 4vw, 3rem);
+  text-align: center;
+}
+
+.ppp-party-hero__offer {
+  width: 100%;
+  margin: 1rem 0 0;
+  color: rgba(248, 250, 252, 0.95);
+  font-weight: 700;
+  text-align: center;
+}
+
+.ppp-party-hero .ppp-about-hero-card > div {
+  width: 100%;
+}
+
+.ppp-party-hero .ppp-about-hero-card :is(h1, h2, h3, p) {
+  text-align: center;
+}
+
+.ppp-party-hero .ppp-about-hero-card ul {
+  display: inline-grid;
+  grid-template-columns: repeat(2, max-content);
+  justify-content: center;
+  gap: 0.85rem 2rem;
+  max-width: 100%;
+  margin-top: 1.35rem;
+  text-align: left;
+}
+
 .ppp-party-hero .ppp-about-hero-card::before,
 .ppp-party-pricing::before,
 .ppp-party-content::before,
@@ -723,6 +757,12 @@
 @media (max-width: 768px) {
   .ppp-party-hero {
     padding-top: 1.5rem;
+  }
+
+  .ppp-party-hero .ppp-about-hero-card ul {
+    grid-template-columns: 1fr;
+    justify-items: start;
+    width: fit-content;
   }
 
   .ppp-party-hero__copy,
