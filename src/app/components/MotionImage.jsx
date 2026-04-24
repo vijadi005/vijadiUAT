@@ -39,7 +39,10 @@ const MotionImage = ({ pageData, heroData = {} }) => {
         <div className="ppp-hero-copy__trust" aria-label="Hero highlights">
           {heroTrustItems.map((item, index) => (
             <span className="ppp-hero-copy__trust-item" key={`${item}-${index}`}>
-              {item}
+              <span className="ppp-hero-copy__trust-star" aria-hidden="true">
+                *
+              </span>
+              {String(item).toLowerCase()}
             </span>
           ))}
         </div>

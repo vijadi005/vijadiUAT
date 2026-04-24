@@ -828,55 +828,49 @@
 }
 
 .ppp-hero-copy__trust {
-  display: inline-flex;
+  display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 0.7rem;
+  gap: 0.9rem 1.4rem;
   margin-top: 0.35rem;
-  padding: 0.7rem;
-  border: 1px solid rgba(164, 207, 95, 0.42);
-  border-radius: 18px;
-  background:
-    linear-gradient(145deg, rgba(164, 207, 95, 0.14), rgba(251, 174, 123, 0.08) 45%, rgba(5, 8, 16, 0.84));
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
   color: var(--white-color);
-  font-size: clamp(0.9rem, 1.4vw, 1.08rem);
-  box-shadow:
-    0 0 34px rgba(164, 207, 95, 0.18),
-    0 16px 42px rgba(0, 0, 0, 0.28),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
+  font-size: clamp(1.2rem, 2.2vw, 1.75rem);
+  box-shadow: none;
+  backdrop-filter: none;
 }
 
 .ppp-hero-copy__trust-item {
-  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 48px;
-  padding: 0.85rem 1.25rem;
-  border: 1px solid rgba(164, 207, 95, 0.5);
-  border-radius: 12px;
-  background: rgba(8, 12, 20, 0.78);
+  gap: 0.28rem;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
   color: #f8fafc;
   font-family: "Barlow Condensed", Impact, sans-serif;
-  font-size: clamp(0.98rem, 1.7vw, 1.25rem);
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  line-height: 1;
-  text-transform: uppercase;
-  box-shadow:
-    0 0 20px rgba(164, 207, 95, 0.12),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+  font-size: clamp(1.2rem, 2.2vw, 1.75rem);
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.2;
+  text-transform: none;
+  box-shadow: none;
+}
+
+.ppp-hero-copy__trust-star {
+  color: #ffd43b;
 }
 
 .ppp-hero-copy__trust-item::before {
-  content: "";
-  position: absolute;
-  inset: 0 0 auto;
-  height: 3px;
-  border-radius: 12px 12px 0 0;
-  background: linear-gradient(90deg, var(--secondary-color), var(--primary-color), #ff2d78);
+  content: none;
 }
 
 .aero_home_video-toggle {
@@ -923,8 +917,8 @@
   .ppp-hero-copy {
     inset: 0;
     width: 100%;
-    justify-content: flex-end;
-    padding: 3.5rem 1rem 3.25rem;
+    justify-content: center;
+    padding: 3.5rem 1rem;
     gap: 0.7rem;
   }
 
@@ -941,26 +935,22 @@
   }
 
   .ppp-hero-copy__actions {
-    width: 100%;
-    gap: 0.85rem;
-    margin-bottom: 0.85rem;
+    display: none;
   }
 
   .ppp-hero-copy__trust {
     width: min(100%, 22rem);
-    gap: 0.45rem;
-    padding: 0.45rem;
-    border-radius: 14px;
+    gap: 0.45rem 1rem;
+    padding: 0;
   }
 
   .ppp-hero-copy__trust-item {
-    flex: 1 1 100%;
-    width: 100%;
-    min-height: 38px;
-    padding: 0.6rem 0.78rem;
-    border-radius: 10px;
-    font-size: 0.8rem;
-    letter-spacing: 0.05em;
+    flex: 0 1 auto;
+    width: auto;
+    min-height: 0;
+    padding: 0;
+    font-size: 1.05rem;
+    letter-spacing: 0;
   }
 
   .ppp-hero-copy__actions .ppp-btn,
@@ -990,7 +980,7 @@
   }
 
   .ppp-hero-copy {
-    padding: 3rem 0.9rem 2.9rem;
+    padding: 3rem 0.9rem;
   }
 
   .ppp-hero-copy__title {
@@ -1018,9 +1008,9 @@
   }
 
   .ppp-hero-copy__trust-item {
-    min-height: 36px;
-    padding: 0.55rem 0.72rem;
-    font-size: 0.76rem;
+    min-height: 0;
+    padding: 0;
+    font-size: 0.98rem;
   }
 
   .aero_home_video-toggle {
