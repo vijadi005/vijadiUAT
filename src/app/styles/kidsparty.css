@@ -786,7 +786,67 @@
 
 @media (max-width: 768px) {
   .ppp-party-hero {
-    padding-top: 1.5rem;
+    padding: 1.25rem 0 1rem;
+  }
+
+  .ppp-party-hero__panel,
+  .ppp-party-hero .ppp-about-hero-card {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .ppp-party-hero .ppp-about-hero-card {
+    min-height: auto;
+    display: block;
+    padding: 1.5rem 1rem 1.1rem;
+    background:
+      linear-gradient(180deg, rgba(5, 8, 16, 0.9) 0%, rgba(5, 8, 16, 0.72) 42%, rgba(5, 8, 16, 0.84) 100%),
+      radial-gradient(circle at 18% 24%, rgba(164, 207, 95, 0.16), transparent 34%),
+      url("https://storage.googleapis.com/pixel-pulse-play/web/birthdaypartyherobg.jpg") center / cover no-repeat,
+      var(--ppp-card);
+  }
+
+  .ppp-party-hero .ppp-about-hero-card > * {
+    width: 100%;
+    max-width: none;
+  }
+
+  .ppp-party-hero .ppp-about-hero-card h2 {
+    max-width: 100%;
+    margin-inline: 0;
+    text-align: left;
+    font-size: clamp(1.9rem, 8.2vw, 2.75rem) !important;
+    line-height: 0.98 !important;
+    text-wrap: balance;
+  }
+
+  .ppp-party-hero__text {
+    margin-bottom: 0.8rem;
+    font-size: 1rem;
+    line-height: 1.42;
+    text-align: left;
+  }
+
+  .ppp-party-hero .ppp-about-hero-card ul {
+    width: 100%;
+    justify-self: stretch;
+  }
+
+  .ppp-party-hero .ppp-about-hero-card li {
+    padding-left: 1.1rem;
+    font-size: 0.98rem;
+    line-height: 1.38;
+  }
+
+  .ppp-party-hero__offer,
+  .ppp-party-hero .ppp-about-hero-card .ppp-party-hero__offer {
+    width: 100% !important;
+    max-width: 100%;
+    margin-top: 1.2rem;
+    padding: 0.8rem 0.9rem;
+    font-size: 0.84rem;
+    line-height: 1.25;
+    white-space: normal;
   }
 
   .ppp-party-hero__copy,
@@ -796,6 +856,30 @@
   .ppp-party-cta-band__inner,
   .ppp-party-mobile-card {
     border-radius: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .ppp-party-hero .ppp-about-hero-card {
+    padding: 1.35rem 0.9rem 1rem;
+  }
+
+  .ppp-party-hero .ppp-about-hero-card h2 {
+    font-size: clamp(1.7rem, 9vw, 2.2rem) !important;
+  }
+
+  .ppp-party-hero__text {
+    font-size: 0.96rem;
+  }
+
+  .ppp-party-hero .ppp-about-hero-card li {
+    font-size: 0.94rem;
+  }
+
+  .ppp-party-hero__offer,
+  .ppp-party-hero .ppp-about-hero-card .ppp-party-hero__offer {
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
   }
 }
 
