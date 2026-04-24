@@ -15,7 +15,7 @@ import {
 import SectionHeading from "@/components/home/SectionHeading";
 import BookingButton from "@/components/smallComponents/BookingButton";
 import Loading from "@/loading";
-import { getConfigValue, getCtaContent, getRowValue, hasConfiguredKey, resolveConfiguredValue } from "@/lib/ctaContent";
+import { getConfigValue, getCtaContent, getRowValue } from "@/lib/ctaContent";
 
 function stripHtml(html = "") {
   return html
@@ -62,25 +62,16 @@ function extractHeroHeading(html = "") {
   return firstLine;
 }
 
-function extractParagraphItems(html = "") {
-  return [...html.matchAll(/<p[^>]*>(.*?)<\/p>/gis)]
-    .map((match) => decodeHtmlEntities(stripHtml(match[1])))
-    .filter(Boolean);
-}
-
 function parseHeroTextBlock(content = "") {
   const normalizedContent = typeof content === "string" ? content.trim() : "";
   if (!normalizedContent) {
-    return { heading: "", paragraphs: [], bullets: [] };
+    return { heading: "", bullets: [] };
   }
 
   const htmlBullets = extractListItems(normalizedContent);
   const htmlHeading = extractHeroHeading(normalizedContent);
-  const htmlParagraphs = extractParagraphItems(normalizedContent).filter(
-    (item) => item !== htmlHeading
-  );
-  if (htmlHeading || htmlParagraphs.length > 0 || htmlBullets.length > 0) {
-    return { heading: htmlHeading, paragraphs: htmlParagraphs, bullets: htmlBullets };
+  if (htmlHeading || htmlBullets.length > 0) {
+    return { heading: htmlHeading, bullets: htmlBullets };
   }
 
   const lines = decodeHtmlEntities(normalizedContent)
@@ -91,7 +82,6 @@ function parseHeroTextBlock(content = "") {
 
   return {
     heading: lines[0] || "",
-    paragraphs: [],
     bullets: lines.slice(1),
   };
 }
@@ -105,13 +95,7 @@ export async function generateMetadata({ params }) {
   return metadata;
 }
 
-const PricingComparison = ({
-  birthdaydata,
-  ctaContent,
-  hidePrimaryCta = false,
-  birthdayFinalCtaTitle = "",
-  birthdayFinalCtaSecondaryText = "",
-}) => {
+const PricingComparison = ({ birthdaydata, ctaContent }) => {
   const parsedData = (() => {
     try {
       if (birthdaydata?.packages) return birthdaydata;
@@ -221,20 +205,20 @@ const PricingComparison = ({
         <section className="ppp-party-cta-band">
           <div className="aero-max-container ppp-party-cta-band__inner">
             <div className="ppp-party-cta-band__content">
-              <p className="ppp-party-cta-band__text">{birthdayFinalCtaTitle}</p>
+              <p className="ppp-party-cta-band__text">
+                {ctaContent?.birthdayFinalCtaTitle || "Weekday Special: Save $50 on Birthday Parties (Mon-Thu)"}
+              </p>
               {ctaContent?.birthdayFinalCtaSubtitle && (
                 <p className="ppp-party-cta-band__subtext">{ctaContent.birthdayFinalCtaSubtitle}</p>
               )}
             </div>
             <div className="ppp-party-cta-band__actions">
-              {!hidePrimaryCta && (
-                <Link href="#party-packages" className="ppp-party-cta-band__btn" prefetch={false}>
-                  {ctaContent?.birthdayFinalCtaPrimaryText || "Check Packages"}
-                </Link>
-              )}
+              <Link href="#party-packages" className="ppp-party-cta-band__btn" prefetch={false}>
+                {ctaContent?.birthdayFinalCtaPrimaryText || "Check Packages"}
+              </Link>
               <div className="aero-btn-booknow">
                 <BookingButton
-                  title={birthdayFinalCtaSecondaryText}
+                  title={ctaContent?.birthdayFinalCtaSecondaryText || "Book Your Date"}
                   className="ppp-party-cta-band__btn"
                   bookingType={ctaContent?.birthdayFinalCtaSecondaryBookingType || "party"}
                 />
@@ -295,40 +279,22 @@ const Page = async ({ params }) => {
   const partyHeroContent = parseHeroTextBlock(data?.section2 || "");
   const partyHeroLabelHtml = data?.section3 || "";
   const partyHeroHeading = partyHeroContent.heading;
-  const partyHeroParagraphs = partyHeroContent.paragraphs || [];
   const partyHeroBullets = partyHeroContent.bullets;
   const configCta = getCtaContent(dataconfig);
   const pageCta = getCtaContent(data || {});
-  const birthdayPrimaryCtaConfigured =
-    hasConfiguredKey(dataconfig, [
-      "birthdayFinalCtaPrimaryText",
-      "partyFinalCtaPrimaryText",
-    ]) ||
-    hasConfiguredKey(data || {}, [
-      "birthdayFinalCtaPrimaryText",
-      "partyFinalCtaPrimaryText",
-    ]);
   const ctaContent = {
     ...configCta,
     ...Object.fromEntries(
       Object.entries(pageCta).filter(([, value]) => Boolean(value)),
     ),
   };
-  const hideBirthdayPrimaryCta =
-    birthdayPrimaryCtaConfigured && !ctaContent?.birthdayFinalCtaPrimaryText;
-  const birthdayFinalCtaTitle = resolveConfiguredValue({
-    sources: [dataconfig, data || {}],
-    keys: ["birthdayFinalCtaTitle", "partyFinalCtaTitle"],
-    value: ctaContent.birthdayFinalCtaTitle,
-    fallback: "Weekday Special: Save $50 on Birthday Parties (Mon-Thu)",
-  });
-  const birthdayFinalCtaSecondaryText = resolveConfiguredValue({
-    sources: [dataconfig, data || {}],
-    keys: ["birthdayFinalCtaSecondaryText", "partyFinalCtaSecondaryText"],
-    value: ctaContent.birthdayFinalCtaSecondaryText,
-    fallback: "Book Your Date",
-  });
-  
+  const partyHeroTrustBullets = Array.from(
+    new Set([
+      ...partyHeroBullets,
+      "Hosted & fully managed",
+      "High-energy group experience",
+    ].filter(Boolean)),
+  );
 
   return (
     <main className="ppp-party-page">
@@ -336,27 +302,19 @@ const Page = async ({ params }) => {
         <div className="aero-max-container ppp-party-hero__inner">
           <div className="ppp-party-hero__panel">
             <div className="ppp-about-hero-card">
+              <p className="ppp-party-hero__offer">
+                Weekday Special: Save $50 on Birthday Parties (Mon-Thu)
+              </p>
               {partyHeroLabelHtml && (
                 <div dangerouslySetInnerHTML={{ __html: partyHeroLabelHtml }} />
               )}
               {partyHeroHeading && <h2>{partyHeroHeading}</h2>}
-              {partyHeroParagraphs.length > 0 &&
-                partyHeroParagraphs.map((item, index) => (
-                  <p className="ppp-party-hero__text" key={`${item}-${index}`}>
-                    {item}
-                  </p>
-                ))}
-              {partyHeroBullets.length > 0 && (
+              {partyHeroTrustBullets.length > 0 && (
                 <ul>
-                  {partyHeroBullets.map((item, index) => (
+                  {partyHeroTrustBullets.map((item, index) => (
                     <li key={`${item}-${index}`}>{item}</li>
                   ))}
                 </ul>
-              )}
-              {ctaContent?.birthdayFinalCtaTitle && (
-                <p className="ppp-party-hero__offer">
-                  {ctaContent.birthdayFinalCtaTitle}
-                </p>
               )}
             </div>
           </div>
@@ -365,13 +323,7 @@ const Page = async ({ params }) => {
 
       <section className="subcategory_main_section-bg gaming_bg">
         <section className="aero-max-container ppp-party-layout">
-          <PricingComparison
-            birthdaydata={birthdayPackages}
-            ctaContent={ctaContent}
-            hidePrimaryCta={hideBirthdayPrimaryCta}
-            birthdayFinalCtaTitle={birthdayFinalCtaTitle}
-            birthdayFinalCtaSecondaryText={birthdayFinalCtaSecondaryText}
-          />
+          <PricingComparison birthdaydata={birthdayPackages} ctaContent={ctaContent} />
 
           {data?.seosection && (
             <article className="ppp-party-content">
